@@ -9,11 +9,11 @@ interface IPrivateRoute {
 }
 
 const PrivateRoute: FC<IPrivateRoute> = ({ children }) => {
-  const { isLogged } = useAuthStore();
+  // const { isLogged } = useAuthStore();
 
-  if (!isLogged) {
-    return <Navigate to={routes.AUTH} replace />;
-  }
+  // if (!isLogged) {
+  //   return <Navigate to={routes.AUTH} replace />;
+  // }
 
   return <Layout>{children}</Layout>;
 };

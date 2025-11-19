@@ -7,11 +7,11 @@ interface IPublicRoute {
 }
 
 const PublicRoute: FC<IPublicRoute> = ({ children }) => {
-  const { isLogged } = useAuthStore();
+  // const { isLogged } = useAuthStore();
 
-  if (isLogged) {
-    return <Navigate to="/" replace />;
-  }
+  // if (isLogged) {
+  //   return <Navigate to="/" replace />;
+  // }
 
   return <>{children}</>;
 };
