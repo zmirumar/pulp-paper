@@ -1,4 +1,6 @@
+import Home from "@/pages/home";
 import { routes } from "../constants/routes";
+import Users from "@/pages/users";
 
 
 export const publicRoutes = [
@@ -11,6 +13,10 @@ export const publicRoutes = [
 export const privateRoutes = [
     {
         path: routes.HOME,
-        element: 'home',
+        element: Home,
+    },
+    {
+        path: routes.USERS,
+        element: Users,
     },
 ];
