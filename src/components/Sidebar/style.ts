@@ -4,36 +4,32 @@ import { Layout } from "antd";
 const { Sider } = Layout;
 
 export const SideBarStyled = styled(Sider)`
-  background-color: #ffffff;
-
-  & .items {
-    padding: 20px 10px 0 10px;
-    width: 267px;
-    height: 100vh;
+  .sidebar {
     background-color: #ffffff;
-    position: relative;
-  }
+    height: 100vh;
 
-  & .settings_section {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-  }
+    &__header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 30px 0 24px 16px;
 
-  & header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 30px 0 24px 16px;
+      h1 {
+        font-size: 18px;
+        color: #00a6fb;
+        white-space: nowrap;
+      }
+    }
 
-    & h1 {
-      font-size: 18px;
-      color: #00a6fb;
-      white-space: nowrap;
+    &__setting {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
     }
   }
 
+  /* ANTD CLASES */
   .menu-icon {
     width: 16px;
     height: 16px;
@@ -67,7 +63,7 @@ export const SideBarStyled = styled(Sider)`
   .no-padding-item {
     padding-left: 0 !important;
   }
-  
+
   .ant-menu {
     border: none !important;
   }

@@ -83,19 +83,19 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
 
     return (
         <SideBarStyled collapsed={collapsed}>
-            <div className="items">
-                <header>
+            <div className="sidebar">
+                <div className="sidebar__header">
                     <img src={Logo} alt="Pulp & paper logo" />
                     {!collapsed && <h1>Pulp & paper</h1>}
-                </header>
-                <div className="menu_wrapper">
+                </div>
+                <div className="sidebar__wrapper">
                     <Menu
                         mode="inline"
                         items={menuItems}
                         inlineCollapsed={collapsed}
                     />
                 </div>
-                <div className="settings_section">
+                <div className="sidebar__setting">
                     <Menu
                         mode="inline"
                         inlineCollapsed={collapsed}
