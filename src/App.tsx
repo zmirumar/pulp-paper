@@ -1,4 +1,5 @@
 import AppRoute from "./routes/AppRoute"
+
 function App() {
   return (
     <div className="container">

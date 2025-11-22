@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Layout } from "antd";
 import { ContentContainer } from "./style";
-import Sidebar from "../Sidebar/index";
+import Sidebar from "../Sidebar";
 
 interface LayoutProps {
   children: React.ReactNode;
