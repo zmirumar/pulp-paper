@@ -96,6 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                     />
                 </div>
                 <div className="sidebar__setting">
+                    <hr />
                     <Menu
                         mode="inline"
                         inlineCollapsed={collapsed}
@@ -106,7 +107,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                                 />,
                                 label: (
                                     <span onClick={() => navigate("/settings")}>
-
                                         Настройки
                                     </span>
                                 )
