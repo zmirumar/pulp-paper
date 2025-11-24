@@ -6,5 +6,6 @@ export const routes = {
     ROLES: "/roles",
     SUPERVISORS: "/supervisors",
     EVENTS: "/events",
+    SORT: "/sort"
 };
   
