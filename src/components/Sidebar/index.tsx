@@ -21,26 +21,41 @@ type MenuItemType = Required<MenuProps>['items'][number];
 const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
     const navigate = useNavigate();
 
+    const menuMap: Record<string, { path?: string; disabled?: boolean }> = {
+        users: { path: "/users", disabled: false },
+        ref1: { path: "/references/material-types", disabled: false },
+        ref2: { path: "/references/material-types", disabled: true },
+        ref3: { disabled: true },
+        ref4: { path: "/references/responsible-employees", disabled: false },
+        ref5: { path: "/references/clients", disabled: false },
+        ref6: { path: "/references/packaging", disabled: false },
+        ref7: { path: "/references/parameters", disabled: false },
+        "raw-materials": { path: "/stock/raw-materials", disabled: false },
+        balance: { path: "/stock/balance", disabled: false },
+        "finished-products": { path: "/finished-products", disabled: false },
+        "active-sessions": { path: "/active-sessions", disabled: false },
+        settings: { path: "/settings", disabled: false },
+    };
+
     const menuItems: MenuItemType[] = [
         {
             key: "users",
             icon: <img className="menu-icon" src={DirectoryIcon} alt="Пользователи" />,
             label: "Пользователи",
-            disabled: false
+            disabled: menuMap["users"].disabled
         },
         {
             key: "refs",
             icon: <img className="menu-icon" src={ReferenceMaterialsIcon} alt="Справочники" />,
             label: "Справочники",
-            disabled: false,
             children: [
-                { key: "ref1", label: "Раздели", disabled: false },
-                { key: "ref2", label: "Тип материалов", disabled: false },
-                { key: "ref3", label: "Сорт качество (disabled)", disabled: true },
-                { key: "ref4", label: "Ответственные сотрудники", disabled: false },
-                { key: "ref5", label: "Клиенты", disabled: false },
-                { key: "ref6", label: "Тара", disabled: false },
-                { key: "ref7", label: "Параметр", disabled: false },
+                { key: "ref1", label: "Раздели", disabled: menuMap["ref1"].disabled },
+                { key: "ref2", label: "Тип материалов", disabled: menuMap["ref2"].disabled },
+                { key: "ref3", label: "Сорт качество", disabled: menuMap["ref3"].disabled },
+                { key: "ref4", label: "Ответственные сотрудники", disabled: menuMap["ref4"].disabled },
+                { key: "ref5", label: "Клиенты", disabled: menuMap["ref5"].disabled },
+                { key: "ref6", label: "Тара", disabled: menuMap["ref6"].disabled },
+                { key: "ref7", label: "Параметр", disabled: menuMap["ref7"].disabled },
             ]
         },
         {
@@ -48,39 +63,28 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
             icon: <img className="menu-icon" src={WarehouseIcon} alt="Склад" />,
             label: "Склад",
             children: [
-                { key: "raw-materials", label: "Сырьё материалы", disabled: false },
-                { key: "balance", label: "Баланс", disabled: false },
+                { key: "raw-materials", label: "Сырьё материалы", disabled: menuMap["raw-materials"].disabled },
+                { key: "balance", label: "Баланс", disabled: menuMap["balance"].disabled },
             ]
         },
         {
             key: "finished-products",
             icon: <img className="menu-icon" src={FinishedProductsIcon} alt="Готовая продукция" />,
             label: "Готовая продукция",
-            disabled: false
+            disabled: menuMap["finished-products"].disabled
         },
         {
             key: "active-sessions",
             icon: <img className="menu-icon" src={ActiveSessionsIcon} alt="Активные сеансы" />,
             label: "Активные сеансы",
-            disabled: false
+            disabled: menuMap["active-sessions"].disabled
         }
     ];
 
     const handleMenuClick = ({ key }: { key: string }) => {
-        switch (key) {
-            case "users": navigate("/users"); break;
-            case "ref1": navigate("/references/material-types"); break;
-            case "ref2": navigate("/references/material-types"); break;
-            case "ref4": navigate("/references/responsible-employees"); break;
-            case "ref5": navigate("/references/clients"); break;
-            case "ref6": navigate("/references/packaging"); break;
-            case "ref7": navigate("/references/parameters"); break;
-            case "raw-materials": navigate("/stock/raw-materials"); break;
-            case "balance": navigate("/stock/balance"); break;
-            case "finished-products": navigate("/finished-products"); break;
-            case "active-sessions": navigate("/active-sessions"); break;
-            case "settings": navigate("/settings"); break;
-        }
+        const selectedItem = menuMap[key];
+        if (!selectedItem || selectedItem.disabled) return;
+        if (selectedItem.path) navigate(selectedItem.path);
     };
 
     return (
@@ -108,7 +112,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                             {
                                 key: "settings",
                                 icon: <img className="menu-icon" src={SettingsIcon} alt="Настройки" />,
-                                label: "Настройки"
+                                label: "Настройки",
+                                disabled: menuMap["settings"].disabled
                             }
                         ]}
                     />
