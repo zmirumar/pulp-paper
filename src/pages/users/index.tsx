@@ -1,9 +1,11 @@
+import { Users } from "@/features/users/index";
 
-
-const Users = () => {
-  return <div>
-    
-  </div>;
+const UserPage = () => {
+  return (
+    <div>
+      <Users />
+    </div>
+  );
 };
 
 export default Users;
