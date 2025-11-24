@@ -43,7 +43,6 @@ export const SideBarStyled = styled(Sider)`
 
   .ant-menu {
     border: none !important;
-    background: #fff !important;
   }
 
   .ant-menu-item-only-child {
