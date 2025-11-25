@@ -13,12 +13,14 @@ interface MaterialsTableProps {
   data: MaterialItem[];
   searchText?: string;
   onDeleteClick?: (record: MaterialItem) => void;
+  onRowClick?: (record: MaterialItem) => void;
 }
 
 const MaterialsTable = ({
   data,
   searchText = "",
   onDeleteClick,
+  onRowClick,
 }: MaterialsTableProps) => {
   const columns: ColumnsType<MaterialItem> = [
     {
@@ -29,12 +31,10 @@ const MaterialsTable = ({
     {
       title: "Разделы",
       dataIndex: "section",
-
       sorter: (a, b) => a.section.localeCompare(b.section),
     },
     {
       title: "Показать",
-
       render: () => <Checkbox />,
     },
     {
@@ -68,6 +68,19 @@ const MaterialsTable = ({
       dataSource={filteredData}
       rowKey="id"
       pagination={false}
+      onRow={(record) => ({
+        onClick: (event) => {
+          const target = event.target as HTMLElement;
+
+          if (
+            target.closest("button") ||
+            target.closest("input[type='checkbox']")
+          ) {
+            return;
+          }
+          onRowClick && onRowClick(record);
+        },
+      })}
     />
   );
 };

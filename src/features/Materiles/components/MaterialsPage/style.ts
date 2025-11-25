@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const MaterialsStyled = styled.div`
-  padding: 30px;
-
   .materials {
     display: flex;
     flex-direction: column;
@@ -61,6 +59,6 @@ export const MaterialsStyled = styled.div`
     margin-top: 50px;
     font-size: 24px;
     font-weight: bold;
-    color: #ff4d4f;
+    color: var(--color-primary);
   }
 `;

@@ -1,0 +1,133 @@
+export interface MaterialsItem {
+  id: number;
+  priyceList: boolean;
+  order: number;
+  name: string;
+  code: string;
+  unit: string;
+  type: string;
+  materialKind: string;
+}
+
+export const MaterialsList: MaterialsItem[] = [
+  {
+    id: 1,
+    priyceList: false,
+    order: 0,
+    name: "Decuner 28 WE/F 1",
+    code: "FNNOCREPE B 15",
+    unit: "Кг",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 2,
+    priyceList: false,
+    order: 0,
+    name: "Decuner 28 WE/F 1",
+    code: "FNNOCREPE B 15",
+    unit: "Кг",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 3,
+    priyceList: false,
+    order: 1,
+    name: "ProSoft TQ 230H",
+    code: "FNNOTROL 6000",
+    unit: "Кг / шт",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 4,
+    priyceList: false,
+    order: 1,
+    name: "ProSoft TQ 230H",
+    code: "FNNOTROL 6000",
+    unit: "Кг / шт",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 5,
+    priyceList: false,
+    order: 2,
+    name: "Целулоза 200 кг",
+    code: "FNNOPAS 8850",
+    unit: "Шт",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 6,
+    priyceList: false,
+    order: 2,
+    name: "Целулоза 200 кг",
+    code: "FNNOPAS 8850",
+    unit: "Шт",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 7,
+    priyceList: false,
+    order: 0,
+    name: "Decuner 28 WE/F 1",
+    code: "FNNOCREPE B 15",
+    unit: "Кг",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 8,
+    priyceList: false,
+    order: 1,
+    name: "ProSoft TQ 230H",
+    code: "FNNOTROL 6000",
+    unit: "Кг / шт",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 9,
+    priyceList: false,
+    order: 2,
+    name: "Целулоза 200 кг",
+    code: "FNNOPAS 8850",
+    unit: "Шт",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 10,
+    priyceList: false,
+    order: 0,
+    name: "Decuner 28 WE/F 1",
+    code: "FNNOCREPE B 15",
+    unit: "Кг",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 11,
+    priyceList: false,
+    order: 1,
+    name: "ProSoft TQ 230H",
+    code: "FNNOTROL 6000",
+    unit: "Кг / шт",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+  {
+    id: 12,
+    priyceList: false,
+    order: 2,
+    name: "Целулоза 200 кг",
+    code: "FNNOPAS 8850",
+    unit: "Шт",
+    type: "Химикаты",
+    materialKind: "Сырье и материалы",
+  },
+];
