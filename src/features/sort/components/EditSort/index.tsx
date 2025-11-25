@@ -4,7 +4,7 @@ import { useState } from "react"
 import SortDrawer from "../SortDrawer";
 
 interface EditSortProps {
-  record: any; // The row data from the table
+  record: any; 
 }
 
 function EditSort({ record }: EditSortProps) {
