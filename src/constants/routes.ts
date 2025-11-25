@@ -6,5 +6,5 @@ export const routes = {
   ROLES: "/roles",
   SUPERVISORS: "/supervisors",
   EVENTS: "/events",
-  MATERIALSPAGE: "/materilespage",
+  MATERIALSPAGE: "/materialspage",
 };

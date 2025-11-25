@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const MaterialsStyled = styled.div`
-  padding: 30px;
-
   .materiles_site {
     display: flex;
     justify-content: space-between;

@@ -1,13 +1,10 @@
 import { useState } from "react";
-import { Input, Button, Tabs, Table, Checkbox } from "antd";
-import {
-  SearchOutlined,
-  PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { Button, Tabs, Modal } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { MaterialsStyled } from "./style";
-import { MaterilesTable } from "@/mockdata/materials";
+import { MaterialsTable as mockData } from "@/mockdata/MaterialsData/materials";
+import MaterialsTable from "@/features/Materiles/components/MaterialsTable";
+import MaterialsSearch from "@/features/Materiles/components/MaterialsSearch";
 
 const items = [
   { key: "1", label: "Склад" },
@@ -16,71 +13,68 @@ const items = [
 
 const MaterialsPage = () => {
   const [activeTab, setActiveTab] = useState("1");
+  const [searchValue, setSearchValue] = useState("");
 
-  const columns = [
-    { title: "Наименование", dataIndex: "name", key: "name" },
-    { title: "Разделы", dataIndex: "section", key: "section" },
-    {
-      title: "Показать",
-      key: "show",
-      render: () => (
-        <Checkbox
-          style={{
-            marginLeft: "10px",
-            backgroundColor: "#ffffff",
-            padding: "5px",
-            borderRadius: "4px",
-          }}
-        />
-      ),
-    },
-    {
-      render: () => (
-        <div style={{ display: "flex", justifyContent: "end", gap: "8px" }}>
-          <Button type="text" icon={<EditOutlined />} />
-          <Button type="text" icon={<DeleteOutlined />} />
-        </div>
-      ),
-    },
-  ];
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
+
+  const handleDelete = (record: any) => {
+    setSelected(record);
+    setOpen(true);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+    setSelected(null);
+  };
+
+  const handleFakeDelete = () => {
+    setOpen(false);
+  };
 
   return (
     <MaterialsStyled>
-      <div>
+      <div className="materials">
         <h1>Тип материалов</h1>
 
-        <Tabs
-          activeKey={activeTab}
-          onChange={(key) => setActiveTab(key)}
-          items={items}
-        />
+        <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
 
-        <div className="materiles_site">
-          {activeTab === "1" && (
-            <>
-              <Input
-                className="materiles_input"
-                placeholder="Поиск"
-                suffix={<SearchOutlined />}
-              />
-              <Button className="add-btn" icon={<PlusOutlined />}>
-                Добавить новый материал
-              </Button>
-            </>
-          )}
-        </div>
+        {activeTab === "1" && (
+          <div className="materiles_site" style={{ marginBottom: 20 }}>
+            <MaterialsSearch value={searchValue} onChange={setSearchValue} />
+            <Button className="add-btn" icon={<PlusOutlined />}>
+              Добавить новый материал
+            </Button>
+          </div>
+        )}
       </div>
 
       {activeTab === "1" ? (
-        <Table
-          dataSource={MaterilesTable}
-          columns={columns}
-          rowKey="id"
-          pagination={false}
+        <MaterialsTable
+          data={mockData}
+          searchText={searchValue}
+          onDeleteClick={handleDelete}
         />
       ) : (
         <div className="not-found">Not Found</div>
       )}
+
+      <Modal
+        title="Удалить материал?"
+        open={open}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <p>
+          После удаления восстановить этот элемент будет невозможно. Продолжить?
+        </p>
+        <div>
+          <Button onClick={handleCancel}>Отменить</Button>
+          <Button danger onClick={handleFakeDelete}>
+            Удалить
+          </Button>
+        </div>
+      </Modal>
     </MaterialsStyled>
   );
 };

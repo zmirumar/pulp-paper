@@ -1,10 +1,10 @@
-export interface MaterilesTable {
+export interface MaterialsTable {
   id: number;
   name: string;
   section: string;
 }
 
-export const MaterilesTable: MaterilesTable[] = [
+export const MaterialsTable: MaterialsTable[] = [
   {
     id: 1,
     name: "Целулоза",
