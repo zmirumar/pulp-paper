@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
     collapsed: boolean;
+    setCollapsed?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type MenuItem = Required<MenuProps>["items"][number] & {
@@ -22,9 +23,8 @@ type MenuItem = Required<MenuProps>["items"][number] & {
     children?: MenuItem[];
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
+const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
     const navigate = useNavigate();
-
     const items: MenuItem[] = [
         {
             key: "users",
@@ -107,7 +107,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                     <Menu mode="inline" items={menuItems} inlineCollapsed={collapsed} onClick={handleClick} />
                 </div>
                 <div className="sidebar__setting">
-                    <hr />
                     <Menu mode="inline" items={settingsItem ? [settingsItem] : []} inlineCollapsed={collapsed} onClick={handleClick} />
                 </div>
             </div>

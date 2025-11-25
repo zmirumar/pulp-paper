@@ -4,12 +4,12 @@ import { Layout } from "antd";
 const { Sider } = Layout;
 
 export const SideBarStyled = styled(Sider)`
-  
-    flex: unset !important;
-    max-width: unset !important;
-    min-width: unset !important;
-    width: auto !important;
-  
+
+  flex: unset !important;
+  max-width: unset !important;
+  min-width: unset !important;
+  width: auto !important;
+
   .sidebar {
     background-color: #fff;
     box-shadow: 1px 0 8px #00000026;
@@ -34,11 +34,7 @@ export const SideBarStyled = styled(Sider)`
       position: absolute;
       bottom: 30px;
       width: 244px;
-
-      hr {
-        margin: 10px;
-        border: 1px solid #e2dadaff;
-      }
+      border-top: 1.5px solid #e2dadaff;
     }
   }
 
