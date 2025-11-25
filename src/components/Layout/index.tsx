@@ -13,7 +13,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* <Sidebar collapsed={collapsed} toggleCollapse={() => setCollapsed((prev) => !prev)}/> */}
-      <Sidebar collapsed={collapsed} />
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
       <Layout>
         <ContentContainer>{children}</ContentContainer>
       </Layout>
