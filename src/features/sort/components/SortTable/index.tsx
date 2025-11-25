@@ -30,9 +30,9 @@ function SortTable({ data, searchText, currentPage, pageSize, onDataFiltered }: 
     },
     {
       title: "",
-      render: () => (
+      render: (_, record) => (
         <div className="sort_columns_render">
-          <EditSort/>
+          <EditSort record={record} />
           <DeleteSort/>
         </div>
       ),

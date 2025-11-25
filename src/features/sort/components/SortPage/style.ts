@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SortStyled = styled.div`
-
+ padding: 30px;
 
 h1{
   margin-top: 20px;
@@ -24,6 +24,7 @@ h1{
       margin-top: 25px;
       background-color: #fff;
       padding: 10px 40px;
+      border-radius: 8px;
     }
     .sort_columns_render{
       display: flex;

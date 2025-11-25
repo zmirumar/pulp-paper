@@ -1,19 +1,44 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AddButtonStyled } from './style'
 import { Input, notification } from 'antd'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import CancelSort from '../CancelSort'
 import { Drawer } from '@/components/ui/Drawer/Drawer' 
 
+interface SortData {
+  id?: string;
+  name: string;
+  sort: string;
+  sections: string;
+}
+
 interface AddButtonProps {
   showDrawer: boolean;
   handleCancelDrawer: () => void;
+  editData?: SortData | null;
+  mode?: 'create' | 'edit'; 
 }
 
-const SortDrawer: React.FC<AddButtonProps> = ({ showDrawer, handleCancelDrawer }) => {
+const SortDrawer: React.FC<AddButtonProps> = ({ 
+  showDrawer, 
+  handleCancelDrawer, 
+  editData = null,
+  mode = 'create'
+}) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [name, setName] = useState<string>("")
   const [category, setCategory] = useState<string>("")
+
+  useEffect(() => {
+    if (mode === 'edit' && editData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setName(editData.sort || "")
+      setCategory(editData.sections || "")
+    } else {
+      setName("")
+      setCategory("")
+    }
+  }, [editData, mode, showDrawer])
 
   const isValid = name.trim() !== "" && category.trim() !== ""
   const hasUnsavedChanges = name.trim() !== "" || category.trim() !== ""
@@ -42,14 +67,24 @@ const SortDrawer: React.FC<AddButtonProps> = ({ showDrawer, handleCancelDrawer }
     handleCancelDrawer()
   }
 
-  const addSort = () => {
-    notification.success({
-      message: 'Успешно добавлено',
-      description: `Сорт "${name}" был успешно добавлен`,
-      placement: 'topRight',
-      icon: <CheckCircleOutlined className='circle_oulined' />,
-      duration: 3,
-    })
+  const handleSubmit = () => {
+    if (mode === 'edit') {
+      notification.success({
+        message: 'Успешно обновлено',
+        description: `Сорт "${name}" был успешно обновлен`,
+        placement: 'topRight',
+        icon: <CheckCircleOutlined className='circle_oulined' />,
+        duration: 3,
+      })
+    } else {
+      notification.success({
+        message: 'Успешно добавлено',
+        description: `Сорт "${name}" был успешно добавлен`,
+        placement: 'topRight',
+        icon: <CheckCircleOutlined className='circle_oulined' />,
+        duration: 3,
+      })
+    }
 
     resetForm()
     handleCancelDrawer() 
@@ -59,15 +94,15 @@ const SortDrawer: React.FC<AddButtonProps> = ({ showDrawer, handleCancelDrawer }
     <>
       <Drawer
         open={showDrawer}
-        title="Добавить новый"
+        title={mode === 'edit' ? "Редактировать" : "Добавить новый"}
         closable={true}
         onClose={handleCancel}
         width={525}
         showFooter={true}
         cancelText="Отменить"
-        confirmText="Добавить"
+        confirmText={mode === 'edit' ? "Сохранить" : "Добавить"}
         onCancel={handleCancel}
-        onConfirm={addSort}
+        onConfirm={handleSubmit}
         confirmDisabled={!isValid}
         maskClosable={false}
       >
