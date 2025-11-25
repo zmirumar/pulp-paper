@@ -1,16 +1,23 @@
 import styled from "styled-components";
 
 export const MaterialsStyled = styled.div`
-  .materiles_site {
+  padding: 30px;
+
+  .materials {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .materials__site {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 
-    .materiles_input {
+    .materials__input {
       width: 364px;
       height: 32px;
-      margin: 0;
+      margin-left: -20px;
     }
 
     button {

@@ -35,14 +35,14 @@ const MaterialsPage = () => {
   return (
     <MaterialsStyled>
       <div className="materials">
-        <h1>Тип материалов</h1>
+        <h1 className="materials__title">Тип материалов</h1>
 
         <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
 
         {activeTab === "1" && (
-          <div className="materiles_site" style={{ marginBottom: 20 }}>
+          <div className="materials__site">
             <MaterialsSearch value={searchValue} onChange={setSearchValue} />
-            <Button className="add-btn" icon={<PlusOutlined />}>
+            <Button className="add__btn" icon={<PlusOutlined />}>
               Добавить новый материал
             </Button>
           </div>

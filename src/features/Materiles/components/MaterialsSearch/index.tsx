@@ -15,7 +15,7 @@ const MaterialsSearch = ({ value, onChange }: MaterialsSearchProps) => {
         suffix={<SearchOutlined />}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="materiles_input"
+        className="materials__input"
       />
     </MaterialsStyled>
   );
