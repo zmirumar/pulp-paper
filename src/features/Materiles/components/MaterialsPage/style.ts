@@ -15,7 +15,6 @@ export const MaterialsStyled = styled.div`
     .materials__input {
       width: 364px;
       height: 32px;
-      margin-left: -20px;
     }
 
     button {
