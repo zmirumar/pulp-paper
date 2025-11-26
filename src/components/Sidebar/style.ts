@@ -4,11 +4,14 @@ import { Layout } from "antd";
 const { Sider } = Layout;
 
 export const SideBarStyled = styled(Sider)`
-
   flex: unset !important;
   max-width: unset !important;
   min-width: unset !important;
   width: auto !important;
+
+  .child{
+    padding-left: 8px;
+  }
 
   .sidebar {
     background-color: #fff;

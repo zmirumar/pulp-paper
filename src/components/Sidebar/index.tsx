@@ -38,13 +38,13 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
             icon: <img className="menu-icon" src={ReferenceMaterialsIcon} alt="Справочники" />,
             label: "Справочники",
             children: [
-                { key: "ref1", label: "Раздели", path: "/references/material-types", disabled: false },
-                { key: "ref2", label: "Тип материалов", path: "/references/material-types", disabled: true },
-                { key: "ref3", label: "Сорт качество", path: "/references/grade-quality", disabled: true },
-                { key: "ref4", label: "Ответственные сотрудники", path: "/references/responsible-employees", disabled: false },
-                { key: "ref5", label: "Клиенты", path: "/references/clients", disabled: false },
-                { key: "ref6", label: "Тара", path: "/references/packaging", disabled: false },
-                { key: "ref7", label: "Параметр", path: "/references/parameters", disabled: false },
+                { key: "ref1", label: <p className="child">Раздели</p>, path: "/references/material-types", disabled: false },
+                { key: "ref2", label: <p className="child">Тип материалов</p>, path: "/references/material-types", disabled: true },
+                { key: "ref3", label: <p className="child">Сорт качество</p>, path: "/references/grade-quality", disabled: true },
+                { key: "ref4", label: <p className="child">Ответственные сотрудники</p>, path: "/references/responsible-employees", disabled: false },
+                { key: "ref5", label: <p className="child">Клиенты</p>, path: "/references/clients", disabled: false },
+                { key: "ref6", label: <p className="child">Тара</p>, path: "/references/packaging", disabled: false },
+                { key: "ref7", label: <p className="child">Параметр</p>, path: "/references/parameters", disabled: false },
             ],
         },
         {
@@ -52,8 +52,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
             icon: <img className="menu-icon" src={WarehouseIcon} alt="Склад" />,
             label: "Склад",
             children: [
-                { key: "raw-materials", label: "Сырьё материалы", path: "/stock/raw-materials", disabled: false },
-                { key: "balance", label: "Баланс", path: "/stock/balance", disabled: false },
+                { key: "raw-materials", label: <p className="child">Сырьё материалы</p>, path: "/stock/raw-materials", disabled: false },
+                { key: "balance", label: <p className="child">Баланс</p>, path: "/stock/balance", disabled: false },
             ],
         },
         {
