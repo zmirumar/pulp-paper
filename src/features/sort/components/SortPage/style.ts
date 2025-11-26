@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SortStyled = styled.div`
- padding: 30px;
+
 
 h1{
   margin-top: 20px;

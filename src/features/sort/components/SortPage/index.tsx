@@ -1,46 +1,54 @@
 import { TableDataSort } from "@/mockdata/sort/TableDataSort"
 import { SortStyled } from "./style"
 import { useState } from "react"
-import SortSearch from "../SortSearch"
-import SortTable from "../SortTable"
-import SortPagination from "../SortPagination"
 import SortDrawer from "../SortDrawer"
+import { Pagination, Table } from "antd"
+import Search from "antd/es/transfer/search"
+import EditSort from "../EditSort"
+import DeleteSort from "../DeleteSort"
 
 function SortPage() {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
-  const [searchText, setSearchText] = useState<string>("");
-  const [filteredTotal, setFilteredTotal] = useState<number>(TableDataSort.length);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
 
-  const handlePaginationChange = (page: number, size: number) => {
-    setCurrentPage(page);
-    setPageSize(size);
-  };
+   const SortColumns = [
+    {
+      title: "Наименование",
+      dataIndex: "name",
+    },
+    {
+      title: "Названия сортов",
+      dataIndex: "sort",
+      sorter: (a, b) => a.sort.localeCompare(b.sort),
+    },
+    {
+      title: "Разделы",
+      dataIndex: "sections",
+    },
+    {
+      title: "",
+      render: (record: any) => (
+        <div className="sort_columns_render">
+          <EditSort record={record} />
+          <DeleteSort/>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <SortStyled>
       <h1>Сорт качество</h1>
  
 
-      <SortSearch 
-        onSearch={setSearchText}
-        onAddClick={() => setOpenDrawer(true)}
+      <Search 
       />
 
-      <SortTable 
-        data={TableDataSort}
-        searchText={searchText}
-        currentPage={currentPage}
-        pageSize={pageSize}
-        onDataFiltered={setFilteredTotal}
+      <Table 
+       columns={SortColumns}
+        dataSource={TableDataSort}
       />
+      <Pagination/>
 
-      <SortPagination
-        total={filteredTotal}
-        resetTrigger={searchText}
-        onPaginationChange={handlePaginationChange}
-      />
 
       <SortDrawer
         showDrawer={openDrawer}  

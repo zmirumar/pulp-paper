@@ -42,6 +42,6 @@ export const DrawerFooterStyled = styled.div`
     border: 1px solid #d9d9d9;
   }
   .ant-drawer-footer{
-    padding: 17px 22px;
+    padding: 210px 2px ;
   }
 `;

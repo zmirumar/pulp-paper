@@ -26,7 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
             key: "users",
             icon: <img className="menu-icon" src={DirectoryIcon} alt="Пользователи" />,
             label: (
-                <span onClick={() => navigate("/")}>
+                <span onClick={() => navigate("/users")}>
                     Пользователи
                 </span>
             ),
@@ -40,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
             children: [
                 {
                     key: "ref1",
-                    label: <span onClick={() => navigate("/")}>Тип материалов</span>,
+                    label: <span onClick={() => navigate("/references/material-types")}>Тип материалов</span>,
                     disabled: false
                 },
                 {
@@ -57,12 +57,12 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
             children: [
                 {
                     key: "raw-materials",
-                    label: <span onClick={() => navigate("/")}>Сырьё материалы</span>,
+                    label: <span onClick={() => navigate("/stock/raw-materials")}>Сырьё материалы</span>,
                     disabled: false
                 },
                 {
                     key: "balance",
-                    label: <span onClick={() => navigate("/")}>Баланс</span>,
+                    label: <span onClick={() => navigate("/stock/balance")}>Баланс</span>,
                     disabled: false
                 },
             ]
@@ -70,13 +70,13 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
         {
             key: "finished-products",
             icon: <img className="menu-icon" src={FinishedProductsIcon} alt="Готовая продукция" />,
-            label: <span onClick={() => navigate("/")}>Готовая продукция</span>,
+            label: <span onClick={() => navigate("/finished-products")}>Готовая продукция</span>,
             disabled: false
         },
         {
             key: "active-sessions",
             icon: <img className="menu-icon" src={ActiveSessionsIcon} alt="Активные сеансы" />,
-            label: <span onClick={() => navigate("/")}>Активные сеансы</span>,
+            label: <span onClick={() => navigate("/active-sessions")}>Активные сеансы</span>,
             disabled: false
         }
     ];
@@ -105,7 +105,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                                 icon: <img className="menu-icon" src={SettingsIcon} alt="Настройки"
                                 />,
                                 label: (
-                                    <span onClick={() => navigate("/")}>
+                                    <span onClick={() => navigate("/settings")}>
 
                                         Настройки
                                     </span>

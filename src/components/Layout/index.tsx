@@ -8,7 +8,7 @@ interface LayoutProps {
 }
 
 const MainLayout: React.FC<LayoutProps> = ({ children }) => {
-  const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
