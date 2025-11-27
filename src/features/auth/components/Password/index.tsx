@@ -1,10 +1,9 @@
 import React from "react";
-import { Form, Input, Button, Typography } from "antd";
+import { Form, Input, Button  } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PasswordStyles } from "./style";
 
-const {  Text } = Typography;
 
 const ForgotPassword: React.FC = () => {
   const [form] = Form.useForm();
@@ -13,7 +12,6 @@ const ForgotPassword: React.FC = () => {
     console.log("Phone:", values.phone);
   };
 
-  const navigate = useNavigate();
 
   return (
     <PasswordStyles>
@@ -22,17 +20,13 @@ const ForgotPassword: React.FC = () => {
            Забыли пароль
           </h3>
        
-
-        <Text style={{ fontSize: 13, color: "#8c8c8c" }}>
-          Введите номер телефона, который вы использовали для регистрации в системе.
-          Мы отправим вам одноразовый пароль.
-        </Text>
+         <p className="password_text">Введите номер телефона, который вы использовали для регистрации в системе.
+          Мы отправим вам одноразовый пароль.</p>
 
         <Form
           form={form}
           layout="vertical"
           onFinish={onFinish}
-          style={{ marginTop: 25 }}
         >
           <Form.Item
             name="phone"
@@ -41,7 +35,6 @@ const ForgotPassword: React.FC = () => {
             <Input
               placeholder="Phone number"
               size="large"
-              style={{ borderRadius: 8 }}
             />
           </Form.Item>
 
@@ -57,7 +50,6 @@ const ForgotPassword: React.FC = () => {
                   !!form.getFieldsError().filter(({ errors }) => errors.length)
                     .length
                 }
-                style={{ borderRadius: 8 }}
               >
                 Подтвердить
               </Button>
@@ -66,10 +58,13 @@ const ForgotPassword: React.FC = () => {
         </Form>
 
         <div  className="pasword__btn">
-          <ArrowLeftOutlined style={{ fontSize: 12 }} />
-          <button onClick={() => navigate('/auth') }>
+          <ArrowLeftOutlined/>
+          <Link to='/auth'>
+            <button>
           Вернуться назад
           </button>
+          </Link>
+        
         </div>
       </div>
       </PasswordStyles>

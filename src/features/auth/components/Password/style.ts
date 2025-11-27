@@ -32,4 +32,12 @@ justify-content: center;
     border: none;
 
 }
+
+
+.password_text{
+    font-size: 13px;
+    color: gray;
+    margin-bottom: 20px;
+    
+}
 `
