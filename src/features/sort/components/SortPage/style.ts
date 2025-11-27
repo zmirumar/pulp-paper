@@ -17,7 +17,7 @@ h1{
   width: 400px;
   height: 40px;
 }
-    .sort_pagination{
+    .ant-pagination{
       display: flex;
       align-items: center;
       justify-content: center;

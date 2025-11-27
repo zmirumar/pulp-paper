@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { AddButtonStyled } from './style'
-import { Input, notification } from 'antd'
+import { Input, Modal, notification } from 'antd'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import CancelSort from '../CancelSort'
 import { Drawer } from '@/components/ui/Drawer/Drawer' 
+
 
 interface SortData {
   id?: string;
@@ -12,12 +13,14 @@ interface SortData {
   sections: string;
 }
 
+
 interface AddButtonProps {
   showDrawer: boolean;
   handleCancelDrawer: () => void;
   editData?: SortData | null;
   mode?: 'create' | 'edit'; 
 }
+
 
 const SortDrawer: React.FC<AddButtonProps> = ({ 
   showDrawer, 
@@ -28,6 +31,7 @@ const SortDrawer: React.FC<AddButtonProps> = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [name, setName] = useState<string>("")
   const [category, setCategory] = useState<string>("")
+
 
   useEffect(() => {
     if (mode === 'edit' && editData) {
@@ -40,13 +44,16 @@ const SortDrawer: React.FC<AddButtonProps> = ({
     }
   }, [editData, mode, showDrawer])
 
+
   const isValid = name.trim() !== "" && category.trim() !== ""
   const hasUnsavedChanges = name.trim() !== "" || category.trim() !== ""
+
 
   const resetForm = () => {
     setName("")
     setCategory("")
   }
+
 
   const handleCancel = () => {
     if (hasUnsavedChanges) {
@@ -57,15 +64,18 @@ const SortDrawer: React.FC<AddButtonProps> = ({
     }
   }
 
+
   const handleCancelModal = () => {
     setIsModalOpen(false)
   }
+
 
   const handleConfirmDiscard = () => {
     setIsModalOpen(false)
     resetForm()
     handleCancelDrawer()
   }
+
 
   const handleSubmit = () => {
     if (mode === 'edit') {
@@ -86,9 +96,11 @@ const SortDrawer: React.FC<AddButtonProps> = ({
       })
     }
 
+
     resetForm()
     handleCancelDrawer() 
   }
+
 
   return (
     <>
@@ -97,14 +109,12 @@ const SortDrawer: React.FC<AddButtonProps> = ({
         title={mode === 'edit' ? "Редактировать" : "Добавить новый"}
         closable={true}
         onClose={handleCancel}
-        width={525}
         showFooter={true}
         cancelText="Отменить"
         confirmText={mode === 'edit' ? "Сохранить" : "Добавить"}
         onCancel={handleCancel}
         onConfirm={handleSubmit}
         confirmDisabled={!isValid}
-        maskClosable={false}
       >
         <AddButtonStyled>
           <div className="wrapper">
@@ -124,20 +134,30 @@ const SortDrawer: React.FC<AddButtonProps> = ({
           </div>
         </AddButtonStyled>
       </Drawer>
-      
+
+
       {isModalOpen && (
-        <CancelSort
+        <Modal
           isOpen={isModalOpen}
+          title='Несохранённые изменения'
+                  children={
+          'Все несохранённые изменения будут потеряны.  Продолжить?'
+        }
+                footer={[
+          <button key="cancel" className="modal_stop" onClick={onCancel}>
+            Отменить
+          </button>,
+          <button key="submit" className="modal_cont" onClick={onConfirm}>
+            Продолжить
+          </button>
+        ]}
           onConfirm={handleConfirmDiscard}
           onCancel={handleCancelModal}
-          title="Несохранённые изменения"
-          description="Все несохранённые изменения будут потеряны. Продолжить?"
-          cancelText="Отменить"
-          confirmText="Продолжить"
         />
       )}
     </>
   )
 }
+
 
 export default SortDrawer

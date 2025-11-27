@@ -4,7 +4,7 @@ import { useState } from "react"
 import SortDrawer from "../SortDrawer";
 
 interface EditSortProps {
-  record: any; 
+  record: any; // The row data from the table
 }
 
 function EditSort({ record }: EditSortProps) {
@@ -26,4 +26,4 @@ function EditSort({ record }: EditSortProps) {
   )
 }
 
-export default EditSort
+export default EditSort 

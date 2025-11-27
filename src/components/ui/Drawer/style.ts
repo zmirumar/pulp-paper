@@ -6,7 +6,7 @@ export const DrawerFooterStyled = styled.div`
   gap: 12px;
 
   .button {
-    width: 48%;
+    width: 50%;
     padding: 13px;
     border-radius: 8px;
     font-size: 16px;
@@ -41,7 +41,10 @@ export const DrawerFooterStyled = styled.div`
     cursor: not-allowed;
     border: 1px solid #d9d9d9;
   }
-  .ant-drawer-footer{
-    padding: 210px 2px ;
+  .cancel:disabled{
+        background: #0000000A;
+    color: #999;
+    cursor: not-allowed;
+    border: 1px solid #d9d9d9;
   }
 `;

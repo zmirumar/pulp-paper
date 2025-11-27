@@ -8,7 +8,6 @@ export interface DrawerProps {
   open: boolean;
   onClose?: (e: React.MouseEvent | React.KeyboardEvent) => void;
   placement?: 'top' | 'right' | 'bottom' | 'left';
-  width?: number | string;
   closable?: boolean;
   footer?: React.ReactNode;
   destroyOnClose?: boolean;
@@ -27,7 +26,6 @@ export const Drawer = ({
   open,
   onClose,
   placement = 'right',
-  width = 525,
   closable = true,
   footer,
   className = '',
@@ -48,7 +46,7 @@ export const Drawer = ({
 
   const defaultFooter = showFooter ? (
     <DrawerFooterStyled>
-      <button className="button cancel" onClick={onCancel}>
+      <button className="button cancel" onClick={onCancel}         disabled={confirmDisabled}>
         {cancelText}
       </button>
       <button 
@@ -67,7 +65,6 @@ export const Drawer = ({
       open={open}
       onClose={onClose}
       placement={placement}
-      width={width}
       closable={closable}
       footer={footer !== undefined ? footer : defaultFooter}
       className={className}
