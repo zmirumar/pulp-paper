@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const DrawerFooterStyled = styled.div`
+export const DrawerStyled = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 12px;
@@ -47,4 +47,4 @@ export const DrawerFooterStyled = styled.div`
     cursor: not-allowed;
     border: 1px solid #d9d9d9;
   }
-`;
+  `;

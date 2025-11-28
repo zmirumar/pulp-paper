@@ -1,6 +1,6 @@
 import styled from "styled-components";
-
-export const AddButtonStyled = styled.div`
+import { Modal } from "antd";
+export const SortDrawerStyled = styled.div`
   h2 {
     font-size: 24px;
     margin-bottom: 20px;
@@ -24,56 +24,29 @@ export const AddButtonStyled = styled.div`
 
   }
 
-  .buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: auto;
-  }
-
-  .button {
-    width: 48%;
-    padding: 13px;
-    border-radius: 8px;
-    font-size: 16px;
-    border: none;
-    transition: 0.2s ease;
-    cursor: pointer;
-  }
-
-  .cancel {
-    background: #0000000A;
-    color: #333;
-    border: 1px solid #333;
-  }
-
-  .cancel:hover {
-    background: #f0f0f0;
-  }
-
-  .add {
-    background: var(--color-primary);
-    color: white;
-  }
-
-  .add:hover {
-    background: var(--color-primary);
-    opacity: 0.9;
-  }
-
-  .add:disabled {
-    background: #0000000A;
-    color: #999;
-    cursor: not-allowed;
-    border: 1px solid #d9d9d9;
-  }
-
   .ant-input {
     padding: 11px;
-  }
+  } 
 
   .circle_outlined{
     color: #52c41a;
   }
 
-`;
+  
+  `;
+  export const CancelSortStyled = styled(Modal)`
+  .modal_cont{
+      border-radius: 8px;
+      padding: 10px 15px;
+      color: #fff;
+      background-color: var(--color-primary);
+      border: none;
+  }
+  .modal_stop{
+      margin-right: 8px;
+      border-radius: 8px;
+      padding: 10px 15px;
+      color: #333;
+      background-color: #fff;
+      border: 1px solid #393939ff;
+  }`

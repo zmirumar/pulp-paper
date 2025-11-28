@@ -1,19 +1,26 @@
 import { TableDataSort } from "@/mockdata/sort/TableDataSort"
-import { SortStyled } from "./style"
+import { DeleteModalStyled, SortStyled } from "./style"
 import { useState } from "react"
 import SortDrawer from "../SortDrawer"
-import { Table } from "antd";
-import Search from "antd/es/transfer/search";
-import EditSort from "../EditSort";
-import DeleteSort from "../DeleteSort"; 
-import {  PlusOutlined } from "@ant-design/icons";
+import { Table, Input } from "antd";
+import type { ColumnsType } from 'antd/es/table';
+import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
+interface SortData {
+  id: number;
+  name: string;
+  sort: string;
+  sections: string;
+}
 
 function SortPage() {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [drawerMode, setDrawerMode] = useState<'create' | 'edit'>('create');
+  const [editData, setEditData] = useState<SortData | null>(null);
 
   const getSortPriority = (sortName: string): number => {
     const lowerSort = sortName.toLowerCase();
@@ -30,26 +37,48 @@ function SortPage() {
     return sortMatch || sectionsMatch;
   });
 
-  const SortColumns = [
+  const handleOpenCreateDrawer = () => {
+    setDrawerMode('create');
+    setEditData(null);
+    setOpenDrawer(true);
+  };
+
+  const handleOpenEditDrawer = (record: SortData) => {
+    setDrawerMode('edit');
+    setEditData(record);
+    setOpenDrawer(true);
+  };
+
+  const SortColumns: ColumnsType<SortData> = [
     {
       title: "Наименование",
       dataIndex: "name",
+      key: "name",
     },
     {
       title: "Названия сортов",
       dataIndex: "sort",
-      sorter: (a: { sort: string; }, b: { sort: string; } ) => getSortPriority(a.sort) - getSortPriority(b.sort),
+      key: "sort",
+      sorter: (a, b) => getSortPriority(a.sort) - getSortPriority(b.sort),
     },
     {
       title: "Разделы",
       dataIndex: "sections",
+      key: "sections",
     },
     {
       title: "",
-      render: (_: unknown, record: unknown) => (
+      key: "action",
+      render: (_, record) => (
         <div className="sort_columns_render">
-          <EditSort record={record} />
-          <DeleteSort/>
+          <EditOutlined 
+            className="sort_render_items" 
+            onClick={() => handleOpenEditDrawer(record)}
+          />
+          <DeleteOutlined 
+            onClick={() => setOpenModal(true)} 
+            className="sort_render_items"
+          />
         </div>
       ),
     },
@@ -60,19 +89,26 @@ function SortPage() {
       <h1>Сорт качество</h1>
 
       <div className="filter_add">
-        <Search
-          placeholder="Поиск по сортам и разделам"
+        <Input
+          placeholder="Поиск"
+          prefix={<SearchOutlined />}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
+          allowClear
         />
-        <button className="add_button" onClick={() => setOpenDrawer(true)}><PlusOutlined/> Добавит новый</button>
+        <button className="add_button" onClick={handleOpenCreateDrawer}>
+          <PlusOutlined /> Добавит новый
+        </button>
       </div>
+
       <SortDrawer
-        showDrawer={openDrawer}  
+        showDrawer={openDrawer}
         handleCancelDrawer={() => setOpenDrawer(false)}
+        editData={editData}
+        mode={drawerMode}
       />
 
-      <Table 
+      <Table<SortData>
         columns={SortColumns}
         dataSource={filteredData}
         pagination={{
@@ -85,11 +121,26 @@ function SortPage() {
             setCurrentPage(page);
             setPageSize(size);
           },
-          onShowSizeChange: ( size) => {
+          onShowSizeChange: (size) => {
             setCurrentPage(1);
             setPageSize(size);
           },
         }}
+      />
+
+      <DeleteModalStyled
+        open={openModal}
+        onCancel={() => setOpenModal(false)}
+        title="Удалить?"
+        children={'Вы уверены, что хотите удалить этот элемент?'}
+        footer={[
+          <button key="cancel" className="modal-stop" onClick={() => setOpenModal(false)}>
+            Отмена
+          </button>,
+          <button key="submit" className="modal-cont" onClick={() => setOpenModal(false)}>
+            Удалить
+          </button>,
+        ]}
       />
     </SortStyled>
   );

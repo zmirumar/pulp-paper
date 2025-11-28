@@ -8,7 +8,7 @@ import {
     WarehouseIcon,
     FinishedProductsIcon,
     ActiveSessionsIcon,
-    SettingsIcon
+    SettingsIcon    
 } from "@/assets/Icons/index";
 import { useNavigate } from "react-router-dom";
 

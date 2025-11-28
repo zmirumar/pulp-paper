@@ -1,16 +1,15 @@
 import { Drawer as AntdDrawer } from 'antd';
 import { useEffect } from 'react';
-import { DrawerFooterStyled } from './style';
+import { DrawerStyled } from './style';
 
 export interface DrawerProps {
   title?: string;
   children?: React.ReactNode;
   open: boolean;
   onClose?: (e: React.MouseEvent | React.KeyboardEvent) => void;
-  placement?: 'top' | 'right' | 'bottom' | 'left';
   closable?: boolean;
   footer?: React.ReactNode;
-  destroyOnClose?: boolean;
+  width?: number;
   className?: string;
   showFooter?: boolean;
   cancelText?: string;
@@ -25,13 +24,13 @@ export const Drawer = ({
   children,
   open,
   onClose,
-  placement = 'right',
   closable = true,
   footer,
   className = '',
   showFooter = false,
   cancelText = '',
   confirmText = '',
+  width = 525,
   onCancel,
   onConfirm,
   confirmDisabled = false,
@@ -45,32 +44,33 @@ export const Drawer = ({
   }, [open]);
 
   const defaultFooter = showFooter ? (
-    <DrawerFooterStyled>
-      <button className="button cancel" onClick={onCancel}         disabled={confirmDisabled}>
-        {cancelText}
-      </button>
-      <button 
-        className="button add"
-        onClick={onConfirm} 
-        disabled={confirmDisabled}
-      >
-        {confirmText}
-      </button>
-    </DrawerFooterStyled>
+    <DrawerStyled>
+        <button className="button cancel" onClick={onCancel} disabled={confirmDisabled}>
+          {cancelText}
+        </button>
+        <button
+          className="button add"
+          onClick={onConfirm}
+          disabled={confirmDisabled}
+        >
+          {confirmText}
+        </button>
+    </DrawerStyled>
   ) : null;
 
   return (
+    <DrawerStyled>
     <AntdDrawer
       title={title}
       open={open}
       onClose={onClose}
-      placement={placement}
       closable={closable}
-      footer={footer !== undefined ? footer : defaultFooter}
+      footer={footer !== undefined ? footer : defaultFooter} 
+      width={width}
       className={className}
-
     >
       {children}
     </AntdDrawer>
+    </DrawerStyled>
   );
 };

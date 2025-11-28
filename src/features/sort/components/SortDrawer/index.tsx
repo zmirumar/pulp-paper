@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
-import { AddButtonStyled } from './style'
-import { Input, Modal, notification } from 'antd'
+import { CancelSortStyled, SortDrawerStyled } from './style'
+import { Input, notification } from 'antd'
 import { CheckCircleOutlined } from '@ant-design/icons'
-import CancelSort from '../CancelSort'
 import { Drawer } from '@/components/ui/Drawer/Drawer' 
 
 
 interface SortData {
-  id?: string;
+  id: number; 
   name: string;
   sort: string;
   sections: string;
@@ -116,7 +115,7 @@ const SortDrawer: React.FC<AddButtonProps> = ({
         onConfirm={handleSubmit}
         confirmDisabled={!isValid}
       >
-        <AddButtonStyled>
+        <SortDrawerStyled>
           <div className="wrapper">
             <h2>Сорт</h2>
             <div className="inputs">
@@ -132,29 +131,29 @@ const SortDrawer: React.FC<AddButtonProps> = ({
               />
             </div>
           </div>
-        </AddButtonStyled>
+        </SortDrawerStyled>
       </Drawer>
 
-
-      {isModalOpen && (
-        <Modal
-          isOpen={isModalOpen}
+        {isModalOpen && (
+        <CancelSortStyled
+          open={isModalOpen}
           title='Несохранённые изменения'
                   children={
           'Все несохранённые изменения будут потеряны.  Продолжить?'
         }
-                footer={[
-          <button key="cancel" className="modal_stop" onClick={onCancel}>
+          footer={[
+          <button key="cancel" className="modal_stop" onClick={handleCancelModal}>
             Отменить
           </button>,
-          <button key="submit" className="modal_cont" onClick={onConfirm}>
+          <button key="submit" className="modal_cont" onClick={handleConfirmDiscard}>
             Продолжить
           </button>
         ]}
-          onConfirm={handleConfirmDiscard}
-          onCancel={handleCancelModal}
         />
       )}
+
+
+
     </>
   )
 }
