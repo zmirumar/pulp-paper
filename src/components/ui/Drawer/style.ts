@@ -1,50 +1,68 @@
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+
+export const DrawerGlobalStyle = createGlobalStyle`
+  .ant-drawer-content-wrapper {
+    width: 525px !important;
+  }
+
+  .ant-drawer-body {
+    padding: 24px;
+  }
+
+  .ant-drawer-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #f0f0f0;
+  }
+`;
 
 export const DrawerStyled = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
 
-  .button {
-    width: 50%;
-    padding: 13px;
-    border-radius: 8px;
-    font-size: 16px;
-    border: none;
-    transition: 0.2s ease;
-    cursor: pointer;
-  }
+    .button {
+      flex: 1;
+      padding: 13px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
 
-  .cancel {
-    background: #0000000A;
-    color: #333;
-    border: 1px solid #333;
-  }
+      &.cancel {
+        background: #0000000a;
+        color: #333;
+        border: 1px solid #d9d9d9;
 
-  .cancel:hover {
-    background: #f0f0f0;
-  }
+        &:hover:not(:disabled) {
+          background: #f0f0f0;
+          border-color: #999;
+        }
 
-  .add {
-    background: var(--color-primary);
-    color: white;
-  }
+        &:disabled {
+          background: #f5f5f5;
+          color: #bfbfbf;
+          border-color: #d9d9d9;
+          cursor: not-allowed;
+        }
+      }
 
-  .add:hover {
-    background: var(--color-primary);
-    opacity: 0.9;
-  }
+      &.add {
+        background: var(--color-primary);
+        color: white;
 
-  .add:disabled {
-    background: #0000000A;
-    color: #999;
-    cursor: not-allowed;
-    border: 1px solid #d9d9d9;
+        &:hover:not(:disabled) {
+          opacity: 0.85;
+        }
+
+        &:disabled {
+          background: #f5f5f5;
+          color: #bfbfbf;
+          cursor: not-allowed;
+        }
+      }
+    }
   }
-  .cancel:disabled{
-        background: #0000000A;
-    color: #999;
-    cursor: not-allowed;
-    border: 1px solid #d9d9d9;
-  }
-  `;
+`;

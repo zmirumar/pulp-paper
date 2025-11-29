@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { CancelSortStyled, SortDrawerStyled } from './style'
 import { Input, notification } from 'antd'
 import { CheckCircleOutlined } from '@ant-design/icons'
-import { Drawer } from '@/components/ui/Drawer/Drawer' 
-
+import { Drawer } from '@/components/ui/Drawer/Drawer'
 
 interface SortData {
   id: number; 
@@ -12,14 +11,12 @@ interface SortData {
   sections: string;
 }
 
-
 interface AddButtonProps {
   showDrawer: boolean;
   handleCancelDrawer: () => void;
   editData?: SortData | null;
   mode?: 'create' | 'edit'; 
 }
-
 
 const SortDrawer: React.FC<AddButtonProps> = ({ 
   showDrawer, 
@@ -30,76 +27,70 @@ const SortDrawer: React.FC<AddButtonProps> = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [name, setName] = useState<string>("")
   const [category, setCategory] = useState<string>("")
-
-
-  useEffect(() => {
-    if (mode === 'edit' && editData) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setName(editData.sort || "")
-      setCategory(editData.sections || "")
-    } else {
-      setName("")
-      setCategory("")
-    }
-  }, [editData, mode, showDrawer])
-
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
   const isValid = name.trim() !== "" && category.trim() !== ""
   const hasUnsavedChanges = name.trim() !== "" || category.trim() !== ""
 
-
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setName("")
     setCategory("")
-  }
+  }, [])
 
+  useEffect(() => {
+    if (mode === 'edit' && editData && showDrawer) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setName(editData.sort || "")
+      setCategory(editData.sections || "")
+    } else if (mode === 'create' && showDrawer) {
+      resetForm()
+    }
+  }, [editData, mode, showDrawer, resetForm])
 
-  const handleCancel = () => {
+  useEffect(() => {
+    if (!showDrawer) {
+      const timer = setTimeout(resetForm, 300)
+      return () => clearTimeout(timer)
+    }
+  }, [showDrawer, resetForm])
+
+  const handleCancel = useCallback(() => {
     if (hasUnsavedChanges) {
       setIsModalOpen(true)
     } else {
       handleCancelDrawer()
-      resetForm()
     }
-  }
+  }, [hasUnsavedChanges, handleCancelDrawer])
 
-
-  const handleCancelModal = () => {
+  const handleCancelModal = useCallback(() => {
     setIsModalOpen(false)
-  }
+  }, [])
 
-
-  const handleConfirmDiscard = () => {
+  const handleConfirmDiscard = useCallback(() => {
     setIsModalOpen(false)
     resetForm()
     handleCancelDrawer()
-  }
+  }, [resetForm, handleCancelDrawer])
 
+  const handleSubmit = useCallback(() => {
+    if (!isValid || isSubmitting) return
 
-  const handleSubmit = () => {
-    if (mode === 'edit') {
+    setIsSubmitting(true)
+
+    setTimeout(() => {
       notification.success({
-        message: 'Успешно обновлено',
-        description: `Сорт "${name}" был успешно обновлен`,
+        message: mode === 'edit' ? 'Успешно обновлено' : 'Успешно добавлено',
+        description: `Сорт "${name}" был успешно ${mode === 'edit' ? 'обновлен' : 'добавлен'}`,
         placement: 'topRight',
         icon: <CheckCircleOutlined className='circle_oulined' />,
         duration: 3,
       })
-    } else {
-      notification.success({
-        message: 'Успешно добавлено',
-        description: `Сорт "${name}" был успешно добавлен`,
-        placement: 'topRight',
-        icon: <CheckCircleOutlined className='circle_oulined' />,
-        duration: 3,
-      })
-    }
 
-
-    resetForm()
-    handleCancelDrawer() 
-  }
-
+      setIsSubmitting(false)
+      resetForm()
+      handleCancelDrawer()
+    }, 500)
+  }, [isValid, isSubmitting, mode, name, resetForm, handleCancelDrawer])
 
   return (
     <>
@@ -113,7 +104,7 @@ const SortDrawer: React.FC<AddButtonProps> = ({
         confirmText={mode === 'edit' ? "Сохранить" : "Добавить"}
         onCancel={handleCancel}
         onConfirm={handleSubmit}
-        confirmDisabled={!isValid}
+        confirmDisabled={!isValid || isSubmitting}
       >
         <SortDrawerStyled>
           <div className="wrapper">
@@ -123,37 +114,37 @@ const SortDrawer: React.FC<AddButtonProps> = ({
                 placeholder='Названия сортов'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                disabled={isSubmitting}
               />
               <Input
                 placeholder='Разделы'
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
+                disabled={isSubmitting}
               />
             </div>
           </div>
         </SortDrawerStyled>
       </Drawer>
 
-        {isModalOpen && (
+      {isModalOpen && (
         <CancelSortStyled
           open={isModalOpen}
           title='Несохранённые изменения'
-                  children={
-          'Все несохранённые изменения будут потеряны.  Продолжить?'
-        }
           footer={[
-          <button key="cancel" className="modal_stop" onClick={handleCancelModal}>
-            Отменить
-          </button>,
-          <button key="submit" className="modal_cont" onClick={handleConfirmDiscard}>
-            Продолжить
-          </button>
-        ]}
-        />
+            <button key="cancel" className="modal_stop" onClick={handleCancelModal}>
+              Отмена
+            </button>,
+            <button key="submit" className="modal_cont" onClick={handleConfirmDiscard}>
+              Продолжить
+            </button>
+          ]}
+        >
+          Все несохранённые изменения будут потеряны. Продолжить?
+        </CancelSortStyled>
       )}
     </>
   )
 }
-
 
 export default SortDrawer

@@ -1,6 +1,6 @@
-import { Drawer as AntdDrawer } from 'antd';
 import { useEffect } from 'react';
-import { DrawerStyled } from './style';
+import { DrawerStyled, DrawerGlobalStyle } from './style';
+import { Drawer as AntdDrawer } from 'antd';
 
 export interface DrawerProps {
   title?: string;
@@ -9,7 +9,6 @@ export interface DrawerProps {
   onClose?: (e: React.MouseEvent | React.KeyboardEvent) => void;
   closable?: boolean;
   footer?: React.ReactNode;
-  width?: number;
   className?: string;
   showFooter?: boolean;
   cancelText?: string;
@@ -30,7 +29,6 @@ export const Drawer = ({
   showFooter = false,
   cancelText = '',
   confirmText = '',
-  width = 525,
   onCancel,
   onConfirm,
   confirmDisabled = false,
@@ -45,32 +43,30 @@ export const Drawer = ({
 
   const defaultFooter = showFooter ? (
     <DrawerStyled>
+      <div className="buttons">
         <button className="button cancel" onClick={onCancel} disabled={confirmDisabled}>
           {cancelText}
         </button>
-        <button
-          className="button add"
-          onClick={onConfirm}
-          disabled={confirmDisabled}
-        >
+        <button className="button add" onClick={onConfirm} disabled={confirmDisabled}>
           {confirmText}
         </button>
+      </div>
     </DrawerStyled>
   ) : null;
 
   return (
-    <DrawerStyled>
-    <AntdDrawer
-      title={title}
-      open={open}
-      onClose={onClose}
-      closable={closable}
-      footer={footer !== undefined ? footer : defaultFooter} 
-      width={width}
-      className={className}
-    >
-      {children}
-    </AntdDrawer>
-    </DrawerStyled>
+    <>
+      <DrawerGlobalStyle />
+      <AntdDrawer
+        title={title}
+        open={open}
+        onClose={onClose}
+        closable={closable}
+        footer={footer !== undefined ? footer : defaultFooter}
+        className={className}
+      >
+        {children}
+      </AntdDrawer>
+    </>
   );
 };
