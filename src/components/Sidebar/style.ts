@@ -9,10 +9,6 @@ export const SideBarStyled = styled(Sider)`
   min-width: unset !important;
   width: auto !important;
 
-  .child{
-    padding-left: 8px;
-  }
-
   .sidebar {
     background-color: #fff;
     box-shadow: 1px 0 8px #00000026;
@@ -41,7 +37,7 @@ export const SideBarStyled = styled(Sider)`
     }
   }
 
-  /* ANTD OVERRIDES */
+  /* ANTD STYLES */
   .menu-icon {
     width: 16px;
     height: 16px;
@@ -53,6 +49,21 @@ export const SideBarStyled = styled(Sider)`
 
   .ant-menu-item-only-child {
     padding: 0 !important;
+  }
+
+  .ant-menu-title-content {
+    padding-left: 8px;
+  }
+
+  .ant-menu-submenu-arrow {
+    width: 9px;
+    height: 6px;
+  }
+
+  .ant-menu-submenu-title:hover .ant-menu-submenu-arrow {
+    color: #1677ff !important;
+    filter: invert(39%) sepia(94%) saturate(3000%) hue-rotate(205deg)
+      brightness(95%) contrast(101%);
   }
 
   .ant-menu-item:hover,
