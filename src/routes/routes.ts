@@ -1,7 +1,10 @@
 import Home from "@/pages/home";
 import { routes } from "../constants/routes";
 import Users from "@/pages/users";
+
 import { MaterialsPage } from "@/features/Materiles";
+
+import Auth from "@/pages/auth";
 
 import MaterialDetailsPage from "@/pages/materials/[id]";
 
