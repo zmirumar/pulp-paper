@@ -6,7 +6,7 @@ import { MaterialsStyled } from "./style";
 import { MaterialsTable as mockData } from "@/mockdata/MaterialsData/materials";
 import MaterialsTable from "@/features/Materiles/components/MaterialsTable";
 import MaterialsSearch from "@/features/Materiles/components/MaterialsSearch";
-import MaterialsList from "@/features/Materiles/components/MaterialsList";
+import MaterialsDetals from "@/features/MaterialsDetalsPage/components/MaterialsDetals";
 
 const MaterialsPage = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -46,7 +46,6 @@ const MaterialsPage = () => {
         {activeTab === "1" && !openList && (
           <div className="materials__site">
             <MaterialsSearch value={searchValue} onChange={setSearchValue} />
-
             <Button className="add__btn" icon={<PlusOutlined />}>
               Добавить новый материал
             </Button>
@@ -62,7 +61,7 @@ const MaterialsPage = () => {
           />
         )}
 
-        {activeTab === "1" && openList && <MaterialsList />}
+        {activeTab === "1" && openList && <MaterialsDetals />}
 
         {activeTab === "2" && (
           <div className="not-found">
@@ -77,15 +76,18 @@ const MaterialsPage = () => {
         open={open}
         onCancel={handleCancel}
         footer={null}
+        className="modal__small"
       >
-        <p>
+        <p className="modal__item">
           После удаления восстановить этот элемент будет невозможно. Продолжить?
         </p>
 
         <div>
-          <Button onClick={handleCancel}>Отменить</Button>
+          <Button className="modal__btn" onClick={handleCancel}>
+            Отменить
+          </Button>
 
-          <Button danger onClick={handleFakeDelete}>
+          <Button className="modal__delete" danger onClick={handleFakeDelete}>
             Удалить
           </Button>
         </div>

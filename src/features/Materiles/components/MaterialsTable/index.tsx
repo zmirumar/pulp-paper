@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Table, Checkbox, Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useMemo } from "react";
@@ -22,6 +23,8 @@ const MaterialsTable = ({
   onDeleteClick,
   onRowClick,
 }: MaterialsTableProps) => {
+  const navigate = useNavigate();
+
   const columns: ColumnsType<MaterialItem> = [
     {
       title: "Наименование",
@@ -35,17 +38,27 @@ const MaterialsTable = ({
     },
     {
       title: "Показать",
-      render: () => <Checkbox />,
+      render: () => <Checkbox onClick={(e) => e.stopPropagation()} />,
     },
     {
       key: "actions",
       render: (_, record: MaterialItem) => (
         <div style={{ display: "flex", justifyContent: "end", gap: 8 }}>
-          <Button type="text" icon={<EditOutlined />} />
+          <Button
+            type="text"
+            icon={<EditOutlined />}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          />
+
           <Button
             type="text"
             icon={<DeleteOutlined />}
-            onClick={() => onDeleteClick && onDeleteClick(record)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDeleteClick && onDeleteClick(record);
+            }}
           />
         </div>
       ),
@@ -53,7 +66,6 @@ const MaterialsTable = ({
   ];
 
   const filteredData = useMemo(() => {
-    if (!searchText.trim()) return data;
     const lower = searchText.toLowerCase();
     return data.filter(
       (item) =>
@@ -72,13 +84,16 @@ const MaterialsTable = ({
         onClick: (event) => {
           const target = event.target as HTMLElement;
 
+          if (onRowClick) onRowClick(record);
+
           if (
             target.closest("button") ||
             target.closest("input[type='checkbox']")
           ) {
             return;
           }
-          onRowClick && onRowClick(record);
+
+          navigate(`/materialspage/${record.id}`);
         },
       })}
     />

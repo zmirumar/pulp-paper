@@ -3,6 +3,8 @@ import { routes } from "../constants/routes";
 import Users from "@/pages/users";
 import { MaterialsPage } from "@/features/Materiles";
 
+import MaterialDetailsPage from "@/pages/materials/[id]";
+
 export const publicRoutes = [
   {
     path: routes.AUTH,
@@ -22,5 +24,9 @@ export const privateRoutes = [
   {
     path: routes.MATERIALSPAGE,
     element: MaterialsPage,
+  },
+  {
+    path: routes.MATERIALSPAGEID,
+    element: MaterialDetailsPage,
   },
 ];

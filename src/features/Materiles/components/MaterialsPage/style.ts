@@ -53,7 +53,6 @@ export const MaterialsStyled = styled.div`
       transform: translateX(0);
     }
   }
-
   .not-found {
     margin-top: 50px;
     font-size: 24px;

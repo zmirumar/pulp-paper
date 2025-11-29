@@ -7,6 +7,7 @@ export interface MaterialsItem {
   unit: string;
   type: string;
   materialKind: string;
+  section?: string;
 }
 
 export const MaterialsList: MaterialsItem[] = [
@@ -19,6 +20,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Кг",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 2,
@@ -29,6 +31,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Кг",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 3,
@@ -39,6 +42,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Кг / шт",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 4,
@@ -49,6 +53,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Кг / шт",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 5,
@@ -59,6 +64,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Шт",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 6,
@@ -69,6 +75,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Шт",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 7,
@@ -79,6 +86,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Кг",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 8,
@@ -89,6 +97,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Кг / шт",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 9,
@@ -99,6 +108,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Шт",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 10,
@@ -109,6 +119,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Кг",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 11,
@@ -119,6 +130,7 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Кг / шт",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
   {
     id: 12,
@@ -129,5 +141,6 @@ export const MaterialsList: MaterialsItem[] = [
     unit: "Шт",
     type: "Химикаты",
     materialKind: "Сырье и материалы",
+    section: "Склад сырья",
   },
 ];
