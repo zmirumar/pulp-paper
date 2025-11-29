@@ -1,43 +1,40 @@
-
-import { Button, Table, Space, Modal } from "antd";
-import { EditIcon, DeleteIcon, CopyIcon } from "@/assets/Icons";
-import type { IUser } from "../userHooks/index";
+import { Button, Space } from "antd";
+import { EditIcon, DeleteIcon } from "@/assets/Icons";
+import type { IUser } from "../..";
+import { UserTableStyled } from "./style";
+import type { ColumnsType } from "antd/es/table";
 
 type Props = {
   users: IUser[];
   onEdit: (user: IUser) => void;
   onDelete: (id: number) => void;
-  onCopy: (user: IUser) => void;
 };
 
-const UserTable: React.FC<Props> = ({ users, onEdit, onDelete, onCopy }) => {
-  const columns = [
+type IUserFeatures = {
+  id: number;
+  name: string;
+};
+
+const UserTable: React.FC<Props> = ({ users, onEdit, onDelete }) => {
+  const columns: ColumnsType<IUser> = [
     {
       title: "Ф.И.Ш",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Логин",
-      dataIndex: "login",
-      key: "login",
-    },
-    {
-      title: "Номер",
-      dataIndex: "number",
-      key: "number",
+      dataIndex: "fullName",
+      key: "fullName",
     },
     {
       title: "Отдел",
-      dataIndex: "department",
-      key: "department",
-      render: (departments: string[]) => departments?.join(", ") || "-",
+      dataIndex: "userRoles",
+      key: "userRoles",
+      render: (userRoles: IUserFeatures[] = []) =>
+        userRoles.map((r) => r.name).join(", ") || "-",
     },
     {
       title: "Доступ",
-      dataIndex: "access",
-      key: "access",
-      render: (access: string[]) => access?.join(", ") || "-",
+      dataIndex: "permissions",
+      key: "permissions",
+      render: (permissions: IUserFeatures[] = []) =>
+        permissions.map((p) => p.name).join(", ") || "-",
     },
     {
       title: "Последняя активность",
@@ -50,7 +47,6 @@ const UserTable: React.FC<Props> = ({ users, onEdit, onDelete, onCopy }) => {
       width: 120,
       render: (_: any, record: IUser) => (
         <Space size="middle">
-          {/* Edit */}
           <Button
             type="text"
             icon={<img src={EditIcon} alt="edit" style={{ width: 18 }} />}
@@ -58,29 +54,11 @@ const UserTable: React.FC<Props> = ({ users, onEdit, onDelete, onCopy }) => {
             title="Изменить"
           />
 
-          {/* Delete */}
           <Button
             type="text"
-            danger
             icon={<img src={DeleteIcon} alt="delete" style={{ width: 18 }} />}
-            onClick={() =>
-              Modal.confirm({
-                title: "Удалить пользователя?",
-                content: "Это действие нельзя отменить",
-                okText: "Да, удалить",
-                cancelText: "Отмена",
-                onOk: () => onDelete(record.id),
-              })
-            }
+            onClick={() => onDelete(record.id)}
             title="Удалить"
-          />
-
-          {/* Copy Login + Password */}
-          <Button
-            type="text"
-            icon={<img src={CopyIcon} alt="copy" style={{ width: 18 }} />}
-            onClick={() => onCopy(record)}
-            title="Скопировать логин и пароль"
           />
         </Space>
       ),
@@ -88,15 +66,19 @@ const UserTable: React.FC<Props> = ({ users, onEdit, onDelete, onCopy }) => {
   ];
 
   return (
-    <Table
-      columns={columns}
-      dataSource={users}
+    <UserTableStyled
+      columns={columns as ColumnsType<unknown>}
+      dataSource={users ?? []}
       rowKey="id"
-      pagination={{ pageSize: 10 }}
+      pagination={{
+        pageSize: 10,
+        showSizeChanger: true,
+        pageSizeOptions: ["10", "20", "50", "100"],
+      }}
       scroll={{ x: 1000 }}
       bordered
       style={{ background: "#fff" }}
-    />
+    ></UserTableStyled>
   );
 };
 

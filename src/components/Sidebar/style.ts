@@ -4,15 +4,24 @@ import { Layout } from "antd";
 const { Sider } = Layout;
 
 export const SideBarStyled = styled(Sider)`
+
+  flex: unset !important;
+  max-width: unset !important;
+  min-width: unset !important;
+  width: auto !important;
+
   .sidebar {
-    background-color: #ffffff;
+    background-color: #fff;
+    box-shadow: 1px 0 8px #00000026;
+    width: 276px;
     height: 100vh;
+    padding: 30px 16px;
 
     &__header {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 30px 0 24px 16px;
+      margin-bottom: 24px;
 
       h1 {
         font-size: 18px;
@@ -23,48 +32,43 @@ export const SideBarStyled = styled(Sider)`
 
     &__setting {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
+      bottom: 30px;
+      width: 244px;
+      border-top: 1.5px solid #e2dadaff;
     }
   }
 
-  /* ANTD CLASES */
+  /* ANTD OVERRIDES */
   .menu-icon {
     width: 16px;
     height: 16px;
   }
 
-  .ant-menu-item:hover > .menu-icon,
-  .ant-menu-submenu-title:hover .menu-icon {
+  .ant-menu {
+    border: none !important;
+  }
+
+  .ant-menu-item-only-child {
+    padding: 0 !important;
+  }
+
+  .ant-menu-item:hover,
+  .ant-menu-submenu-title:hover {
+    background: #e6f4ff !important;
+  }
+
+  .ant-menu-item:hover .menu-icon,
+  .ant-menu-submenu-title:hover .menu-icon,
+  .ant-menu-item:hover .ant-menu-title-content,
+  .ant-menu-submenu-title:hover .ant-menu-title-content {
+    color: #1677ff !important;
     filter: invert(39%) sepia(94%) saturate(3000%) hue-rotate(205deg)
       brightness(95%) contrast(101%);
-  }
-
-  .ant-menu-title-content:hover {
-    color: #1677ff !important;
-  }
-
-  .ant-menu-item-selected .ant-menu-title-content,
-  .ant-menu-submenu-selected > .ant-menu-submenu-title .ant-menu-title-content {
-    color: #1677ff !important;
   }
 
   .ant-menu-item-selected .menu-icon,
   .ant-menu-submenu-selected > .ant-menu-submenu-title .menu-icon {
     filter: invert(39%) sepia(94%) saturate(3000%) hue-rotate(205deg)
       brightness(95%) contrast(101%);
-  }
-
-  .ant-menu-submenu .ant-menu {
-    background: #ffffff !important;
-  }
-
-  .no-padding-item {
-    padding-left: 0 !important;
-  }
-
-  .ant-menu {
-    border: none !important;
   }
 `;

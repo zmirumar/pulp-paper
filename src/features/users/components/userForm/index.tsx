@@ -1,17 +1,31 @@
 import { Button, Drawer, Form, Input, Checkbox, Space } from "antd";
 import { useEffect } from "react";
 
-const accessOptions = ["Все", "Склады", "Администрация", "Аналитика"];
-const deptOptions = ["Все", "Склады", "Администрация", "Аналитика"];
+const roleOptions = [
+  { id: 1, name: "Склады" },
+  { id: 2, name: "Администрация" },
+  { id: 3, name: "Аналитика" },
+];
 
-type Props = {
+const permOptions = [
+  { id: 1, name: "Склады" },
+  { id: 2, name: "Администрация" },
+  { id: 3, name: "Аналитика" },
+];
+
+interface Props {
   open: boolean;
   editingUser: any;
   onClose: () => void;
   onSubmit: (data: any) => void;
 };
 
-const UserForm: React.FC<Props> = ({ open, editingUser, onClose, onSubmit }) => {
+const UserForm: React.FC<Props> = ({
+  open,
+  editingUser,
+  onClose,
+  onSubmit,
+}) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -22,34 +36,44 @@ const UserForm: React.FC<Props> = ({ open, editingUser, onClose, onSubmit }) => 
 
   return (
     <Drawer
-      title={editingUser ? "Изменить" : "Добавить нового"}
+      title={
+        editingUser ? "Изменит пользователь" : "Добавить новый пользовател"
+      }
       open={open}
       onClose={onClose}
-      width={420}
     >
       <Form layout="vertical" form={form} onFinish={onSubmit}>
-        <Form.Item name="name" rules={[{ required: true, message: "Введите имя" }]}>
+        <Form.Item name="fullName" rules={[{ required: true, message: "" }]}>
           <Input placeholder="Имя" />
         </Form.Item>
 
-        <Form.Item name="login" rules={[{ required: true }]}>
+        {/* <Form.Item name="login" rules={[{ required: true, message: "" }]}>
           <Input placeholder="Логин" />
-        </Form.Item>
+        </Form.Item> */}
 
-        <Form.Item name="password" rules={[{ required: !editingUser }]}>
-          <Input.Password placeholder="Пароль" />
-        </Form.Item>
+        {!editingUser && (
+          <Form.Item name="password" rules={[{ required: true, message: "" }]}>
+            <Input.Password placeholder="Пароль" />
+          </Form.Item>
+        )}
 
-        <Form.Item name="number" rules={[{ required: true }]}>
+        <Form.Item name="phoneNumber" rules={[{ required: true, message: "" }]}>
           <Input placeholder="Телефон" />
         </Form.Item>
 
-        <Form.Item name="department" label="Отдел">
-          <Checkbox.Group options={deptOptions} />
+        <Form.Item name="roleIds" label="Отдел">
+          <Checkbox.Group
+            options={roleOptions.map((i) => ({ label: i.name, value: i.id }))}
+          />
         </Form.Item>
 
-        <Form.Item name="access" label="Доступ">
-          <Checkbox.Group options={accessOptions} />
+        <Form.Item name="permissionIds" label="Доступ">
+          <Checkbox.Group
+            options={permOptions.map((i) => ({
+              label: i.name,
+              value: i.id,
+            }))}
+          />
         </Form.Item>
 
         <Form.Item>
