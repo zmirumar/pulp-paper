@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { notification, Modal, message } from "antd";
-import { useState } from "react";
+import { notification } from "antd";
+import { useState, useMemo } from "react";
 import { API } from "@/service/api";
 import type { IUser } from "../..";
 
@@ -9,13 +9,17 @@ export const useUsers = (searchValue: string) => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingUser, setEditingUser] = useState<IUser | null>(null);
-  const [deletingItemId, setDeletingItemId] = useState<number | null>(null)
+  const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
+  const [userData, setUserData] = useState<IUser[] | null>();
 
   const { data = [], isLoading } = useQuery({
     queryKey: ["users"],
-    queryFn: () =>  API.getUsers().then((res) => res.data.users),
+    queryFn: () =>
+      API.getUsers().then((res) => {
+        setUserData(res.data.users);
+        return res.data.users;
+      }),
   });
-
 
   const create = useMutation({
     mutationFn: API.createUser,
@@ -76,7 +80,7 @@ export const useUsers = (searchValue: string) => {
     },
   });
 
-const openDeleteModal = (id: number) => {
+  const openDeleteModal = (id: number) => {
     setDeletingItemId(id);
     setIsModalOpen(true);
   };
@@ -84,7 +88,7 @@ const openDeleteModal = (id: number) => {
   const handleDeleteUser = () => {
     if (deletingItemId !== null) {
       remove.mutate(deletingItemId);
-      setIsModalOpen(false)
+      setIsModalOpen(false);
     }
   };
 
@@ -93,8 +97,17 @@ const openDeleteModal = (id: number) => {
     setDeletingItemId(null);
   };
 
+  const filteredData = useMemo(() => {
+    const searchLower = searchValue.toLowerCase().trim();
+    return (userData ?? []).filter(
+      (u) =>
+        u.fullName.toLowerCase().includes(searchLower) ||
+        u.phoneNumber.toLowerCase().includes(searchLower)
+    );
+  }, [searchValue, userData]);
+
   return {
-    users: data,
+    users: filteredData,
     isLoading,
     drawerOpen,
     editingUser,
@@ -119,6 +132,5 @@ const openDeleteModal = (id: number) => {
     deletingItemId,
     handleDeleteUser,
     handleCencil,
-
-  };  
+  };
 };
