@@ -34,9 +34,7 @@ const MaterialsDetailTable: React.FC<TableProps> = ({
       title: "Прайс лист",
       dataIndex: "priceList",
       sorter: (a, b) => Number(a.priceList) - Number(b.priceList),
-      render: (value: boolean) => (
-        <Checkbox checked={value} onClick={(e) => e.stopPropagation()} />
-      ),
+      render: () => <Checkbox onClick={(e) => e.stopPropagation()} />,
     },
     {
       title: "Порядок",
@@ -118,7 +116,7 @@ const MaterialsDetailTable: React.FC<TableProps> = ({
       pagination={{
         defaultPageSize: 10,
         showSizeChanger: true,
-        pageSizeOptions: ["10", "40", "50"],
+        pageSizeOptions: ["10", "50", "100"],
         position: ["bottomCenter"],
         align: "center",
         showQuickJumper: false,
