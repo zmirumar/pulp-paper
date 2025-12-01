@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { Modal } from "antd";
 
-export const MaterialsDetialStyled = styled.div`
+export const MaterialsDetailStyled = styled.div`
   .materialsDetail {
     display: flex;
     flex-direction: column;
@@ -18,10 +19,9 @@ export const MaterialsDetialStyled = styled.div`
       margin-bottom: 20px;
 
       .detial__input {
-        flex: 1;
         max-width: 300px;
         padding: 7px 10px;
-        border: 1px solid #ddd;
+        border: 1px solid #00000040;
         border-radius: 10px;
       }
 
@@ -54,6 +54,33 @@ export const MaterialsDetialStyled = styled.div`
     p {
       font-size: 16px;
       color: #555;
+    }
+  }
+`;
+
+export const ModalStyled = styled(Modal)`
+  .modal__delete {
+    background-color: var(--color-primary);
+    color: #fff;
+    border: 1px solid #fff;
+    width: 89px;
+    &:hover {
+      background-color: var(--color-primary) !important;
+      color: #fff !important;
+      border: 1px solid #fff !important;
+    }
+  }
+  .modal__cancel {
+    margin-right: 8px;
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #000000e0;
+    background-color: #fff;
+    border: 1px solid #393939ff;
+    &:hover {
+      background-color: #fff !important;
+      color: #000000e0 !important;
+      border: 1px solid #393939ff !important;
     }
   }
 `;

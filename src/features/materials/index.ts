@@ -1,5 +1,5 @@
 import MaterialsPage from "./components/MaterialsPage";
-import MaterialsDetailPage from "./components/MaterialsDetialPage/MaterialsDetail";
+import MaterialsDetail from "./components/MaterialsDetail";
 
 export { MaterialsPage };
-export { MaterialsDetailPage };
+export { MaterialsDetail };

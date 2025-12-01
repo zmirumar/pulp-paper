@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Button, Input, Modal, Tabs } from "antd";
+import { Button, Input, Tabs } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
-import MaterialsDetailTable from "@/features/materials/components/MaterialsDetialPage/MaterialsDetaillTable";
-import { MaterialsDetialStyled } from "./style";
+import MaterialsDetailTable from "@/features/materials/components/MaterialsDetaillTable";
+import { MaterialsDetailStyled, ModalStyled } from "./style";
 import { MaterialsDetailData } from "@/mockdata/MaterialsData/materialsDetail";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +34,7 @@ const MaterialsDetail = () => {
   };
 
   return (
-    <MaterialsDetialStyled>
+    <MaterialsDetailStyled>
       <div className="materialsDetail">
         <h1 onClick={() => navigate("/materialspage")}>Тип материалов</h1>
         <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
@@ -49,7 +49,6 @@ const MaterialsDetail = () => {
                 value={searchValue}
                 suffix={<SearchOutlined />}
                 onChange={(e) => setSearchValue(e.target.value)}
-                style={{ width: 300, marginRight: 10 }}
               />
               <Button icon={<PlusOutlined />}>Добавить новый</Button>
             </div>
@@ -68,15 +67,25 @@ const MaterialsDetail = () => {
           </div>
         )}
 
-        <Modal
+        <ModalStyled
           title="Удалить материал?"
           open={open}
           onCancel={handleCancel}
+          className="modal__site"
           footer={[
-            <Button key="cancel" onClick={handleCancel}>
+            <Button
+              key="cancel"
+              onClick={handleCancel}
+              className="modal__cancel"
+            >
               Отменить
             </Button>,
-            <Button key="delete" danger onClick={handleConfirmDelete}>
+            <Button
+              className="modal__delete"
+              key="delete"
+              danger
+              onClick={handleConfirmDelete}
+            >
               Удалить
             </Button>,
           ]}
@@ -85,9 +94,9 @@ const MaterialsDetail = () => {
             После удаления восстановить этот элемент будет невозможно.
             Продолжить?
           </p>
-        </Modal>
+        </ModalStyled>
       </div>
-    </MaterialsDetialStyled>
+    </MaterialsDetailStyled>
   );
 };
 

@@ -6,7 +6,7 @@ import type { ColumnsType } from "antd/es/table";
 
 export interface MaterialsListItem {
   id: number;
-  priceList: boolean;
+  priyceList: boolean;
   order: number;
   name: string;
   code: string;
@@ -33,7 +33,7 @@ const MaterialsDetailTable: React.FC<TableProps> = ({
     {
       title: "Прайс лист",
       dataIndex: "priceList",
-      sorter: (a, b) => Number(a.priceList) - Number(b.priceList),
+      sorter: (a, b) => Number(a.priyceList) - Number(b.priyceList),
       render: () => <Checkbox onClick={(e) => e.stopPropagation()} />,
     },
     {
@@ -110,7 +110,7 @@ const MaterialsDetailTable: React.FC<TableProps> = ({
   return (
     <Table
       columns={columns}
-      dataSource={filteredData}
+      dataSource={filteredData || []}
       rowKey="id"
       scroll={{ x: 2649 }}
       pagination={{

@@ -5,13 +5,13 @@ import Users from "@/pages/users";
 import Auth from "@/pages/auth";
 
 import MaterialDetailsPage from "@/pages/materials/[id]";
-import { MaterialsPage } from "@/features/materials";
+
 import Materials from "@/pages/materials";
 
 export const publicRoutes = [
   {
     path: routes.AUTH,
-    element: "auth",
+    element: Auth,
   },
 ];
 

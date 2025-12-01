@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button, Modal, Tabs, Input } from "antd";
+import { Button, Tabs, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
-import { MaterialsStyled } from "./style";
+import { MaterialsStyled, ModalStyled } from "./style";
 import MaterialsTable from "../MaterialsTable";
 import { MaterialsTableData } from "@/mockdata/MaterialsData/materials";
 
@@ -10,7 +10,6 @@ const MaterialsPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<any>(null);
-  
 
   const items = [
     { key: "1", label: "Склад" },
@@ -69,15 +68,25 @@ const MaterialsPage = () => {
           </div>
         )}
 
-        <Modal
+        <ModalStyled
           title="Удалить материал?"
           open={open}
           onCancel={handleCancel}
+          className="modal__site"
           footer={[
-            <Button key="cancel" onClick={handleCancel}>
+            <Button
+              key="cancel"
+              onClick={handleCancel}
+              className="modal__cancel"
+            >
               Отменить
             </Button>,
-            <Button key="delete" danger onClick={handleConfirmDelete}>
+            <Button
+              className="modal__delete"
+              key="delete"
+              danger
+              onClick={handleConfirmDelete}
+            >
               Удалить
             </Button>,
           ]}
@@ -86,7 +95,7 @@ const MaterialsPage = () => {
             После удаления восстановить этот элемент будет невозможно.
             Продолжить?
           </p>
-        </Modal>
+        </ModalStyled>
       </div>
     </MaterialsStyled>
   );
