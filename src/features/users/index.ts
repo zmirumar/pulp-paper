@@ -1,0 +1,1 @@
+export { default as userPage} from "./components/userForm"

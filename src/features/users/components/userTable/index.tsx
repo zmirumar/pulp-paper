@@ -1,21 +1,27 @@
 import { Button, Space } from "antd";
 import { EditIcon, DeleteIcon } from "@/assets/Icons";
-import type { IUser } from "../..";
+import type { IUser } from "../UserPage";
 import { UserTableStyled } from "./style";
 import type { ColumnsType } from "antd/es/table";
-
-type Props = {
-  users: IUser[];
-  onEdit: (user: IUser) => void;
-  onDelete: (id: number) => void;
-};
 
 type IUserFeatures = {
   id: number;
   name: string;
 };
 
-const UserTable: React.FC<Props> = ({ users, onEdit, onDelete }) => {
+interface Props {
+  handleCancel: () => void;
+  openDeleteModal: (id: number) => void;
+  data: IUser[];
+  onEdit: (user: IUser) => void;
+}
+
+const UserTable: React.FC<Props> = ({
+  handleCancel,
+  onEdit,
+  openDeleteModal,
+  data,
+}) => {
   const columns: ColumnsType<IUser> = [
     {
       title: "Ф.И.Ш",
@@ -57,7 +63,7 @@ const UserTable: React.FC<Props> = ({ users, onEdit, onDelete }) => {
           <Button
             type="text"
             icon={<img src={DeleteIcon} alt="delete" style={{ width: 18 }} />}
-            onClick={() => onDelete(record.id)}
+            onClick={() => openDeleteModal(record.id)}
             title="Удалить"
           />
         </Space>
@@ -68,16 +74,13 @@ const UserTable: React.FC<Props> = ({ users, onEdit, onDelete }) => {
   return (
     <UserTableStyled
       columns={columns as ColumnsType<unknown>}
-      dataSource={users ?? []}
+      dataSource={data}
       rowKey="id"
       pagination={{
         pageSize: 10,
         showSizeChanger: true,
         pageSizeOptions: ["10", "20", "50", "100"],
       }}
-      scroll={{ x: 1000 }}
-      bordered
-      style={{ background: "#fff" }}
     ></UserTableStyled>
   );
 };

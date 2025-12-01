@@ -1,9 +1,9 @@
-import Users from "@/features/users/index";
+import UsersPage from "@/features/users/components/UserPage/";
 
-const UserPage = () => {
+const Users = () => {
   return (
     <div>
-      <Users />
+      <UsersPage />
     </div>
   );
 };

@@ -1,31 +1,16 @@
 import { Button, Drawer, Form, Input, Checkbox, Space } from "antd";
 import { useEffect } from "react";
-
-const roleOptions = [
-  { id: 1, name: "Склады" },
-  { id: 2, name: "Администрация" },
-  { id: 3, name: "Аналитика" },
-];
-
-const permOptions = [
-  { id: 1, name: "Склады" },
-  { id: 2, name: "Администрация" },
-  { id: 3, name: "Аналитика" },
-];
+import type { IUser } from "../UserPage";
+import { roleOptions, permOptions } from "@/mockdata/users";
 
 interface Props {
   open: boolean;
-  editingUser: any;
+  editingUser: IUser | null;
   onClose: () => void;
   onSubmit: (data: any) => void;
-};
+}
 
-const UserForm: React.FC<Props> = ({
-  open,
-  editingUser,
-  onClose,
-  onSubmit,
-}) => {
+const UserForm: React.FC<Props> = ({ open, editingUser, onClose, onSubmit }) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -47,9 +32,9 @@ const UserForm: React.FC<Props> = ({
           <Input placeholder="Имя" />
         </Form.Item>
 
-        {/* <Form.Item name="login" rules={[{ required: true, message: "" }]}>
+        <Form.Item name="login" rules={[{ required: true, message: "" }]}>
           <Input placeholder="Логин" />
-        </Form.Item> */}
+        </Form.Item>
 
         {!editingUser && (
           <Form.Item name="password" rules={[{ required: true, message: "" }]}>
