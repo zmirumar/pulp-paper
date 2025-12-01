@@ -13,7 +13,7 @@ export const SideBarStyled = styled(Sider)`
     background-color: #fff;
     box-shadow: 1px 0 8px #00000026;
     width: 276px;
-    height: 100vh;
+    height: 100%;
     padding: 30px 16px;
 
     &__header {

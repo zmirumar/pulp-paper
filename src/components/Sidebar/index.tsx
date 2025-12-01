@@ -8,7 +8,7 @@ import {
     WarehouseIcon,
     FinishedProductsIcon,
     ActiveSessionsIcon,
-    SettingsIcon    
+    SettingsIcon
 } from "@/assets/Icons/index";
 import { useNavigate, useLocation } from "react-router-dom";
 import React, { useState, useEffect, useMemo } from "react";
@@ -32,10 +32,10 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
 
     const items: MenuItemType[] = useMemo(() => [
         {
-            key: "/",
+            key: "/users",
             icon: <img className="menu-icon" src={DirectoryIcon} alt="Пользователи" />,
             label: "Пользователи",
-            path: "/",
+            path: "/users",
             disabled: false
         },
         {
