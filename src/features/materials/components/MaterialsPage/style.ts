@@ -14,7 +14,9 @@ export const MaterialsStyled = styled.div`
 
     .materials__input {
       width: 364px;
-      height: 32px;
+      padding: 7px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
     }
 
     button {
@@ -53,10 +55,19 @@ export const MaterialsStyled = styled.div`
       transform: translateX(0);
     }
   }
+
   .not-found {
+    text-align: center;
     margin-top: 50px;
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--color-primary);
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #555;
+    }
   }
 `;

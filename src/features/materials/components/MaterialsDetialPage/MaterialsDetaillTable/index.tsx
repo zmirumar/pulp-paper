@@ -1,14 +1,12 @@
 import React, { useMemo } from "react";
 import { Table, Checkbox, Button } from "antd";
-import type { ColumnsType } from "antd/es/table";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-
-import { MaterialsList as mockData } from "@/mockdata/MaterialsData/materialsList";
+import type { ColumnsType } from "antd/es/table";
 
 export interface MaterialsListItem {
   id: number;
-  priceList: number;
+  priceList: boolean;
   order: number;
   name: string;
   code: string;
@@ -19,11 +17,13 @@ export interface MaterialsListItem {
 }
 
 interface TableProps {
+  data: MaterialsListItem[];
   searchValue: string;
   onDelete: (record: MaterialsListItem) => void;
 }
 
-const MaterialsDetalsTable: React.FC<TableProps> = ({
+const MaterialsDetailTable: React.FC<TableProps> = ({
+  data,
   searchValue,
   onDelete,
 }) => {
@@ -33,8 +33,10 @@ const MaterialsDetalsTable: React.FC<TableProps> = ({
     {
       title: "Прайс лист",
       dataIndex: "priceList",
-      sorter: (a, b) => a.priceList - b.priceList,
-      render: () => <Checkbox />,
+      sorter: (a, b) => Number(a.priceList) - Number(b.priceList),
+      render: (value: boolean) => (
+        <Checkbox checked={value} onClick={(e) => e.stopPropagation()} />
+      ),
     },
     {
       title: "Порядок",
@@ -66,7 +68,10 @@ const MaterialsDetalsTable: React.FC<TableProps> = ({
       dataIndex: "materialKind",
       sorter: (a, b) => a.materialKind.localeCompare(b.materialKind),
     },
-    { title: "Показать в списках", render: () => <Checkbox /> },
+    {
+      title: "Показать в списках",
+      render: () => <Checkbox onClick={(e) => e.stopPropagation()} />,
+    },
     {
       title: "Разделы",
       dataIndex: "section",
@@ -76,11 +81,18 @@ const MaterialsDetalsTable: React.FC<TableProps> = ({
       key: "actions",
       render: (_, record) => (
         <div style={{ display: "flex", justifyContent: "end", gap: 8 }}>
-          <Button type="text" icon={<EditOutlined />} />
+          <Button
+            type="text"
+            icon={<EditOutlined />}
+            onClick={(e) => e.stopPropagation()}
+          />
           <Button
             type="text"
             icon={<DeleteOutlined />}
-            onClick={() => onDelete(record)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(record);
+            }}
           />
         </div>
       ),
@@ -89,31 +101,41 @@ const MaterialsDetalsTable: React.FC<TableProps> = ({
 
   const filteredData = useMemo(() => {
     const text = searchValue.trim().toLowerCase();
-    if (!text) return mockData;
-    return mockData.filter(
+    if (!text) return data;
+    return data.filter(
       (item) =>
         item.name.toLowerCase().includes(text) ||
         (item.section?.toLowerCase() ?? "").includes(text)
     );
-  }, [searchValue]);
+  }, [data, searchValue]);
 
   return (
     <Table
       columns={columns}
       dataSource={filteredData}
       rowKey="id"
-      scroll={{ x: 2630 }}
+      scroll={{ x: 2649 }}
       pagination={{
-        pageSize: 10,
+        defaultPageSize: 10,
         showSizeChanger: true,
-        pageSizeOptions: ["10", "20", "50"],
+        pageSizeOptions: ["10", "40", "50"],
         position: ["bottomCenter"],
+        align: "center",
+        showQuickJumper: false,
       }}
       onRow={(record) => ({
-        onClick: () => navigate(`/materialspage/${record.id}`),
+        onClick: (event) => {
+          const target = event.target as HTMLElement;
+          if (
+            target.closest("button") ||
+            target.closest("input[type='checkbox']")
+          )
+            return;
+          navigate(`/materialspage/${record.id}`);
+        },
       })}
     />
   );
 };
 
-export default MaterialsDetalsTable;
+export default MaterialsDetailTable;

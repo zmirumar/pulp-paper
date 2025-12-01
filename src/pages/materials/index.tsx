@@ -1,4 +1,5 @@
-import { MaterialsPage } from "@/features/Materiles";
+import { MaterialsPage } from "@/features/materials";
+
 
 const Materials = () => {
   return (

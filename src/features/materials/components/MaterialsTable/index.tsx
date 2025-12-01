@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 import { Table, Checkbox, Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import type { ColumnsType } from "antd/es/table";
 
 export interface MaterialItem {
@@ -12,14 +12,14 @@ export interface MaterialItem {
 
 interface MaterialsTableProps {
   data: MaterialItem[];
-  searchText?: string;
+  searchValue: string;
   onDeleteClick?: (record: MaterialItem) => void;
   onRowClick?: (record: MaterialItem) => void;
 }
 
 const MaterialsTable = ({
   data,
-  searchText = "",
+  searchValue,
   onDeleteClick,
   onRowClick,
 }: MaterialsTableProps) => {
@@ -42,16 +42,13 @@ const MaterialsTable = ({
     },
     {
       key: "actions",
-      render: (_, record: MaterialItem) => (
+      render: (_, record) => (
         <div style={{ display: "flex", justifyContent: "end", gap: 8 }}>
           <Button
             type="text"
             icon={<EditOutlined />}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
+            onClick={(e) => e.stopPropagation()}
           />
-
           <Button
             type="text"
             icon={<DeleteOutlined />}
@@ -66,13 +63,13 @@ const MaterialsTable = ({
   ];
 
   const filteredData = useMemo(() => {
-    const lower = searchText.toLowerCase();
+    const lower = searchValue.toLowerCase();
     return data.filter(
       (item) =>
         item.name.toLowerCase().includes(lower) ||
         item.section.toLowerCase().includes(lower)
     );
-  }, [data, searchText]);
+  }, [data, searchValue]);
 
   return (
     <Table
@@ -84,15 +81,13 @@ const MaterialsTable = ({
         onClick: (event) => {
           const target = event.target as HTMLElement;
 
-          if (onRowClick) onRowClick(record);
-
           if (
             target.closest("button") ||
             target.closest("input[type='checkbox']")
-          ) {
+          )
             return;
-          }
 
+          onRowClick && onRowClick(record);
           navigate(`/materialspage/${record.id}`);
         },
       })}

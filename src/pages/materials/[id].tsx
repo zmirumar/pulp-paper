@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import MaterialsDetels from "@/features/MaterialsDetalsPage/components/MaterialsDetals";
+import MaterialsDetail from "@/features/materials/components/MaterialsDetialPage/MaterialsDetail";
 
 const MaterialDetailsPage = () => {
   const { id } = useParams();
 
   return (
     <div>
-      <MaterialsDetels />
+      <MaterialsDetail />
     </div>
   );
 };

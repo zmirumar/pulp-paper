@@ -4,7 +4,7 @@ export interface MaterialsTable {
   section: string;
 }
 
-export const MaterialsTable: MaterialsTable[] = [
+export const MaterialsTableData: MaterialsTable[] = [
   {
     id: 1,
     name: "Целулоза",

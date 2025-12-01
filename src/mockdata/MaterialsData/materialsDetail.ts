@@ -10,7 +10,7 @@ export interface MaterialsItem {
   section?: string;
 }
 
-export const MaterialsList: MaterialsItem[] = [
+export const MaterialsDetailData: MaterialsItem[] = [
   {
     id: 1,
     priyceList: false,
