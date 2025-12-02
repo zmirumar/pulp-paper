@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { CancelSortStyled, SortDrawerStyled } from './style'
 import { Input, notification } from 'antd'
-import { CheckCircleOutlined } from '@ant-design/icons'
+import { CheckCircleFilled } from '@ant-design/icons'
 import { Drawer } from '@/components/ui/Drawer/Drawer'
 
 interface SortData {
@@ -32,65 +32,65 @@ const SortDrawer: React.FC<AddButtonProps> = ({
   const isValid = name.trim() !== "" && category.trim() !== ""
   const hasUnsavedChanges = name.trim() !== "" || category.trim() !== ""
 
-  const resetForm = useCallback(() => {
+  const resetForm = () => {
     setName("")
     setCategory("")
-  }, [])
+  }
 
   useEffect(() => {
     if (mode === 'edit' && editData && showDrawer) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(editData.sort || "")
       setCategory(editData.sections || "")
     } else if (mode === 'create' && showDrawer) {
       resetForm()
     }
-  }, [editData, mode, showDrawer, resetForm])
+  }, [editData, mode, showDrawer])
 
   useEffect(() => {
     if (!showDrawer) {
       const timer = setTimeout(resetForm, 300)
       return () => clearTimeout(timer)
     }
-  }, [showDrawer, resetForm])
+  }, [showDrawer])
 
-  const handleCancel = useCallback(() => {
+  const handleCancel = () => {
     if (hasUnsavedChanges) {
       setIsModalOpen(true)
     } else {
       handleCancelDrawer()
     }
-  }, [hasUnsavedChanges, handleCancelDrawer])
+  }
 
-  const handleCancelModal = useCallback(() => {
+  const handleCancelModal = () => {
     setIsModalOpen(false)
-  }, [])
+  }
 
-  const handleConfirmDiscard = useCallback(() => {
+  const handleConfirmDiscard = () => {
     setIsModalOpen(false)
     resetForm()
     handleCancelDrawer()
-  }, [resetForm, handleCancelDrawer])
+  }
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     if (!isValid || isSubmitting) return
 
     setIsSubmitting(true)
 
     setTimeout(() => {
       notification.success({
-        message: mode === 'edit' ? 'Успешно обновлено' : 'Успешно добавлено',
+        message: mode === 'edit' ? 'Изменения сохранены' : 'Успешно добавлено',
         description: `Сорт "${name}" был успешно ${mode === 'edit' ? 'обновлен' : 'добавлен'}`,
         placement: 'topRight',
-        icon: <CheckCircleOutlined className='circle_oulined' />,
+        icon: <CheckCircleFilled  className='circle_oulined' />,
         duration: 3,
+        className: 'succes_message'
       })
 
       setIsSubmitting(false)
       resetForm()
       handleCancelDrawer()
     }, 500)
-  }, [isValid, isSubmitting, mode, name, resetForm, handleCancelDrawer])
+  }
 
   return (
     <>

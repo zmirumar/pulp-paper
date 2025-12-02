@@ -1,19 +1,4 @@
-import styled, { createGlobalStyle } from "styled-components";
-
-export const DrawerGlobalStyle = createGlobalStyle`
-  .ant-drawer-content-wrapper {
-    width: 525px !important;
-  }
-
-  .ant-drawer-body {
-    padding: 24px;
-  }
-
-  .ant-drawer-footer {
-    padding: 16px 24px;
-    border-top: 1px solid #f0f0f0;
-  }
-`;
+import styled from "styled-components";
 
 export const DrawerStyled = styled.div`
   .buttons {

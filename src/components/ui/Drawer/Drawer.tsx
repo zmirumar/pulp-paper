@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { DrawerStyled, DrawerGlobalStyle } from './style';
+import { DrawerStyled } from './style';
 import { Drawer as AntdDrawer } from 'antd';
+import '@/styles/drawer.css';
 
 export interface DrawerProps {
   title?: string;
@@ -44,10 +45,18 @@ export const Drawer = ({
   const defaultFooter = showFooter ? (
     <DrawerStyled>
       <div className="buttons">
-        <button className="button cancel" onClick={onCancel} disabled={confirmDisabled}>
+        <button 
+          className="button cancel" 
+          onClick={onCancel} 
+          disabled={confirmDisabled}
+        >
           {cancelText}
         </button>
-        <button className="button add" onClick={onConfirm} disabled={confirmDisabled}>
+        <button
+          className="button add"
+          onClick={onConfirm}
+          disabled={confirmDisabled}
+        >
           {confirmText}
         </button>
       </div>
@@ -55,18 +64,15 @@ export const Drawer = ({
   ) : null;
 
   return (
-    <>
-      <DrawerGlobalStyle />
-      <AntdDrawer
-        title={title}
-        open={open}
-        onClose={onClose}
-        closable={closable}
-        footer={footer !== undefined ? footer : defaultFooter}
-        className={className}
-      >
-        {children}
-      </AntdDrawer>
-    </>
+    <AntdDrawer
+      title={title}
+      open={open}
+      onClose={onClose}
+      closable={closable}
+      footer={footer !== undefined ? footer : defaultFooter}
+      className={className}
+    >
+      {children}
+    </AntdDrawer>
   );
 };

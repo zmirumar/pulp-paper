@@ -1,10 +1,10 @@
 import { TableDataSort } from "@/mockdata/sort/TableDataSort"
 import { DeleteModalStyled, SortStyled } from "./style"
-import { useState, useMemo, useCallback } from "react"
+import { useState } from "react"
 import SortDrawer from "../SortDrawer"
-import { Table, Input, message } from "antd";
+import { Table, Input, notification, message } from "antd";
 import type { ColumnsType } from 'antd/es/table';
-import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { CheckCircleFilled, DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
 interface SortData {
   id: number;
@@ -25,15 +25,15 @@ function SortPage() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const getSortPriority = useCallback((sortName: string): number => {
+  const getSortPriority = (sortName: string): number => {
     const lowerSort = sortName.toLowerCase();
     if (lowerSort.includes('высший')) return 0;
     if (lowerSort.includes('средний')) return 1;
     const numMatch = sortName.match(/\d+/);
     return numMatch ? 2 + parseInt(numMatch[0]) : 999;
-  }, []);
+  };
 
-  const filteredData = useMemo(() => {
+  const getFilteredData = () => {
     if (!searchText.trim()) return TableDataSort;
     
     const searchLower = searchText.toLowerCase().trim();
@@ -42,34 +42,41 @@ function SortPage() {
       const sectionsMatch = item.sections?.toLowerCase().includes(searchLower);
       return sortMatch || sectionsMatch;
     });
-  }, [searchText]);
+  };
 
-  const handleOpenCreateDrawer = useCallback(() => {
+  const filteredData = getFilteredData();
+
+  const handleOpenCreateDrawer = () => {
     setDrawerMode('create');
     setEditData(null);
     setOpenDrawer(true);
-  }, []);
+  };
 
-  const handleOpenEditDrawer = useCallback((record: SortData) => {
+  const handleOpenEditDrawer = (record: SortData) => {
     setDrawerMode('edit');
     setEditData(record);
     setOpenDrawer(true);
-  }, []);
+  };
 
-  const handleOpenDeleteModal = useCallback((id: number) => {
+  const handleOpenDeleteModal = (id: number) => {
     setDeleteId(id);
     setOpenModal(true);
-  }, []);
+  };
 
-  const handleCloseDrawer = useCallback(() => {
+  const handleCloseDrawer = () => {
     setOpenDrawer(false);
-  }, []);
+  };
 
-  const handleDelete = useCallback(() => {
+  const handleDelete = () => {
     if (!deleteId) return;
     
     try {
-      message.success('Элемент успешно удалён');
+      notification.success({
+        message: 'Сорт удален',
+        description: 'Сорт удален из списка',
+        icon: <CheckCircleFilled  className='circle_oulined' />,
+        className: 'succes_message'
+      });
       setOpenModal(false);
       setDeleteId(null);
       
@@ -78,28 +85,27 @@ function SortPage() {
       if (currentPage > maxPage) {
         setCurrentPage(1);
       }
-    } catch (error) {
-      message.error('Ошибка при удалении элемента');
-      console.error('Delete error:', error);
+    } catch {
+      message.error("Произашло ошибка при удаление сорта")
     }
-  }, [deleteId, filteredData.length, pageSize, currentPage]);
+  };
 
-  const handleCloseModal = useCallback(() => {
+  const handleCloseModal = () => {
     setOpenModal(false);
     setDeleteId(null);
-  }, []);
+  };
 
-  const handleTableChange = useCallback((page: number, size: number) => {
+  const handleTableChange = (page: number, size: number) => {
     setCurrentPage(page);
     setPageSize(size);
-  }, []);
+  };
 
-  const handlePageSizeChange = useCallback((_current: number, size: number) => {
+  const handlePageSizeChange = (_current: number, size: number) => {
     setCurrentPage(1);
     setPageSize(size);
-  }, []);
+  };
 
-  const SortColumns: ColumnsType<SortData> = useMemo(() => [
+  const SortColumns: ColumnsType<SortData> = [
     {
       title: "Наименование",
       dataIndex: "name",
@@ -137,7 +143,7 @@ function SortPage() {
         </div>
       ),
     },
-  ], [getSortPriority, handleOpenEditDrawer, handleOpenDeleteModal]);
+  ];
 
   return (
     <SortStyled>
@@ -145,12 +151,12 @@ function SortPage() {
 
       <div className="filter_add">
         <Input
-          placeholder="Поиск по сорту или разделу"
+          placeholder="Поиск"
           prefix={<SearchOutlined />}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           allowClear
-          style={{ maxWidth: 400 }}
+         
         />
         <button className="add_button" onClick={handleOpenCreateDrawer}>
           <PlusOutlined /> Добавить новый
@@ -173,8 +179,7 @@ function SortPage() {
           current: currentPage,
           pageSize: pageSize,
           total: filteredData.length,
-          showSizeChanger: true,
-          showTotal: (total) => `Всего: ${total}`,
+          showSizeChanger: true,  
           pageSizeOptions: ['5', '10', '20', '50', '100'],
           onChange: handleTableChange,
           onShowSizeChange: handlePageSizeChange,

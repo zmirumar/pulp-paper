@@ -31,7 +31,12 @@ export const SortDrawerStyled = styled.div`
   .circle_outlined{
     color: #52c41a;
   }
-
+  .succes_message{
+    background-color: white !important;
+  }
+  .circle_outlined {
+  color: #52c41a !important;
+}
   
   `;
   export const CancelSortStyled = styled(Modal)`
