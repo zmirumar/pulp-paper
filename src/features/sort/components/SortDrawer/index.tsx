@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { CancelSortStyled, SortDrawerStyled } from './style'
-import { Input, notification } from 'antd'
+import {  SortDrawerStyled } from './style'
+import { Input, Modal, notification } from 'antd'
 import { CheckCircleFilled } from '@ant-design/icons'
 import { Drawer } from '@/components/ui/Drawer/Drawer'
 
@@ -128,20 +128,16 @@ const SortDrawer: React.FC<AddButtonProps> = ({
       </Drawer>
 
       {isModalOpen && (
-        <CancelSortStyled
+        <Modal
           open={isModalOpen}
           title='Несохранённые изменения'
-          footer={[
-            <button key="cancel" className="modal_stop" onClick={handleCancelModal}>
-              Отмена
-            </button>,
-            <button key="submit" className="modal_cont" onClick={handleConfirmDiscard}>
-              Продолжить
-            </button>
-          ]}
+          onOk={handleConfirmDiscard}
+          onCancel={handleCancelModal}
+        okText="Продолжить"
+        cancelText="Отменить"
         >
           Все несохранённые изменения будут потеряны. Продолжить?
-        </CancelSortStyled>
+        </Modal>
       )}
     </>
   )

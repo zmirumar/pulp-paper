@@ -40,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
             children: [
                 { key: "ref1", label: "Раздели", path: "/references/material-types", disabled: false },
                 { key: "ref2", label: "Тип материалов", path: "/references/material-types", disabled: true },
-                { key: "ref3", label: "Сорт качество", path: "/references/grade-quality", disabled: false },
+                { key: "ref3", label: "Сорт качество", path: "/references/grade-quality", disabled: true },
                 { key: "ref4", label: "Ответственные сотрудники", path: "/references/responsible-employees", disabled: false },
                 { key: "ref5", label: "Клиенты", path: "/references/clients", disabled: false },
                 { key: "ref6", label: "Тара", path: "/references/packaging", disabled: false },

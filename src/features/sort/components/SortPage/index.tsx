@@ -1,8 +1,8 @@
 import { TableDataSort } from "@/mockdata/sort/TableDataSort"
-import { DeleteModalStyled, SortStyled } from "./style"
+import { SortStyled } from "./style"
 import { useState } from "react"
 import SortDrawer from "../SortDrawer"
-import { Table, Input, notification, message } from "antd";
+import { Table, Input, notification,  Modal } from "antd";
 import type { ColumnsType } from 'antd/es/table';
 import { CheckCircleFilled, DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
@@ -69,25 +69,15 @@ function SortPage() {
 
   const handleDelete = () => {
     if (!deleteId) return;
-    
-    try {
-      notification.success({
+          notification.success({
         message: 'Сорт удален',
         description: 'Сорт удален из списка',
         icon: <CheckCircleFilled  className='circle_oulined' />,
         className: 'succes_message'
       });
-      setOpenModal(false);
-      setDeleteId(null);
-      
-      const remainingItems = filteredData.length - 1;
-      const maxPage = Math.ceil(remainingItems / pageSize);
-      if (currentPage > maxPage) {
-        setCurrentPage(1);
-      }
-    } catch {
-      message.error("Произашло ошибка при удаление сорта")
-    }
+    
+    setOpenModal(false);
+    setDeleteId(null);
   };
 
   const handleCloseModal = () => {
@@ -186,21 +176,18 @@ function SortPage() {
         }}
       />
 
-      <DeleteModalStyled
+      <Modal
         open={openModal}
         onCancel={handleCloseModal}
+        onOk={handleDelete}
+        okText="Удалить"
+        cancelText="Отменить"
         title="Подтверждение удаления"
-        footer={[
-          <button key="cancel" className="modal_stop" onClick={handleCloseModal}>
-            Отмена
-          </button>,
-          <button key="submit" className="modal_cont" onClick={handleDelete}>
-            Удалить
-          </button>,
-        ]}
       >
         Вы уверены, что хотите удалить этот элемент? Это действие нельзя отменить.
-      </DeleteModalStyled>
+      </Modal>
+
+      
     </SortStyled>
   );
 }
