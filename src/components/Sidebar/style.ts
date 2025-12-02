@@ -35,6 +35,30 @@ export const SideBarStyled = styled(Sider)`
       width: 244px;
       border-top: 1.5px solid #e2dadaff;
     }
+
+    .setting__button {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      margin-top: 24px;
+      padding-left: 24px;
+      border-radius: 10px;
+      gap: 8px;
+      background-color: transparent;
+      width: 244px;
+      height: 40px;
+      border: none;
+
+      &:hover {
+        background-color: #e6f4ff;
+        color: #1677ff;
+      }
+
+      &:hover .setting__icon {
+        filter: invert(39%) sepia(94%) saturate(3000%) hue-rotate(205deg)
+          brightness(95%) contrast(101%);
+      }
+    }
   }
 
   /* ANTD STYLES */

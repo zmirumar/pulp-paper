@@ -122,13 +122,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
             path: "/active-sessions",
             disabled: false
         },
-        {
-            key: "/settings",
-            icon: <img className="menu-icon" src={SettingsIcon} alt="Настройки" />,
-            label: "Настройки",
-            path: "/settings",
-            disabled: false
-        }
     ], []);
 
     useEffect(() => {
@@ -175,7 +168,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
     };
 
     const rootItems = items.filter(i => i.key !== "/settings");
-    const settingsItem = items.find(i => i.key === "/settings");
 
     return (
         <SideBarStyled collapsed={collapsed}>
@@ -198,13 +190,10 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
                 </div>
 
                 <div className="sidebar__setting">
-                    <Menu
-                        mode="inline"
-                        items={settingsItem ? [settingsItem] : []}
-                        inlineCollapsed={collapsed}
-                        onClick={handleClick}
-                        selectedKeys={[selectedKey]}
-                    />
+                    <button onClick={() => navigate('/settings')} className="setting__button">
+                        <img className="setting__icon" src={SettingsIcon} alt="" />
+                        Настройки
+                    </button >
                 </div>
             </div>
         </SideBarStyled>
