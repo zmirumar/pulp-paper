@@ -26,7 +26,7 @@ height: 100vh;
   .login__remember{
     display: flex;
     justify-content: space-between;
-    padding: 0px 10px 20px 10px;
+    padding: 0px 10px 0px 10px;
   }
 
 `;

@@ -4,7 +4,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { LoginStyled } from "./style";
 import { Link } from "react-router-dom";
 
-const { Title } = Typography;
+
 
 const LoginPage: React.FC = () => {
   const [form] = Form.useForm();
@@ -16,19 +16,19 @@ const LoginPage: React.FC = () => {
   return (
     <LoginStyled>
       <div className="login">
-        <Title level={2}>Вход</Title>
+        <h2>Вход</h2>
 
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item
             name="login"
-            rules={[{ required: true, message: "Введите логин" }]}
+            rules={[{ required: true, message: "" }]}
           >
-            <Input size="large" placeholder="Логин" />
+            <Input size="large" placeholder="Login" />
           </Form.Item>
 
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "Введите пароль" }]}
+            rules={[{ required: true, message:'' }]}
           >
             <Input.Password
               size="large"
