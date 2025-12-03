@@ -12,23 +12,28 @@
   padding: 16px 24px;
   border-top: 1px solid #f0f0f0;
 }
-/* THIS APPLIES TO THE REAL ANTD DRAWER */
+/* Flex container for title + close button */
+.custom-drawer .ant-drawer-header-title {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* START → X LEFT, TITLE RIGHT */
+.custom-drawer.close-start .ant-drawer-header-title {
+  flex-direction: row; /* X then Title */
+}
+
+/* END → TITLE LEFT, X RIGHT */
+.custom-drawer.close-end .ant-drawer-header-title {
+  flex-direction: row-reverse; /* Title then X */
+}
+
+/* Small spacing */
 .custom-drawer .ant-drawer-close {
-  position: absolute;
-  top: 16px;
+  margin: 0 12px;
 }
 
-/* LEFT position */
-.custom-drawer.close-start .ant-drawer-close {
-  left: 16px;
-  right: auto;
-}
-
-/* RIGHT position */
-.custom-drawer.close-end .ant-drawer-close {
-  right: 16px;
-  left: auto;
-}
 /*message*/
 .succes_message {
   background-color: white !important;

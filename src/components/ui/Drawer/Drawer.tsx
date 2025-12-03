@@ -17,7 +17,6 @@ export interface DrawerProps {
   onConfirm?: () => void;
   confirmDisabled?: boolean;
   closeButtonPosition?: "start" | "end";
-  closable?: boolean;
 }
 
 export const Drawer = ({
@@ -27,7 +26,6 @@ export const Drawer = ({
   onClose,
   closeButtonPosition = "end",
   footer,
-  closable = true ,
   className = '',
   showFooter = false,
   cancelText = '',
@@ -70,7 +68,6 @@ export const Drawer = ({
       title={title}
       open={open}
       onClose={onClose}
-      closable={closable}
       className={`custom-drawer close-${closeButtonPosition} ${className}`}
       footer={footer !== undefined ? footer : defaultFooter}
     >

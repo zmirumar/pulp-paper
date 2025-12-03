@@ -135,7 +135,6 @@ const SortDrawer: React.FC<AddButtonProps> = ({
           onCancel={handleCancelModal}
         okText="Продолжить"
         cancelText="Отменить"
-        width={400}
         >
           Все несохранённые изменения будут потеряны. Продолжить?
         </Modal>
