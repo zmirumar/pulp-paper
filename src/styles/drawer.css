@@ -1,0 +1,23 @@
+/*DRAWER*/
+
+.ant-drawer-content-wrapper {
+  width: 525px !important;
+}
+
+.ant-drawer-body {
+  padding: 24px;
+}
+
+.ant-drawer-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/*message*/
+.succes_message {
+  background-color: white !important;
+}
+
+.circle_oulined {
+  color: #52c41a !important;
+}

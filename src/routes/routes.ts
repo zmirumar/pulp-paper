@@ -1,7 +1,9 @@
 import Home from "@/pages/home";
 import { routes } from "../constants/routes";
 import Users from "@/pages/users";
+import Sort from "@/pages/sort";
 import Auth from "@/pages/auth";
+
 import MaterialDetailsPage from "@/pages/materials/[id]";
 import Materials from "@/pages/materials";
 import MaterialsDetailCreate from "@/features/materials/components/MaterialsDetailCreate";
@@ -38,5 +40,18 @@ export const privateRoutes = [
   {
     path: routes.MATERIALSDETAILEDIT,
     element: MaterialsDetailEdit,
+  },
+
+  {
+    path: routes.HOME,
+    element: Home,
+  },
+  {
+    path: routes.USERS,
+    element: Users,
+  },
+  {
+    path: routes.SORT,
+    element: Sort,
   },
 ];
