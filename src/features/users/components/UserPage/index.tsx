@@ -1,23 +1,27 @@
-import { Button, Flex, Input, Modal } from "antd";
+import { Button, Input, Modal, notification } from "antd";
 import UserForm from "../userForm";
 import UserTable from "../userTable";
 import { SearchOutLined } from "@/assets/Icons";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { UserPageStyled } from "./style";
+import { usersData } from "@/mockdata/users";
 
 export interface IUser {
   id: number;
   fullName: string;
   login: string;
-  password: string;
+  password?: string;
   phoneNumber: string;
-  permissions: userFeatures[];
-  userRoles: userFeatures[];
+  permissions?: userFeatures[];
+  userRoles?: userFeatures[];
   last_activity: string;
+  roleIds?: number[];
+  permissionIds?: number[];
 }
 
 interface userFeatures {
-  id: number,
-  name: string
+  id: number;
+  name: string;
 }
 
 const UsersPage = () => {
@@ -25,63 +29,89 @@ const UsersPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingUser, setEditingUser] = useState<IUser | null>(null);
   const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
-  const [userData, setUserData] = useState<IUser[]>([
-    {
-      id: 1,
-      fullName: "Jhon doe",
-      login: "jhon.doe@gmail.com",
-      password: "1234",
-      phoneNumber: "+998999312222",
-      permissions: [{ id: 1, name: "Admin" }],
-      userRoles: [{ id: 1, name: "WRITE" }],
-      last_activity: "19:01",
-    },
-  ]);
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [userData, setUserData] = useState<IUser[]>(usersData);
 
   const openDeleteModal = (id: number) => {
     setDeletingItemId(id);
     setIsModalOpen(true);
   };
 
-   const openEdit = (user: IUser) => {
-      setEditingUser(user);
-      console.log("User",user)
-      setDrawerOpen(true);
-    }
+  const openEdit = (user: IUser) => {
+    setEditingUser(user);
+    setDrawerOpen(true);
+  };
 
   const handleDeleteUser = () => {
     if (deletingItemId !== null) {
       setIsModalOpen(false);
+      notification.success({
+        message: "Удалено",
+        description: "Пользователь удалён из списка",
+        placement: "topRight",
+      });
     }
   };
-  
+
   const handleCencel = () => {
     setIsModalOpen(false);
     setDeletingItemId(null);
   };
-  
-  const createUser = () => {
-    setEditingUser(null)
-    setDrawerOpen(true)
-  }
 
+  const createUser = () => {
+    setEditingUser(null);
+    setDrawerOpen(true);
+  };
+
+  const userMenage = () => {
+    if (editingUser) {
+      notification.success({
+        message: "Успешно изменено",
+        description: "Изменения успешно обновлены",
+        placement: "topRight",
+      });
+    } else {
+      notification.success({
+        message: "Пользователь добавлен",
+        description: "Новый пользователь успешно добавлен в список",
+        placement: "topRight",
+      });
+    }
+    setDrawerOpen(false);
+  };
+
+  const filteredData = useMemo(() => {
+    const searchLower = searchValue.toLowerCase().trim();
+    return (userData ?? []).filter(
+      (u) =>
+        u.fullName.toLowerCase().includes(searchLower) ||
+        u.phoneNumber.toLowerCase().includes(searchLower)
+    );
+  }, [searchValue, userData]);
 
   return (
-    <>
-      <Flex vertical gap={24} style={{ padding: 24 }}>
-        <Flex justify="space-between" align="center">
-          <h2>Пользователи</h2>
-        </Flex>
-        <Flex justify="space-between" align="center">
+    <UserPageStyled>
+      <div className="user-page">
+        <h2 className="user-page-title">Пользователи</h2>
+        <div className="user-page-header-wrapper">
           <Input
+            className="search-input"
             placeholder="Поиск..."
             suffix={<img src={SearchOutLined} width={16} />}
+            allowClear
+            aria-selected
+            onChange={(e) => setSearchValue(e.target.value)}
           />
 
-          <Button type="primary" size="large" onClick={createUser}>
+          <Button
+            className="create-btn"
+            type="primary"
+            size="large"
+            onClick={createUser}
+          >
             + Добавить нового
           </Button>
-        </Flex>
+        </div>
 
         <Modal
           open={isModalOpen}
@@ -99,26 +129,18 @@ const UsersPage = () => {
         </Modal>
 
         <UserTable
-          data={userData}
+          data={filteredData}
           onEdit={openEdit}
-          handleCancel={handleCencel}
           openDeleteModal={openDeleteModal}
         />
         <UserForm
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
           editingUser={editingUser}
-          onSubmit={(values) => {
-            if (editingUser) {
-              console.log("EDITED", values);
-            } else {
-              console.log("add", values);
-            }
-            setDrawerOpen(false);
-          }}
+          onSubmit={userMenage}
         />
-      </Flex>
-    </>
+      </div>
+    </UserPageStyled>
   );
 };
 

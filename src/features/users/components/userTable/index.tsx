@@ -1,4 +1,4 @@
-import { Button, Space } from "antd";
+import { Button, Table } from "antd";
 import { EditIcon, DeleteIcon } from "@/assets/Icons";
 import type { IUser } from "../UserPage";
 import { UserTableStyled } from "./style";
@@ -10,14 +10,12 @@ type IUserFeatures = {
 };
 
 interface Props {
-  handleCancel: () => void;
   openDeleteModal: (id: number) => void;
   data: IUser[];
   onEdit: (user: IUser) => void;
 }
 
 const UserTable: React.FC<Props> = ({
-  handleCancel,
   onEdit,
   openDeleteModal,
   data,
@@ -52,36 +50,50 @@ const UserTable: React.FC<Props> = ({
       key: "actions",
       width: 120,
       render: (_: any, record: IUser) => (
-        <Space size="middle">
+        <div className="user-action-btns-wrapper">
           <Button
             type="text"
-            icon={<img src={EditIcon} alt="edit" style={{ width: 18 }} />}
+            icon={
+              <img
+                className="user-action-btn"
+                src={EditIcon}
+                alt="edit"
+              />
+            }
             onClick={() => onEdit(record)}
             title="Изменить"
           />
 
           <Button
             type="text"
-            icon={<img src={DeleteIcon} alt="delete" style={{ width: 18 }} />}
+            icon={
+              <img
+                className="user-action-btn"
+                src={DeleteIcon}
+                alt="delete"
+              />
+            }
             onClick={() => openDeleteModal(record.id)}
             title="Удалить"
           />
-        </Space>
+        </div>
       ),
     },
   ];
 
   return (
-    <UserTableStyled
-      columns={columns as ColumnsType<unknown>}
-      dataSource={data}
-      rowKey="id"
-      pagination={{
-        pageSize: 10,
-        showSizeChanger: true,
-        pageSizeOptions: ["10", "20", "50", "100"],
-      }}
-    ></UserTableStyled>
+    <UserTableStyled>
+      <Table<IUser>
+        columns={columns}
+        dataSource={data}
+        rowKey="id"
+        pagination={{
+          defaultPageSize: 10,
+          showSizeChanger: true,
+          pageSizeOptions: ["10", "20", "50", "100"],
+        }}
+      />
+    </UserTableStyled>
   );
 };
 
