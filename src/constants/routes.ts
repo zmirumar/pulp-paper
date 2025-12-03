@@ -1,4 +1,3 @@
-
 export const routes = {
     HOME: "/",
     REGISTER: "/register",
@@ -6,5 +5,6 @@ export const routes = {
     ROLES: "/roles",
     SUPERVISORS: "/supervisors",
     EVENTS: "/events",
+    SORT: "/references/grade-quality",
     AUTH: "/auth",
 };
