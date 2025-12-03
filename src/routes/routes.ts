@@ -4,13 +4,11 @@ import Users from "@/pages/users";
 import Sort from "@/pages/sort";
 import Auth from "@/pages/auth";
 
-
-
 export const publicRoutes = [
-    {
-        path: routes.AUTH,
-        element: Auth ,
-    },
+  {
+    path: routes.AUTH,
+    element: Auth,
+  },
 ];
 
 export const privateRoutes = [
