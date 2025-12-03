@@ -8,7 +8,6 @@ export interface DrawerProps {
   children?: React.ReactNode;
   open: boolean;
   onClose?: (e: React.MouseEvent | React.KeyboardEvent) => void;
-  closable?: boolean;
   footer?: React.ReactNode;
   className?: string;
   showFooter?: boolean;
@@ -17,6 +16,7 @@ export interface DrawerProps {
   onCancel?: () => void;
   onConfirm?: () => void;
   confirmDisabled?: boolean;
+  closeButtonPosition?: "start" | "end";
 }
 
 export const Drawer = ({
@@ -24,7 +24,7 @@ export const Drawer = ({
   children,
   open,
   onClose,
-  closable = true,
+  closeButtonPosition = "end",
   footer,
   className = '',
   showFooter = false,
@@ -68,9 +68,8 @@ export const Drawer = ({
       title={title}
       open={open}
       onClose={onClose}
-      closable={closable}
+      className={`custom-drawer close-${closeButtonPosition} ${className}`}
       footer={footer !== undefined ? footer : defaultFooter}
-      className={className}
     >
       {children}
     </AntdDrawer>
