@@ -16,6 +16,8 @@ export interface DrawerProps {
   onCancel?: () => void;
   onConfirm?: () => void;
   confirmDisabled?: boolean;
+  closeButtonPosition?: "start" | "end";
+  closable?: boolean;
 }
 
 export const Drawer = ({
@@ -23,7 +25,9 @@ export const Drawer = ({
   children,
   open,
   onClose,
+  closeButtonPosition = "end",
   footer,
+  closable = true ,
   className = '',
   showFooter = false,
   cancelText = '',
@@ -66,9 +70,9 @@ export const Drawer = ({
       title={title}
       open={open}
       onClose={onClose}
-      closable={{ placement: "end" }}
+      closable={closable}
+      className={`custom-drawer close-${closeButtonPosition} ${className}`}
       footer={footer !== undefined ? footer : defaultFooter}
-      className={className}
     >
       {children}
     </AntdDrawer>

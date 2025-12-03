@@ -104,6 +104,7 @@ const SortDrawer: React.FC<AddButtonProps> = ({
         onCancel={handleCancel}
         onConfirm={handleSubmit}
         confirmDisabled={!isValid || isSubmitting}
+        closeButtonPosition="end" 
       >
         <SortDrawerStyled>
           <div className="wrapper">

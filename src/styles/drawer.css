@@ -12,7 +12,23 @@
   padding: 16px 24px;
   border-top: 1px solid #f0f0f0;
 }
+/* THIS APPLIES TO THE REAL ANTD DRAWER */
+.custom-drawer .ant-drawer-close {
+  position: absolute;
+  top: 16px;
+}
 
+/* LEFT position */
+.custom-drawer.close-start .ant-drawer-close {
+  left: 16px;
+  right: auto;
+}
+
+/* RIGHT position */
+.custom-drawer.close-end .ant-drawer-close {
+  right: 16px;
+  left: auto;
+}
 /*message*/
 .succes_message {
   background-color: white !important;
