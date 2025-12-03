@@ -21,7 +21,7 @@ export const MaterialsDetailStyled = styled.div`
       .detial__input {
         max-width: 300px;
         padding: 7px 10px;
-        border: 1px solid #00000040;
+        border: 1px solid #d9d9d9 !important;
         border-radius: 10px;
       }
 
@@ -70,17 +70,21 @@ export const ModalStyled = styled(Modal)`
       border: 1px solid #fff !important;
     }
   }
+
+  .modal__text {
+    width: 80%;
+  }
   .modal__cancel {
     margin-right: 8px;
     border-radius: 8px;
     padding: 10px 15px;
     color: #000000e0;
     background-color: #fff;
-    border: 1px solid #393939ff;
+    border: 1px solid #d9d9d9 !important;
     &:hover {
       background-color: #fff !important;
       color: #000000e0 !important;
-      border: 1px solid #393939ff !important;
+      border: 1px solid #d9d9d9 !important;
     }
   }
 `;

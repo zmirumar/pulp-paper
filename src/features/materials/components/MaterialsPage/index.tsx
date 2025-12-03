@@ -46,8 +46,7 @@ const MaterialsPage = () => {
                 className="materials__input"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                suffix={<SearchOutlined />}
-                style={{ width: 300, marginRight: 10 }}
+                suffix={<SearchOutlined style={{ color: "#00000073" }} />}
               />
               <Button className="materials__button" icon={<PlusOutlined />}>
                 Добавит новый материала
@@ -69,7 +68,7 @@ const MaterialsPage = () => {
         )}
 
         <ModalStyled
-          title="Удалить материал?"
+          title="Подтверждение удаления"
           open={open}
           onCancel={handleCancel}
           className="modal__site"
@@ -91,7 +90,7 @@ const MaterialsPage = () => {
             </Button>,
           ]}
         >
-          <p>
+          <p className="modal__text">
             После удаления восстановить этот элемент будет невозможно.
             Продолжить?
           </p>

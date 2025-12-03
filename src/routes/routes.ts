@@ -1,12 +1,11 @@
 import Home from "@/pages/home";
 import { routes } from "../constants/routes";
 import Users from "@/pages/users";
-
 import Auth from "@/pages/auth";
-
 import MaterialDetailsPage from "@/pages/materials/[id]";
-
 import Materials from "@/pages/materials";
+import MaterialsDetailCreate from "@/features/materials/components/MaterialsDetailCreate";
+import MaterialsDetailEdit from "@/features/materials/components/MaterialsDetailEdit";
 
 export const publicRoutes = [
   {
@@ -31,5 +30,13 @@ export const privateRoutes = [
   {
     path: routes.MATERIALSPAGEID,
     element: MaterialDetailsPage,
+  },
+  {
+    path: routes.MATERIALSDETAILCREATE,
+    element: MaterialsDetailCreate,
+  },
+  {
+    path: routes.MATERIALSDETAILEDIT,
+    element: MaterialsDetailEdit,
   },
 ];

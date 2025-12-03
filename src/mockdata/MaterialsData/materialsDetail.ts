@@ -5,7 +5,7 @@ export interface MaterialsItem {
   name: string;
   code: string;
   unit: string;
-  type: string;
+  type: string;  
   materialKind: string;
   section?: string;
 }

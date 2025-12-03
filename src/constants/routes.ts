@@ -10,4 +10,6 @@ export const routes = {
   EVENTS: "/events",
   MATERIALSPAGE: "/materialspage",
   MATERIALSPAGEID: "/materialspage/:id",
+  MATERIALSDETAILCREATE: "/materialspage/:id/create",
+  MATERIALSDETAILEDIT: "/materialspage/:id/edit",
 };
