@@ -24,12 +24,4 @@ export const privateRoutes = [
         path: routes.SORT,
         element: Sort,
     },
-  {
-    path: routes.HOME,
-    element: Home,
-  },
-  {
-    path: routes.USERS,
-    element: Users,
-  },
 ];
