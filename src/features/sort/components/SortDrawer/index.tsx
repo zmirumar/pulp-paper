@@ -97,7 +97,6 @@ const SortDrawer: React.FC<AddButtonProps> = ({
       <Drawer
         open={showDrawer}
         title={mode === 'edit' ? "Редактировать" : "Добавить новый"}
-        closable={true}
         onClose={handleCancel}
         showFooter={true}
         cancelText="Отменить"
@@ -135,6 +134,7 @@ const SortDrawer: React.FC<AddButtonProps> = ({
           onCancel={handleCancelModal}
         okText="Продолжить"
         cancelText="Отменить"
+        width={400}
         >
           Все несохранённые изменения будут потеряны. Продолжить?
         </Modal>

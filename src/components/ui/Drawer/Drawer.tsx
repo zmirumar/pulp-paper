@@ -8,7 +8,6 @@ export interface DrawerProps {
   children?: React.ReactNode;
   open: boolean;
   onClose?: (e: React.MouseEvent | React.KeyboardEvent) => void;
-  closable?: boolean;
   footer?: React.ReactNode;
   className?: string;
   showFooter?: boolean;
@@ -24,7 +23,6 @@ export const Drawer = ({
   children,
   open,
   onClose,
-  closable = true,
   footer,
   className = '',
   showFooter = false,
@@ -68,7 +66,7 @@ export const Drawer = ({
       title={title}
       open={open}
       onClose={onClose}
-      closable={closable}
+      closable={{ placement: "end" }}
       footer={footer !== undefined ? footer : defaultFooter}
       className={className}
     >
