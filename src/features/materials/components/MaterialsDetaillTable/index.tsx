@@ -1,8 +1,9 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Table, Checkbox, Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ColumnsType } from "antd/es/table";
+import { Drawer } from "@/components/ui";
 
 export interface MaterialsListItem {
   id: number;
@@ -29,6 +30,8 @@ const MaterialsDetailTable: React.FC<TableProps> = ({
 }) => {
   const navigate = useNavigate();
   const { id } = useParams();
+
+
 
   const columns: ColumnsType<MaterialsListItem> = [
     {

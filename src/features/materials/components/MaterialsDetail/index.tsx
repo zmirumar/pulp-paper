@@ -4,7 +4,7 @@ import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import MaterialsDetailTable from "@/features/materials/components/MaterialsDetaillTable";
 import { MaterialsDetailStyled, ModalStyled } from "./style";
 import { MaterialsDetailData } from "@/mockdata/MaterialsData/materialsDetail";
-import { useNavigate, useParams  } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const MaterialsDetail = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -12,8 +12,7 @@ const MaterialsDetail = () => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<any>(null);
   const navigate = useNavigate();
-  const {id } =useParams();
-
+  const { id } = useParams();
 
   const items = [
     { key: "1", label: "Склад" },
@@ -52,7 +51,12 @@ const MaterialsDetail = () => {
                 suffix={<SearchOutlined style={{ color: "#00000073" }} />}
                 onChange={(e) => setSearchValue(e.target.value)}
               />
-              <Button onClick={() => navigate(`/materialspage/${id}/create`)} icon={<PlusOutlined />}>Добавить новый</Button>
+              <Button
+                onClick={() => navigate(`/materialspage/${id}/create`)}
+                icon={<PlusOutlined />}
+              >
+                Добавить новый
+              </Button>
             </div>
 
             <MaterialsDetailTable

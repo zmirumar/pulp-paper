@@ -12,23 +12,23 @@ const MaterialsDetailCreate = () => {
         <h1 className="create__title">Добавить новый</h1>
 
         <p className="create__breadcrumb">
-          Разделы / Тип материалов / Добавить новый
+          Разделы / Тип материалов / <span>Добавить новый</span>
         </p>
 
         <div className="create__card">
           <div className="create__grid">
             <div className="create__field">
-              <label className="create__label">Наименование</label>
-              <Input />
+              <label>Наименование</label>
+              <Input placeholder="Введите" />
             </div>
 
             <div className="create__field">
-              <label className="create__label">Код</label>
-              <Input />
+              <label>Код</label>
+              <Input placeholder="Введите" />
             </div>
 
             <div className="create__field">
-              <label className="create__label">Ед. изм</label>
+              <label>Ед. изм</label>
               <Select
                 placeholder="Выберите"
                 options={[
@@ -40,7 +40,7 @@ const MaterialsDetailCreate = () => {
             </div>
 
             <div className="create__field">
-              <label className="create__label">Тип материалов</label>
+              <label>Тип материалов</label>
               <Select
                 placeholder="Выберите"
                 options={[
@@ -51,12 +51,12 @@ const MaterialsDetailCreate = () => {
             </div>
 
             <div className="create__field">
-              <label className="create__label">Порядок</label>
-              <Input placeholder="0" />
+              <label>Порядок</label>
+              <Input placeholder="Введите" />
             </div>
 
             <div className="create__field">
-              <label className="create__label">Тара</label>
+              <label>Тара</label>
               <Select
                 placeholder="Выберите"
                 options={[
@@ -67,14 +67,14 @@ const MaterialsDetailCreate = () => {
             </div>
 
             <div className="create__field">
-              <label className="create__label">Код товара</label>
+              <label>Код товара</label>
               <Input placeholder="Введите" />
             </div>
 
             <div className="create__field">
-              <label className="create__label">Склад</label>
+              <label>Склад</label>
               <Select
-                placeholder="Склад"
+                placeholder="Выберите"
                 options={[
                   { label: "Склад", value: "Склад" },
                   { label: "Склад сырья", value: "Склад сырья" },
@@ -91,9 +91,9 @@ const MaterialsDetailCreate = () => {
 
           <div className="create__grid">
             <div className="create__field">
-              <label className="create__label">Параметр 1</label>
+              <label>Параметр 1</label>
               <Select
-                placeholder="14гр/м2"
+                placeholder="Выберите"
                 options={[
                   { label: "14гр/м2", value: "14гр/м2" },
                   { label: "15гр/м2", value: "15гр/м2" },
@@ -102,9 +102,9 @@ const MaterialsDetailCreate = () => {
             </div>
 
             <div className="create__field">
-              <label className="create__label">Параметр 2</label>
+              <label>Параметр 2</label>
               <Select
-                placeholder="820мм"
+                placeholder="Выберите"
                 options={[
                   { label: "820мм", value: "820мм" },
                   { label: "700мм", value: "700мм" },
@@ -113,9 +113,9 @@ const MaterialsDetailCreate = () => {
             </div>
 
             <div className="create__field">
-              <label className="create__label">Параметр 3</label>
+              <label>Параметр 3</label>
               <Select
-                placeholder="1"
+                placeholder="Выберите"
                 options={[
                   { label: "1", value: "1" },
                   { label: "2", value: "2" },
@@ -124,8 +124,8 @@ const MaterialsDetailCreate = () => {
             </div>
 
             <div className="create__field">
-              <label className="create__label">Параметр 4</label>
-              <Input placeholder="FNNOCREPE B 15" />
+              <label>Параметр 4</label>
+              <Input placeholder="Введите" />
             </div>
           </div>
 
@@ -135,7 +135,10 @@ const MaterialsDetailCreate = () => {
           </div>
 
           <div className="create__footer">
-            <Button onClick={() => navigate(`/materialspage/${id}`)}>
+            <Button
+              className="cancel__button"
+              onClick={() => navigate(`/materialspage/${id}`)}
+            >
               Отменить
             </Button>
             <Button type="primary">Добавить</Button>
