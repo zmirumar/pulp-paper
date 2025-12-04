@@ -1,8 +1,9 @@
 import styled from "styled-components";
 export const SortDrawerStyled = styled.div`
   h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: lighter;
+    margin-bottom: 10px;
   }
   
   .ant-drawer-title {

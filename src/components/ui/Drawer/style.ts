@@ -22,8 +22,9 @@ export const DrawerStyled = styled.div`
         border: 1px solid #d9d9d9;
 
         &:hover:not(:disabled) {
-          background: #f0f0f0;
+          background: #fff;
           border-color: #999;
+          color: var(--color-primary)
         }
 
         &:disabled {
@@ -50,4 +51,5 @@ export const DrawerStyled = styled.div`
       }
     }
   }
+  
 `;

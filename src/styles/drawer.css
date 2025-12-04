@@ -12,6 +12,27 @@
   padding: 16px 24px;
   border-top: 1px solid #f0f0f0;
 }
+/* Flex container for title + close button */
+.custom-drawer .ant-drawer-header-title {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* START → X LEFT, TITLE RIGHT */
+.custom-drawer.close-start .ant-drawer-header-title {
+  flex-direction: row; /* X then Title */
+}
+
+/* END → TITLE LEFT, X RIGHT */
+.custom-drawer.close-end .ant-drawer-header-title {
+  flex-direction: row-reverse; /* Title then X */
+}
+
+/* Small spacing */
+.custom-drawer .ant-drawer-close {
+  margin: 0 12px;
+}
 
 /*message*/
 .succes_message {
