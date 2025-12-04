@@ -97,7 +97,6 @@ const SortDrawer: React.FC<AddButtonProps> = ({
       <Drawer
         open={showDrawer}
         title={mode === 'edit' ? "Редактировать" : "Добавить новый"}
-        closable={true}
         onClose={handleCancel}
         showFooter={true}
         cancelText="Отменить"
@@ -105,6 +104,7 @@ const SortDrawer: React.FC<AddButtonProps> = ({
         onCancel={handleCancel}
         onConfirm={handleSubmit}
         confirmDisabled={!isValid || isSubmitting}
+        closeButtonPosition="end" 
       >
         <SortDrawerStyled>
           <div className="wrapper">

@@ -142,7 +142,7 @@ function SortPage() {
       <div className="filter_add">
         <Input
           placeholder="Поиск"
-          prefix={<SearchOutlined />}
+          suffix={<SearchOutlined  className="sort_render_items"  />}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           allowClear
