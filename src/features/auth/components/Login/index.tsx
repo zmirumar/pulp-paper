@@ -55,7 +55,7 @@ const LoginPage: React.FC = () => {
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
-            <Link to="/auth/password">Forgot password?</Link>
+            <Link to="/auth/forgot-password">Forgot password?</Link>
           </div>
 
           <Form.Item shouldUpdate>

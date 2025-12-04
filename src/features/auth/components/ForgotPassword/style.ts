@@ -27,6 +27,7 @@ justify-content: center;
 }
 
 .pasword__btn button {
+    cursor: pointer;
     color: blue;
     background-color: white;
     border: none;

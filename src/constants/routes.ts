@@ -7,5 +7,6 @@ export const routes = {
     SUPERVISORS: "/supervisors",
     EVENTS: "/events",
     AUTH: "/auth",
+    PASSWORD: "/auth/forgot-password"
 };
   
