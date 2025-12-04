@@ -1,3 +1,4 @@
+import { Drawer } from "@/components/ui";
 import { Modal } from "antd";
 import styled from "styled-components";
 
@@ -52,6 +53,8 @@ export const MaterialsStyled = styled.div`
 `;
 
 export const ModalStyled = styled(Modal)`
+  top: 50% !important;
+  transform: translateY(-50%);
   .modal__delete {
     background-color: var(--color-primary);
     color: #fff;
@@ -79,5 +82,14 @@ export const ModalStyled = styled(Modal)`
       color: #000000e0 !important;
       border: 1px solid #d9d9d9 !important;
     }
+  }
+`;
+
+export const MaterialsDrawerStyled = styled(Drawer)`
+  width: 378px;
+  .drawer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 `;

@@ -59,6 +59,9 @@ export const MaterialsDetailStyled = styled.div`
 `;
 
 export const ModalStyled = styled(Modal)`
+  top: 50% !important;
+  transform: translateY(-50%);
+
   .modal__delete {
     background-color: var(--color-primary);
     color: #fff;
@@ -69,6 +72,10 @@ export const ModalStyled = styled(Modal)`
       color: #fff !important;
       border: 1px solid #fff !important;
     }
+  }
+
+  .ant-modal-mask {
+    background-color: rgba(0, 0, 0, 0.75) !important;
   }
 
   .modal__text {

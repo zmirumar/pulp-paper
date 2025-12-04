@@ -31,8 +31,6 @@ const MaterialsDetailTable: React.FC<TableProps> = ({
   const navigate = useNavigate();
   const { id } = useParams();
 
-
-
   const columns: ColumnsType<MaterialsListItem> = [
     {
       title: "Прайс лист",
@@ -133,7 +131,6 @@ const MaterialsDetailTable: React.FC<TableProps> = ({
             target.closest("input[type='checkbox']")
           )
             return;
-          navigate(`/materialspage/${record.id}`);
         },
       })}
     />

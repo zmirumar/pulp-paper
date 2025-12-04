@@ -141,7 +141,12 @@ const MaterialsDetailCreate = () => {
             >
               Отменить
             </Button>
-            <Button type="primary">Добавить</Button>
+            <Button
+              onClick={() => navigate(`/materialspage/${id}`)}
+              type="primary"
+            >
+              Добавить
+            </Button>
           </div>
         </div>
       </div>

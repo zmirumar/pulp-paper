@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button, Tabs, Input } from "antd";
+import { Button, Tabs, Input, Checkbox } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
-import { MaterialsStyled, ModalStyled } from "./style";
+import { MaterialsStyled, ModalStyled, MaterialsDrawerStyled } from "./style";
 import MaterialsTable from "../MaterialsTable";
 import { MaterialsTableData } from "@/mockdata/MaterialsData/materials";
 
@@ -9,6 +9,7 @@ const MaterialsPage = () => {
   const [activeTab, setActiveTab] = useState("1");
   const [searchValue, setSearchValue] = useState("");
   const [open, setOpen] = useState(false);
+  const [openDrawer, SetOpenDrawer] = useState(false);
   const [selected, setSelected] = useState<any>(null);
 
   const items = [
@@ -24,6 +25,14 @@ const MaterialsPage = () => {
   const handleCancel = () => {
     setOpen(false);
     setSelected(null);
+  };
+
+  const handleOpenDrawer = () => {
+    SetOpenDrawer(true);
+  };
+
+  const handleCloseDrawer = () => {
+    SetOpenDrawer(false);
   };
 
   const handleConfirmDelete = () => {
@@ -48,7 +57,11 @@ const MaterialsPage = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
                 suffix={<SearchOutlined style={{ color: "#00000073" }} />}
               />
-              <Button className="materials__button" icon={<PlusOutlined />}>
+              <Button
+                onClick={handleOpenDrawer}
+                className="materials__button"
+                icon={<PlusOutlined />}
+              >
                 Добавит новый материала
               </Button>
             </div>
@@ -95,6 +108,22 @@ const MaterialsPage = () => {
             Продолжить?
           </p>
         </ModalStyled>
+        <MaterialsDrawerStyled
+          title="Добавить новый "
+          open={openDrawer}
+          onClose={handleCloseDrawer}
+          showFooter={true}
+          cancelText="Отменить"
+          confirmText="Добавить"
+          onCancel={handleCloseDrawer}
+        >
+          <div className="drawer">
+            <Input className="drawer__input" placeholder="Наименование" />
+            <p className="drawer__text">Разделы</p>
+            <Checkbox className="drawer__checkbox">Сырья склад</Checkbox>
+            <Checkbox className="drawer__checkbox">Показать в списках</Checkbox>
+          </div>
+        </MaterialsDrawerStyled>
       </div>
     </MaterialsStyled>
   );
