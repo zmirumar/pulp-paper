@@ -1,16 +1,26 @@
 import { useState } from "react";
-import { Button, Tabs, Input, Checkbox } from "antd";
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { Button, Tabs, Input, Checkbox, notification } from "antd";
+import {
+  PlusOutlined,
+  SearchOutlined,
+  CheckCircleFilled,
+} from "@ant-design/icons";
 import { MaterialsStyled, ModalStyled, MaterialsDrawerStyled } from "./style";
 import MaterialsTable from "../MaterialsTable";
 import { MaterialsTableData } from "@/mockdata/MaterialsData/materials";
+import "@/styles/drawer.css";
 
 const MaterialsPage = () => {
   const [activeTab, setActiveTab] = useState("1");
   const [searchValue, setSearchValue] = useState("");
   const [open, setOpen] = useState(false);
-  const [openDrawer, SetOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [modalConfirmCancel, setModalConfirmCancel] = useState(false);
   const [selected, setSelected] = useState<any>(null);
+
+  const [materialsName, setMaterialsName] = useState("");
+  const [isRawChecked, setIsRawChecked] = useState(false);
+  const [isListChecked, setIsListChecked] = useState(false);
 
   const items = [
     { key: "1", label: "Склад" },
@@ -27,17 +37,42 @@ const MaterialsPage = () => {
     setSelected(null);
   };
 
-  const handleOpenDrawer = () => {
-    SetOpenDrawer(true);
+  const handleOpenDrawer = () => setOpenDrawer(true);
+
+  const handleAddMaterial = () => {
+    notification.success({
+      message: "Товар добавлен",
+      description: `Новый товар успешно добавлен в список`,
+      placement: "topRight",
+      icon: <CheckCircleFilled className="circle_oulined" />,
+      duration: 3,
+      className: "succes_message",
+    });
+    setOpenDrawer(false);
+    resetDrawerForm();
   };
 
-  const handleCloseDrawer = () => {
-    SetOpenDrawer(false);
+  const resetDrawerForm = () => {
+    setMaterialsName("");
+    setIsRawChecked(false);
+    setIsListChecked(false);
+  };
+  const handleCancelDrawer = () => {
+    if (!materialsName && !isRawChecked && !isListChecked) {
+      setOpenDrawer(false);
+    } else {
+      setModalConfirmCancel(true);
+    }
   };
 
-  const handleConfirmDelete = () => {
-    setOpen(false);
-    setSelected(null);
+  const handleConfirmCancel = () => {
+    setOpenDrawer(false);
+    setModalConfirmCancel(false);
+    resetDrawerForm();
+  };
+
+  const handleCloseModal = () => {
+    setModalConfirmCancel(false);
   };
 
   return (
@@ -97,7 +132,10 @@ const MaterialsPage = () => {
               className="modal__delete"
               key="delete"
               danger
-              onClick={handleConfirmDelete}
+              onClick={() => {
+                setOpen(false);
+                setSelected(null);
+              }}
             >
               Удалить
             </Button>,
@@ -108,22 +146,61 @@ const MaterialsPage = () => {
             Продолжить?
           </p>
         </ModalStyled>
+
         <MaterialsDrawerStyled
-          title="Добавить новый "
+          title="Добавить новый"
           open={openDrawer}
-          onClose={handleCloseDrawer}
+          onClose={handleCancelDrawer}
           showFooter={true}
           cancelText="Отменить"
           confirmText="Добавить"
-          onCancel={handleCloseDrawer}
+          onCancel={handleCancelDrawer}
+          onConfirm={handleAddMaterial}
+          confirmDisabled={
+            !(materialsName.trim() && (isRawChecked || isListChecked))
+          }
         >
           <div className="drawer">
-            <Input className="drawer__input" placeholder="Наименование" />
+            <Input
+              className="drawer__input"
+              placeholder="Наименование"
+              value={materialsName}
+              onChange={(e) => setMaterialsName(e.target.value)}
+            />
             <p className="drawer__text">Разделы</p>
-            <Checkbox className="drawer__checkbox">Сырья склад</Checkbox>
-            <Checkbox className="drawer__checkbox">Показать в списках</Checkbox>
+            <Checkbox
+              className="drawer__checkbox"
+              checked={isRawChecked}
+              onChange={(e) => setIsRawChecked(e.target.checked)}
+            >
+              Сырья склад
+            </Checkbox>
+            <Checkbox
+              className="drawer__checkbox"
+              checked={isListChecked}
+              onChange={(e) => setIsListChecked(e.target.checked)}
+            >
+              Показать в списках
+            </Checkbox>
           </div>
         </MaterialsDrawerStyled>
+
+        <ModalStyled
+          open={modalConfirmCancel}
+          title="Несохранённые изменения"
+          onOk={handleConfirmCancel}
+          onCancel={handleCloseModal}
+          footer={[
+            <Button key="no" onClick={handleCloseModal}>
+              Отменить
+            </Button>,
+            <Button key="yes" type="primary" onClick={handleConfirmCancel}>
+              Продолжить
+            </Button>,
+          ]}
+        >
+          <p>Все несохранённые изменения будут потеряны. Продолжить?</p>
+        </ModalStyled>
       </div>
     </MaterialsStyled>
   );

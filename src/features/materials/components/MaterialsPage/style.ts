@@ -86,10 +86,22 @@ export const ModalStyled = styled(Modal)`
 `;
 
 export const MaterialsDrawerStyled = styled(Drawer)`
-  width: 378px;
   .drawer {
     display: flex;
     flex-direction: column;
     gap: 20px;
+  }
+  .info-notification {
+    background-color: #ffffff !important;
+    color: red;
+  }
+
+  .drawer__input {
+    height: 40px;
+  }
+
+  .drawer__text {
+    font-weight: 400;
+    font-size: 14;
   }
 `;
