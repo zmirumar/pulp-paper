@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Checkbox, Typography } from "antd";
+import { Form, Input, Button, Checkbox} from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { LoginStyled } from "./style";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 
 const LoginPage: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm();  
 
   const onFinish = (values: any) => {
     console.log(values);
@@ -48,7 +48,7 @@ const LoginPage: React.FC = () => {
                   validator: (_, value) =>
                     value
                       ? Promise.resolve()
-                      : Promise.reject("Iltimos, tasdiqlang"),
+                      : Promise.reject(""),
                 },
               ]}
             >
