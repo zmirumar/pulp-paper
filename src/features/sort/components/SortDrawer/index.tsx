@@ -130,11 +130,13 @@ const SortDrawer: React.FC<AddButtonProps> = ({
       {isModalOpen && (
         <Modal
           open={isModalOpen}
+          centered
           title='Несохранённые изменения'
           onOk={handleConfirmDiscard}
           onCancel={handleCancelModal}
-        okText="Продолжить"
-        cancelText="Отменить"
+          okText="Продолжить"
+          cancelText="Отменить"
+          width={400}
         >
           Все несохранённые изменения будут потеряны. Продолжить?
         </Modal>
