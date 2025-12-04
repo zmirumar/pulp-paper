@@ -1,9 +1,11 @@
-import { Drawer } from "antd";
 import styled from "styled-components";
 
-export const UserFormStyled = styled(Drawer)`
+export const UserFormStyled = styled.div`
   .ant-checkbox-group {
     flex-direction: column !important;
+  }
+  .ant-form-item-row {
+    border-bottom: 1px solid #f0f0f0;
   }
   .add-btn {
     width: 162px;
@@ -16,7 +18,7 @@ export const UserFormStyled = styled(Drawer)`
     justify-content: end;
     gap: 12px;
     button {
-      width: 159px;
+      width: 49%;
       padding: 0;
     }
   }

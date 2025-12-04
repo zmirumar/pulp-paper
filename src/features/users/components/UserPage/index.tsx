@@ -53,7 +53,7 @@ const UsersPage = () => {
     }
   };
 
-  const handleCencel = () => {
+  const handleCancel = () => {
     setIsModalOpen(false);
     setDeletingItemId(null);
   };
@@ -63,7 +63,7 @@ const UsersPage = () => {
     setDrawerOpen(true);
   };
 
-  const userMenage = () => {
+  const userManage = () => {
     if (editingUser) {
       notification.success({
         message: "Успешно изменено",
@@ -116,7 +116,7 @@ const UsersPage = () => {
         <Modal
           open={isModalOpen}
           title="Подтверждение удаления"
-          onCancel={handleCencel}
+          onCancel={handleCancel}
           onOk={handleDeleteUser}
           okText="Да"
           cancelText="Нет"
@@ -137,7 +137,7 @@ const UsersPage = () => {
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
           editingUser={editingUser}
-          onSubmit={userMenage}
+          onSubmit={userManage}
         />
       </div>
     </UserPageStyled>
