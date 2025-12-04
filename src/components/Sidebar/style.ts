@@ -109,4 +109,13 @@ export const SideBarStyled = styled(Sider)`
     filter: invert(39%) sepia(94%) saturate(3000%) hue-rotate(205deg)
       brightness(95%) contrast(101%);
   }
+  .ant-menu-submenu-open > .ant-menu-submenu-title {
+    color: #1677ff !important;
+  }
+
+  .ant-menu-submenu-open > .ant-menu-submenu-title .menu-icon,
+  .ant-menu-submenu-open > .ant-menu-submenu-title .ant-menu-title-content {
+    filter: invert(39%) sepia(94%) saturate(3000%) hue-rotate(205deg)
+      brightness(95%) contrast(101%);
+  }
 `;
