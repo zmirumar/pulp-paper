@@ -1,5 +1,9 @@
 /*DRAWER*/
 
+.ant-drawer-content-wrapper {
+  width: 378px !important;
+}
+
 .ant-drawer-body {
   padding: 24px;
 }

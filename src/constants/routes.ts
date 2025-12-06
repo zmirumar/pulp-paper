@@ -8,4 +8,3 @@ export const routes = {
     SORT: "/refs/grade-quality",
     AUTH: "/auth",
 };
-  
