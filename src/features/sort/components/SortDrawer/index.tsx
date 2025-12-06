@@ -78,8 +78,8 @@ const SortDrawer: React.FC<AddButtonProps> = ({
 
     setTimeout(() => {
       notification.success({
-        message: mode === 'edit' ? 'Изменения сохранены' : 'Успешно добавлено',
-        description: `Сорт "${name}" был успешно ${mode === 'edit' ? 'обновлен' : 'добавлен'}`,
+        message: mode === 'edit' ? 'Изменения сохранены' : 'Товар добавлен',
+        description: `${mode === 'edit' ? 'Ваши изменения были успешно применены' : 'Новый товар успешно добавлен в список'}`,
         placement: 'topRight',
         icon: <CheckCircleFilled  className='circle_oulined' />,
         duration: 3,
@@ -130,11 +130,13 @@ const SortDrawer: React.FC<AddButtonProps> = ({
       {isModalOpen && (
         <Modal
           open={isModalOpen}
+          centered
           title='Несохранённые изменения'
           onOk={handleConfirmDiscard}
           onCancel={handleCancelModal}
-        okText="Продолжить"
-        cancelText="Отменить"
+          okText="Продолжить"
+          cancelText="Отменить"
+          width={400}
         >
           Все несохранённые изменения будут потеряны. Продолжить?
         </Modal>
