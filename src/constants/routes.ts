@@ -1,4 +1,3 @@
-
 export const routes = {
     HOME: "/",
     REGISTER: "/register",
@@ -6,6 +5,7 @@ export const routes = {
     ROLES: "/roles",
     SUPERVISORS: "/supervisors",
     EVENTS: "/events",
+    SORT: "/refs/grade-quality",
     AUTH: "/auth",
     PASSWORD: "/auth/forgot-password"
 };
