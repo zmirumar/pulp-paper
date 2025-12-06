@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Modal } from "antd";
 
 export const MaterialsDetailCreateStyled = styled.div`
   .create__title {
@@ -82,6 +83,41 @@ export const MaterialsDetailCreateStyled = styled.div`
         color: #1677ff;
         border: 1px solid #d9d9d9;
       }
+    }
+  }
+`;
+
+export const ModalStyled = styled(Modal)`
+  top: 50% !important;
+  transform: translateY(-50%);
+
+  .modal__continue {
+    background-color: var(--color-primary);
+    color: #fff;
+    border: 1px solid #fff;
+    width: 119px;
+    &:hover {
+      background-color: var(--color-primary) !important;
+      color: #fff !important;
+      border: 1px solid #fff !important;
+    }
+  }
+
+  .modal__text {
+    width: 80%;
+  }
+  .modal__cancel {
+    width: 100px;
+    margin-right: 8px;
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #000000e0;
+    background-color: #fff;
+    border: 1px solid #d9d9d9 !important;
+    &:hover {
+      background-color: #fff !important;
+      color: #000000e0 !important;
+      border: 1px solid #d9d9d9 !important;
     }
   }
 `;

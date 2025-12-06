@@ -84,8 +84,11 @@ const MaterialsDetailTable: React.FC<TableProps> = ({
           <Button
             type="text"
             icon={<EditOutlined />}
-            onClick={() => navigate(`/materialspage/${id}/edit`)}
+            onClick={
+              () => navigate(`/materialspage/${id}/edit`, { state: record }) // record ni yuborish
+            }
           />
+
           <Button
             type="text"
             icon={<DeleteOutlined />}
