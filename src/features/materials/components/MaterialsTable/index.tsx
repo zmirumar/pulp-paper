@@ -169,7 +169,7 @@ const MaterialsTable = ({
             )
               return;
             onRowClick && onRowClick(record);
-            navigate(`/materialspage/${record.id}`);
+            navigate(`/refs/material-types/${record.id}`);
           },
         })}
       />

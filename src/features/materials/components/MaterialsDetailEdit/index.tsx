@@ -94,7 +94,7 @@ const MaterialsDetailEdit = () => {
       duration: 3,
       className: "succes_message",
     });
-    navigate(`/materialspage/${id}`);
+    navigate(`/refs/material-types/${id}`);
   };
 
   return (
@@ -255,7 +255,7 @@ const MaterialsDetailEdit = () => {
             </Button>,
             <Button
               className="modal__continue"
-              onClick={() => navigate(`/materialspage/${id}`)}
+              onClick={() => navigate(`/refs/material-types/${id}`)}
             >
               Продолжить
             </Button>,

@@ -37,7 +37,7 @@ const MaterialsDetail = () => {
   return (
     <MaterialsDetailStyled>
       <div className="materialsDetail">
-        <h1 onClick={() => navigate("/materialspage")}>Тип материалов</h1>
+        <h1 onClick={() => navigate("/refs/material-types")}>Тип материалов</h1>
         <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
 
         {activeTab === "1" && (
@@ -52,7 +52,7 @@ const MaterialsDetail = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
               />
               <Button
-                onClick={() => navigate(`/materialspage/${id}/create`)}
+                onClick={() => navigate(`/refs/material-types/${id}/create`)}
                 icon={<PlusOutlined />}
               >
                 Добавить новый

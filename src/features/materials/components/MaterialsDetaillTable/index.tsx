@@ -1,9 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Table, Checkbox, Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ColumnsType } from "antd/es/table";
-import { Drawer } from "@/components/ui";
 
 export interface MaterialsListItem {
   id: number;
@@ -85,7 +84,8 @@ const MaterialsDetailTable: React.FC<TableProps> = ({
             type="text"
             icon={<EditOutlined />}
             onClick={
-              () => navigate(`/materialspage/${id}/edit`, { state: record }) // record ni yuborish
+              () =>
+                navigate(`/refs/material-types/${id}/edit`, { state: record }) // record ni yuborish
             }
           />
 
