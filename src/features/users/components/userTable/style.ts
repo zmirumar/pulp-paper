@@ -27,9 +27,6 @@ export const UserTableStyled = styled.div`
       padding: 12px 8px;
       line-height: 22px;
     }
-    .ant-table-cell-row-hover {
-      background-color: #ffffff !important;
-    }
   }
 
   .user-action-btns-wrapper {

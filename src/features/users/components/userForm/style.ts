@@ -4,8 +4,9 @@ export const UserFormStyled = styled.div`
   .ant-checkbox-group {
     flex-direction: column !important;
   }
-  .ant-form-item-row {
+  .checkbox-wrapper {
     border-bottom: 1px solid #f0f0f0;
+    margin: 12px;
   }
   .add-btn {
     width: 162px;

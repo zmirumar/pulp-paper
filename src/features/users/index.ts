@@ -1,1 +1,3 @@
-export { default as userPage} from "./components/userForm"
+import UsersPage from "./components/UserPage";
+
+export { UsersPage };

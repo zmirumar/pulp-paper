@@ -2,7 +2,7 @@ import { Button, Input, Modal, notification } from "antd";
 import UserForm from "../userForm";
 import UserTable from "../userTable";
 import { SearchOutLined } from "@/assets/Icons";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { UserPageStyled } from "./style";
 import { usersData } from "@/mockdata/users";
 
@@ -28,12 +28,9 @@ const UsersPage = () => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingUser, setEditingUser] = useState<IUser | null>(null);
-  const [deletingItemId, setDeletingItemId] = useState<number | null>(null);
-  const [searchValue, setSearchValue] = useState<string>("");
   const [userData, setUserData] = useState<IUser[]>(usersData);
 
-  const openDeleteModal = (id: number) => {
-    setDeletingItemId(id);
+  const openDeleteModal = () => {
     setIsModalOpen(true);
   };
 
@@ -43,19 +40,17 @@ const UsersPage = () => {
   };
 
   const handleDeleteUser = () => {
-    if (deletingItemId !== null) {
-      setIsModalOpen(false);
-      notification.success({
-        message: "Удалено",
-        description: "Пользователь удалён из списка",
-        placement: "topRight",
-      });
-    }
+    setIsModalOpen(false);
+    notification.success({
+      className: "success-message",
+      message: "Удалено",
+      description: "Пользователь удалён из списка",
+      placement: "topRight",
+    });
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    setDeletingItemId(null);
   };
 
   const createUser = () => {
@@ -80,15 +75,6 @@ const UsersPage = () => {
     setDrawerOpen(false);
   };
 
-  const filteredData = useMemo(() => {
-    const searchLower = searchValue.toLowerCase().trim();
-    return (userData ?? []).filter(
-      (u) =>
-        u.fullName.toLowerCase().includes(searchLower) ||
-        u.phoneNumber.toLowerCase().includes(searchLower)
-    );
-  }, [searchValue, userData]);
-
   return (
     <UserPageStyled>
       <div className="user-page">
@@ -96,11 +82,10 @@ const UsersPage = () => {
         <div className="user-page-header-wrapper">
           <Input
             className="search-input"
-            placeholder="Поиск..."
+            placeholder="Поиск"
             suffix={<img src={SearchOutLined} width={16} />}
             allowClear
             aria-selected
-            onChange={(e) => setSearchValue(e.target.value)}
           />
 
           <Button
@@ -129,7 +114,7 @@ const UsersPage = () => {
         </Modal>
 
         <UserTable
-          data={filteredData}
+          data={userData}
           onEdit={openEdit}
           openDeleteModal={openDeleteModal}
         />

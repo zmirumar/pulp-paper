@@ -22,31 +22,38 @@ const UserForm: React.FC<UserFormProps> = ({
   const [allRoles, setAllRoles] = useState(false);
   const [allPerms, setAllPerms] = useState(false);
 
-  const roleCount = useMemo(() => roleOptions.length, []);
-  const permCount = useMemo(() => permOptions.length, []);
-
   useEffect(() => {
     if (!open) {
-      form.resetFields();
-      setAllRoles(false);
-      setAllPerms(false);
+      resetForm();
       return;
     }
 
-    form.resetFields();
-
     if (editingUser) {
-      form.setFieldsValue({
-        ...editingUser,
-        roleIds: editingUser.userRoles?.map((r) => r.id) || [],
-        permissionIds: editingUser.permissions?.map((p) => p.id) || [],
-      });
-      setAllRoles((editingUser.roleIds || []).length === roleCount);
-      setAllPerms((editingUser.permissionIds || []).length === permCount);
+      loadUserData(editingUser);
     }
-  }, [open, editingUser, form, roleCount, permCount]);
+  }, [open, editingUser]);
 
-  const handleAllChange = (
+  const resetForm = () => {
+    form.resetFields();
+    setAllRoles(false);
+    setAllPerms(false);
+  };
+
+  const loadUserData = (user: IUser) => {
+    const roleIds = user.userRoles?.map((r) => r.id) || [];
+    const permissionIds = user.permissions?.map((p) => p.id) || [];
+
+    form.setFieldsValue({
+      ...user,
+      roleIds,
+      permissionIds,
+    });
+
+    setAllRoles(roleIds.length === roleOptions.length);
+    setAllPerms(permissionIds.length === permOptions.length);
+  };
+
+  const handleSelectAll = (
     checked: boolean,
     field: "roleIds" | "permissionIds",
     options: { id: number }[],
@@ -54,6 +61,14 @@ const UserForm: React.FC<UserFormProps> = ({
   ) => {
     setAll(checked);
     form.setFieldsValue({ [field]: checked ? options.map((o) => o.id) : [] });
+  };
+
+  const handleRolesSelectAll = (checked: boolean) => {
+    handleSelectAll(checked, "roleIds", roleOptions, setAllRoles);
+  };
+
+  const handlePermsSelectAll = (checked: boolean) => {
+    handleSelectAll(checked, "permissionIds", permOptions, setAllPerms);
   };
 
   const handleFinish = (values: IUser) => {
@@ -116,17 +131,10 @@ const UserForm: React.FC<UserFormProps> = ({
             <Input placeholder="Телефон" />
           </Form.Item>
 
-          <Form.Item label="Отдел">
+          <Form.Item label="Отдел" className="checkbox-wrapper">
             <Checkbox
               checked={allRoles}
-              onChange={(e) =>
-                handleAllChange(
-                  e.target.checked,
-                  "roleIds",
-                  roleOptions,
-                  setAllRoles
-                )
-              }
+              onChange={(e) => handleRolesSelectAll(e.target.checked)}
             >
               Все
             </Checkbox>
@@ -140,17 +148,10 @@ const UserForm: React.FC<UserFormProps> = ({
             </Form.Item>
           </Form.Item>
 
-          <Form.Item label="Раздел">
+          <Form.Item label="Раздел" className="checkbox-wrapper">
             <Checkbox
               checked={allPerms}
-              onChange={(e) =>
-                handleAllChange(
-                  e.target.checked,
-                  "permissionIds",
-                  permOptions,
-                  setAllPerms
-                )
-              }
+              onChange={(e) => handlePermsSelectAll(e.target.checked)}
             >
               Все
             </Checkbox>
