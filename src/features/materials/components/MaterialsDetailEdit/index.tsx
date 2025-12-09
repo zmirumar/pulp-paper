@@ -111,6 +111,7 @@ const MaterialsDetailEdit = () => {
             <div className="edit__field">
               <label>Наименование</label>
               <Input
+                placeholder="Введите"
                 value={form.name}
                 onChange={(e) => update("name", e.target.value)}
               />
@@ -119,6 +120,7 @@ const MaterialsDetailEdit = () => {
               <label>Код</label>
               <Input
                 value={form.code}
+                placeholder="Введите"
                 onChange={(e) => update("code", e.target.value)}
               />
             </div>
@@ -142,6 +144,7 @@ const MaterialsDetailEdit = () => {
               <label>Порядок</label>
               <Input
                 value={form.order}
+                placeholder="Введите"
                 onChange={(e) => update("order", e.target.value)}
               />
             </div>
@@ -157,6 +160,7 @@ const MaterialsDetailEdit = () => {
               <label>Код товара</label>
               <Input
                 value={form.productCode}
+                placeholder="Введите"
                 onChange={(e) => update("productCode", e.target.value)}
               />
             </div>
@@ -227,6 +231,7 @@ const MaterialsDetailEdit = () => {
             <Input
               value={form.maxPass}
               disabled={!form.showInList}
+              placeholder="0"
               onChange={(e) => update("maxPass", e.target.value)}
             />
           </div>
@@ -247,10 +252,7 @@ const MaterialsDetailEdit = () => {
           onCancel={() => setOpenModal(false)}
           className="modal__small"
           footer={[
-            <Button
-              className="modal__cancel"
-              onClick={handleCancel}
-            >
+            <Button className="modal__cancel" onClick={handleCancel}>
               Отменить
             </Button>,
             <Button

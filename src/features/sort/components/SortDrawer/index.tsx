@@ -57,7 +57,7 @@ const SortDrawer: React.FC<AddButtonProps> = ({
     if (hasUnsavedChanges) {
       setIsModalOpen(true);
     } else {
-      handleCancelDrawer();
+      handleCancelDrawer(); 
     }
   };
 

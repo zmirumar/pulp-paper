@@ -41,15 +41,6 @@ export const privateRoutes = [
     path: routes.MATERIALSDETAILEDIT,
     element: MaterialsDetailEdit,
   },
-
-  {
-    path: routes.HOME,
-    element: Home,
-  },
-  {
-    path: routes.USERS,
-    element: Users,
-  },
   {
     path: routes.SORT,
     element: Sort,

@@ -8,7 +8,6 @@ export const MaterialsDetailStyled = styled.div`
 
     h1 {
       margin-bottom: 20px;
-      cursor: pointer;
     }
 
     .materialsDetail__wrapper {
@@ -18,8 +17,8 @@ export const MaterialsDetailStyled = styled.div`
       gap: 10px;
       margin-bottom: 20px;
 
-      .detial__input {
-        max-width: 300px;
+      .detail__input {
+        width: 360px;
         padding: 7px 10px;
         border: 1px solid #d9d9d9 !important;
         border-radius: 10px;
