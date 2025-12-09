@@ -9,4 +9,3 @@ export const routes = {
     AUTH: "/auth",
     PASSWORD: "/auth/forgot-password"
 };
-  
