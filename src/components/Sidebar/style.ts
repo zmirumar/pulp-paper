@@ -71,6 +71,10 @@ export const SideBarStyled = styled(Sider)`
     border: none !important;
   }
 
+  .ant-menu-item{
+    margin-left: 0px;
+  }
+
   .ant-menu-item-only-child {
     padding: 0 !important;
   }
@@ -82,6 +86,10 @@ export const SideBarStyled = styled(Sider)`
   .ant-menu-submenu-arrow {
     width: 9px;
     height: 6px;
+  }
+
+  .ant-menu-submenu-title{
+    margin-left: 0px;
   }
 
   .ant-menu-submenu-title:hover .ant-menu-submenu-arrow {
