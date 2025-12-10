@@ -145,7 +145,7 @@ const MaterialsPage = () => {
 
       {activeTab === "1" && (
         <>
-          <div className="materials__site" style={{ marginBottom: 15 }}>
+          <div className="materials__site">
             <Input
               placeholder="Поиск"
               value={searchValue}
