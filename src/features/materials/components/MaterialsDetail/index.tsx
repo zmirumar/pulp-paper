@@ -50,7 +50,6 @@ const MaterialsDetail: React.FC = () => {
     {
       title: "Прайс лист",
       dataIndex: "priyceList",
-      sorter: (a, b) => Number(a.priyceList) - Number(b.priyceList),
       render: () => <Checkbox />,
     },
     {
