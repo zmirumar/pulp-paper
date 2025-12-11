@@ -1,7 +1,7 @@
 import styled from "styled-components";
 export const SortDrawerStyled = styled.div`
   h2 {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: lighter;
     margin-bottom: 10px;
   }
