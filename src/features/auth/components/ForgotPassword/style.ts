@@ -37,7 +37,7 @@ justify-content: center;
 .password_text{
     font-size: 13px;
     color: gray;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     
 }
 `
