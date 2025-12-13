@@ -16,6 +16,7 @@ const ForgotPassword: React.FC = () => {
   return (
     <PasswordStyles>
       <div className="password">
+        
           <h3 className="password_h1">
            Забыли пароль
           </h3>
