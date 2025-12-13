@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const PasswordStyles = styled.div`
- @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;800;900&display=swap);
 display: flex;
 align-items: center;
 height: 100vh;
@@ -35,18 +34,16 @@ justify-content: center;
 
 
 .password_text{
-    font-size: 13px;
+    font-size: 12px;
     color: rgba(154, 154, 161, 1);
     margin-bottom: 10px;
-    width: 430px;
+    width: 100%;
     line-height: 20px;
     
 }
 
 .password_h1{
     font-size: 24px;
-     font-family: 'Inter', sans-serif;
-
 }
     
 `
