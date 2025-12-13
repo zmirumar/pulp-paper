@@ -1,4 +1,4 @@
-import { LoginStyled } from './style'
+import { LoginStyled } from '../Login/style'
 import { ProblemIcon } from '@/assets/Icons'
 
 const  ErrorPage = () => {
