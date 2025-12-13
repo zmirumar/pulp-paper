@@ -7,6 +7,10 @@
 .ant-drawer-body {
   padding: 24px;
 }
+.ant-drawer-title{
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
 
 .ant-drawer-footer {
   padding: 16px 24px;

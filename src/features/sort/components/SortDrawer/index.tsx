@@ -24,25 +24,36 @@ const SortDrawer: React.FC<AddButtonProps> = ({
   editData = null,
   mode = "create",
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [name, setName] = useState<string>("")
+  const [category, setCategory] = useState<string>("")
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [initialName, setInitialName] = useState<string>("")
+  const [initialCategory, setInitialCategory] = useState<string>("")
 
-  const isValid = name.trim() !== "" && category.trim() !== "";
-  const hasUnsavedChanges = name.trim() !== "" || category.trim() !== "";
+  const hasChanges = mode === 'edit' 
+    ? (name !== initialName || category !== initialCategory)
+    : (name.trim() !== "" || category.trim() !== "")
+
+  const isValid = name.trim() !== "" && category.trim() !== "" && hasChanges
 
   const resetForm = () => {
-    setName("");
-    setCategory("");
-  };
+    setName("")
+    setCategory("")
+    setInitialName("")
+    setInitialCategory("")
+  }
 
   useEffect(() => {
-    if (mode === "edit" && editData && showDrawer) {
-      setName(editData.sort || "");
-      setCategory(editData.sections || "");
-    } else if (mode === "create" && showDrawer) {
-      resetForm();
+    if (mode === 'edit' && editData && showDrawer) {
+      const initialNameValue = editData.sort || ""
+      const initialCategoryValue = editData.sections || ""
+      setName(initialNameValue)
+      setCategory(initialCategoryValue)
+      setInitialName(initialNameValue)
+      setInitialCategory(initialCategoryValue)
+    } else if (mode === 'create' && showDrawer) {
+      resetForm()
     }
   }, [editData, mode, showDrawer]);
 
@@ -54,8 +65,8 @@ const SortDrawer: React.FC<AddButtonProps> = ({
   }, [showDrawer]);
 
   const handleCancel = () => {
-    if (hasUnsavedChanges) {
-      setIsModalOpen(true);
+    if (hasChanges) {
+      setIsModalOpen(true)
     } else {
       handleCancelDrawer(); 
     }

@@ -71,6 +71,10 @@ export const SideBarStyled = styled(Sider)`
     border: none !important;
   }
 
+  .ant-menu-item{
+    margin-left: 0px;
+  }
+
   .ant-menu-item-only-child {
     padding: 0 !important;
   }
@@ -82,6 +86,10 @@ export const SideBarStyled = styled(Sider)`
   .ant-menu-submenu-arrow {
     width: 9px;
     height: 6px;
+  }
+
+  .ant-menu-submenu-title{
+    margin-left: 0px;
   }
 
   .ant-menu-submenu-title:hover .ant-menu-submenu-arrow {
@@ -106,6 +114,15 @@ export const SideBarStyled = styled(Sider)`
 
   .ant-menu-item-selected .menu-icon,
   .ant-menu-submenu-selected > .ant-menu-submenu-title .menu-icon {
+    filter: invert(39%) sepia(94%) saturate(3000%) hue-rotate(205deg)
+      brightness(95%) contrast(101%);
+  }
+  .ant-menu-submenu-open > .ant-menu-submenu-title {
+    color: #1677ff !important;
+  }
+
+  .ant-menu-submenu-open > .ant-menu-submenu-title .menu-icon,
+  .ant-menu-submenu-open > .ant-menu-submenu-title .ant-menu-title-content {
     filter: invert(39%) sepia(94%) saturate(3000%) hue-rotate(205deg)
       brightness(95%) contrast(101%);
   }
