@@ -9,8 +9,9 @@ import {
 } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ColumnsType } from "antd/es/table";
-import { MaterialsDetailStyled, ModalStyled } from "./style";
+import { MaterialsDetailStyled } from "./style";
 import { MaterialsDetailData as initialData } from "@/mockdata/MaterialsData/materialsDetail";
+import { Modal } from "antd";
 
 export interface MaterialsListItem {
   id: number;
@@ -30,10 +31,9 @@ const MaterialsDetail: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<"1" | "2">("1");
   const [searchValue, setSearchValue] = useState("");
-  const [data, setData] = useState<MaterialsListItem[]>(initialData);
+  const data = initialData;
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedToDelete, setSelectedToDelete] =
-    useState<MaterialsListItem | null>(null);
+  const [_, setSelectedToDelete] = useState<MaterialsListItem | null>(null);
 
   const filteredData = useMemo(() => {
     const q = searchValue.trim().toLowerCase();
@@ -123,7 +123,7 @@ const MaterialsDetail: React.FC = () => {
   const handleSave = () => {
     notification.success({
       message: "Товар сохранён",
-      description: `Изменения успешно сохранены`,
+      description: `Товар удален из списка`,
       placement: "topRight",
       icon: <CheckCircleFilled style={{ color: "#52c41a" }} />,
       duration: 3,
@@ -156,12 +156,14 @@ const MaterialsDetail: React.FC = () => {
                 value={searchValue}
                 suffix={<SearchOutlined style={{ color: "#00000073" }} />}
                 onChange={(e) => setSearchValue(e.target.value)}
+                allowClear
               />
 
               <Button
                 onClick={() => navigate(`/refs/material-types/${id}/create`)}
                 icon={<PlusOutlined />}
                 type="primary"
+                className="materialsDetail__button"
               >
                 Добавить новый
               </Button>
@@ -188,39 +190,27 @@ const MaterialsDetail: React.FC = () => {
           </div>
         )}
 
-        <ModalStyled
+        <Modal
+          centered
           title="Подтверждение удаления"
           open={deleteModalOpen}
           onCancel={() => {
             setSelectedToDelete(null);
             setDeleteModalOpen(false);
           }}
-          footer={[
-            <Button
-              key="cancel"
-              onClick={() => {
-                setSelectedToDelete(null);
-                setDeleteModalOpen(false);
-              }}
-              className="modal__cancel"
-            >
-              Отменить
-            </Button>,
-            <Button
-              key="delete"
-              className="modal__delete"
-              danger
-              onClick={handleSave}
-            >
-              Удалить
-            </Button>,
-          ]}
+          onOk={() => {
+            setDeleteModalOpen(false);
+            handleSave();
+            navigate("/refs/material-types/1");
+          }}
+          okText="Продолжить"
+          cancelText="Отменить"
         >
-          <p className="modal__text">
+          <p className="modal__text" style={{ width: "70%" }}>
             После удаления восстановить этот элемент будет невозможно.
             Продолжить?
           </p>
-        </ModalStyled>
+        </Modal>
       </div>
     </MaterialsDetailStyled>
   );

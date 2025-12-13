@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Input, Select, Checkbox, Button, notification } from "antd";
+import { Input, Select, Checkbox, Button, notification, Modal } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
-import { MaterialsDetailCreateStyled, ModalStyled } from "./style";
+import { MaterialsDetailCreateStyled } from "./style";
 import "@/styles/drawer.css";
 
 const MaterialsDetailCreate = () => {
@@ -59,10 +59,6 @@ const MaterialsDetailCreate = () => {
       className: "succes_message",
     });
     navigate(`/refs/material-types/${id}`);
-  };
-
-  const handleCancel = () => {
-    setOpenModal(false);
   };
 
   return (
@@ -248,27 +244,23 @@ const MaterialsDetailCreate = () => {
           </div>
         </div>
 
-        <ModalStyled
+        <Modal
           title="Несохранённые изменения"
           open={openModal}
           onCancel={() => setOpenModal(false)}
+          centered
+          onOk={() => {
+            setOpenModal(false);
+            navigate("/refs/material-types/1");
+          }}
+          okText="Продолжить"
+          cancelText="Отменить"
           className="modal__small"
-          footer={[
-            <Button className="modal__cancel" onClick={handleCancel}>
-              Отменить
-            </Button>,
-            <Button
-              className="modal__continue"
-              onClick={() => navigate(`/refs/material-types/${id}`)}
-            >
-              Продолжить
-            </Button>,
-          ]}
         >
-          <p className="modal__text">
+          <p className="modal__text" style={{ width: "80%" }}>
             Все несохранённые изменения будут потеряны. Продолжить?
           </p>
-        </ModalStyled>
+        </Modal>
       </div>
     </MaterialsDetailCreateStyled>
   );

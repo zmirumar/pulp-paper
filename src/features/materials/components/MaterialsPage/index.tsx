@@ -1,5 +1,13 @@
 import { useState, useMemo } from "react";
-import { Button, Tabs, Input, Checkbox, Table, notification } from "antd";
+import {
+  Button,
+  Tabs,
+  Input,
+  Checkbox,
+  Table,
+  notification,
+  Modal,
+} from "antd";
 import {
   PlusOutlined,
   SearchOutlined,
@@ -8,7 +16,7 @@ import {
   CheckCircleFilled,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { MaterialsStyled, ModalStyled, MaterialsDrawerStyled } from "./style";
+import { MaterialsStyled, MaterialsDrawerStyled } from "./style";
 import { MaterialsTableData } from "@/mockdata/MaterialsData/materials";
 
 interface MaterialItem {
@@ -76,6 +84,15 @@ const MaterialsPage = () => {
     setDrawerOpen(false);
   };
 
+  const handleDetele = () => {
+    notification.success({
+      message: "Товар удален",
+      description: "Товар удален из списка",
+      icon: <CheckCircleFilled className="circle_oulined" />,
+      className: "succes_message",
+    });
+  };
+
   const openDeleteModal = () => {
     setDeleteModalOpen(true);
   };
@@ -119,7 +136,7 @@ const MaterialsPage = () => {
           />
           <Button
             type="text"
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined color="#d9d9d9" />}
             onClick={(e) => {
               e.stopPropagation();
               openDeleteModal();
@@ -152,9 +169,14 @@ const MaterialsPage = () => {
               className="materials__input"
               onChange={(e) => setSearchValue(e.target.value)}
               suffix={<SearchOutlined style={{ color: "#00000073" }} />}
+              allowClear
             />
 
-            <Button icon={<PlusOutlined />} onClick={openCreateDrawer}>
+            <Button
+              className="materials__button"
+              icon={<PlusOutlined />}
+              onClick={openCreateDrawer}
+            >
               Добавить новый материал
             </Button>
           </div>
@@ -177,32 +199,23 @@ const MaterialsPage = () => {
         </div>
       )}
 
-      <ModalStyled
+      <Modal
         title="Подтверждение удаления"
         open={deleteModalOpen}
         onCancel={() => setDeleteModalOpen(false)}
-        footer={[
-          <Button
-            key="cancel"
-            onClick={() => setDeleteModalOpen(false)}
-            className="modal__cancel"
-          >
-            Отменить
-          </Button>,
-          <Button
-            className="modal__delete"
-            key="delete"
-            danger
-            onClick={() => setDeleteModalOpen(false)}
-          >
-            Удалить
-          </Button>,
-        ]}
+        centered
+        onOk={() => {
+          setDeleteModalOpen(false);
+          handleDetele();
+        }}
+        okText="Продолжить"
+        cancelText="Отменить"
+        className="modal__small"
       >
         <p>
           После удаления восстановить этот элемент будет невозможно. Продолжить?
         </p>
-      </ModalStyled>
+      </Modal>
 
       <MaterialsDrawerStyled
         title={editingItem ? "Изменить" : "Добавить новый"}
@@ -241,9 +254,10 @@ const MaterialsPage = () => {
         </div>
       </MaterialsDrawerStyled>
 
-      <ModalStyled
+      <Modal
         title="Несохранённые изменения"
         open={unsavedModalOpen}
+        centered
         onCancel={() => setUnsavedModalOpen(false)}
         onOk={confirmCloseDrawer}
         okText="Продолжить"
@@ -252,7 +266,7 @@ const MaterialsPage = () => {
         <p className="modal__text">
           Все несохранённые изменения будут потеряны. Продолжить?
         </p>
-      </ModalStyled>
+      </Modal>
     </MaterialsStyled>
   );
 };

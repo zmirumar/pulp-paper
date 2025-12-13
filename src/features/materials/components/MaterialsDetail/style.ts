@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Modal } from "antd";
 
 export const MaterialsDetailStyled = styled.div`
   .materialsDetail {
@@ -8,6 +7,8 @@ export const MaterialsDetailStyled = styled.div`
 
     h1 {
       margin-bottom: 20px;
+      font-weight: 600;
+      font-size: 24px;
     }
 
     .materialsDetail__wrapper {
@@ -18,13 +19,17 @@ export const MaterialsDetailStyled = styled.div`
       margin-bottom: 20px;
 
       .detail__input {
-        width: 360px;
+        width: 364px;
         padding: 7px 10px;
         border: 1px solid #d9d9d9 !important;
         border-radius: 10px;
       }
 
-      button {
+      .ant-input:focus::placeholder {
+        color: transparent !important;
+      }
+
+      .materialsDetail__button {
         width: 162px;
         height: 32px;
         color: #fff;
@@ -53,44 +58,6 @@ export const MaterialsDetailStyled = styled.div`
     p {
       font-size: 16px;
       color: #555;
-    }
-  }
-`;
-
-export const ModalStyled = styled(Modal)`
-  top: 50% !important;
-  transform: translateY(-50%);
-
-  .modal__delete {
-    background-color: var(--color-primary);
-    color: #fff;
-    border: 1px solid #fff;
-    width: 89px;
-    &:hover {
-      background-color: var(--color-primary) !important;
-      color: #fff !important;
-      border: 1px solid #fff !important;
-    }
-  }
-
-  .ant-modal-mask {
-    background-color: rgba(0, 0, 0, 0.75) !important;
-  }
-
-  .modal__text {
-    width: 80%;
-  }
-  .modal__cancel {
-    margin-right: 8px;
-    border-radius: 8px;
-    padding: 10px 15px;
-    color: #000000e0;
-    background-color: #fff;
-    border: 1px solid #d9d9d9 !important;
-    &:hover {
-      background-color: #fff !important;
-      color: #000000e0 !important;
-      border: 1px solid #d9d9d9 !important;
     }
   }
 `;

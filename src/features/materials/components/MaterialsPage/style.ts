@@ -1,5 +1,4 @@
 import { Drawer } from "@/components/ui";
-import { Modal } from "antd";
 import styled from "styled-components";
 
 export const MaterialsStyled = styled.div`
@@ -8,20 +7,19 @@ export const MaterialsStyled = styled.div`
     flex-direction: column;
   }
 
+  h1 {
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 24px;
+  }
+
   .materials__site {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 
-    .materials__input {
-      width: 364px;
-      padding: 7px;
-      border: 1px solid #d9d9d9 !important;
-      border-radius: 10px;
-    }
-
-    button {
+    .materials__button {
       width: 240px;
       height: 32px;
       color: var(--white);
@@ -33,6 +31,17 @@ export const MaterialsStyled = styled.div`
         background-color: var(--color-primary) !important;
         color: var(--white) !important;
       }
+    }
+
+    .materials__input {
+      width: 364px;
+      padding: 7px;
+      border: 1px solid #d9d9d9 !important;
+      border-radius: 10px;
+    }
+
+    .ant-input:focus::placeholder {
+      color: transparent !important;
     }
   }
 
@@ -52,39 +61,6 @@ export const MaterialsStyled = styled.div`
   }
 `;
 
-export const ModalStyled = styled(Modal)`
-  top: 50% !important;
-  transform: translateY(-50%);
-  .modal__delete {
-    background-color: var(--color-primary);
-    color: #fff;
-    border: 1px solid #fff;
-    width: 89px;
-    &:hover {
-      background-color: var(--color-primary) !important;
-      color: #fff !important;
-      border: 1px solid #fff !important;
-    }
-  }
-
-  .modal__text {
-    width: 80%;
-  }
-  .modal__cancel {
-    margin-right: 8px;
-    border-radius: 8px;
-    padding: 10px 15px;
-    color: #000000e0;
-    background-color: #fff;
-    border: 1px solid #d9d9d9 !important;
-    &:hover {
-      background-color: #fff !important;
-      color: #000000e0 !important;
-      border: 1px solid #d9d9d9 !important;
-    }
-  }
-`;
-
 export const MaterialsDrawerStyled = styled(Drawer)`
   .drawer {
     display: flex;
@@ -98,6 +74,10 @@ export const MaterialsDrawerStyled = styled(Drawer)`
 
   .drawer__input {
     height: 40px;
+  }
+
+  .ant-input:focus::placeholder {
+    color: transparent !important;
   }
 
   .drawer__text {

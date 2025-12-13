@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Input, Select, Checkbox, Button, notification } from "antd";
+import { Input, Select, Checkbox, Button, notification, Modal } from "antd";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { MaterialsDetailEditStyled, ModalStyled } from "./style";
+import { MaterialsDetailEditStyled } from "./style";
 import { CheckCircleFilled } from "@ant-design/icons";
 import "@/styles/drawer.css";
 
@@ -53,10 +53,6 @@ const MaterialsDetailEdit = () => {
     }
   }, [record]);
 
-  const handleCancel = () => {
-    setOpenModal(false);
-  };
-
   const update = (field: string, value: any) => {
     setForm((f) => ({ ...f, [field]: value }));
   };
@@ -88,7 +84,7 @@ const MaterialsDetailEdit = () => {
   const handleSave = () => {
     notification.success({
       message: "Товар сохранён",
-      description: `Изменения успешно сохранены`,
+      description: `Ваши изменения были успешно применены`,
       placement: "topRight",
       icon: <CheckCircleFilled style={{ color: "#52c41a" }} />,
       duration: 3,
@@ -246,27 +242,23 @@ const MaterialsDetailEdit = () => {
           </div>
         </div>
 
-        <ModalStyled
+        <Modal
           title="Несохранённые изменения"
           open={openModal}
           onCancel={() => setOpenModal(false)}
+          centered
+          onOk={() => {
+            setOpenModal(false);
+            navigate("/refs/material-types/1");
+          }}
+          okText="Продолжить"
+          cancelText="Отменить"
           className="modal__small"
-          footer={[
-            <Button className="modal__cancel" onClick={handleCancel}>
-              Отменить
-            </Button>,
-            <Button
-              className="modal__continue"
-              onClick={() => navigate(`/refs/material-types/${id}`)}
-            >
-              Продолжить
-            </Button>,
-          ]}
         >
-          <p className="modal__text">
+          <p className="modal__text" style={{ width: "80%" }}>
             Все несохранённые изменения будут потеряны. Продолжить?
           </p>
-        </ModalStyled>
+        </Modal>
       </div>
     </MaterialsDetailEditStyled>
   );
