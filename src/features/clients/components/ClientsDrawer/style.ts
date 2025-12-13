@@ -7,6 +7,9 @@ export const ClientDrawerStyled = styled.div`
   flex-direction: column;
   gap: 16px;
 }
+   .ant-input:focus::placeholder{
+    color: transparent !important;
+  }
 
 .form-group {
   display: flex;

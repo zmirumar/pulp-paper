@@ -83,7 +83,7 @@ function ClientsDrawer({
           
           <div className="form-group">
             <Checkbox>Резидент</Checkbox>
-          </div>
+         </div>
 
           <div className="form-group">
             <Input placeholder="ИНН" />

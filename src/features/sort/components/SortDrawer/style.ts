@@ -9,6 +9,10 @@ export const SortDrawerStyled = styled.div`
   .ant-drawer-title {
     font-size: 25px;
   }
+     .ant-input:focus::placeholder{
+    color: transparent !important;
+  }
+
 
   .wrapper {
     display: flex;
