@@ -42,7 +42,7 @@ justify-content: center;
     
 }
 
-.password_h1{
+.password_title{
     font-size: 24px;
 }
     

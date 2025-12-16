@@ -17,7 +17,7 @@ const ForgotPassword: React.FC = () => {
     <PasswordStyles>
       <div className="password">
         
-          <h3 className="password_h1">
+          <h3 className="password_title">
            Забыли пароль
           </h3>
        
@@ -35,7 +35,7 @@ const ForgotPassword: React.FC = () => {
           >
             <Input
               placeholder="Phone number"
-              size="large"
+               size="large"
             />
           </Form.Item>
 

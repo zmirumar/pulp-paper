@@ -6,9 +6,9 @@ const NetConection = () => {
     <ConectionStyle>
     <div className='Conection'>
        <img src={NoInternetIcon} alt="" />
-       <h1 className='c_h1'>Нет подключения</h1>
-       <p className='c_p'>Подключение к интернету не обнаружено. Проверьте подключение и повторите попытку.</p>
-       <button className='c_btn'>Повторить</button>
+       <h1 className='checking_title'>Нет подключения</h1>
+       <p className='checking_paragraph'>Подключение к интернету не обнаружено. Проверьте подключение и повторите попытку.</p>
+       <button className='checking_btn'>Повторить</button>
     </div>
     </ConectionStyle>
   )

@@ -9,14 +9,14 @@ export const ErrorStyle = styled.div `
   flex-direction: column;
 }
 
-.e_h1{
+.error_title{
       font-size: 24px;
     font-weight: 500;
     margin-bottom: 5px;
     margin-top: 30px;
 }
 
-.e_p{
+.error_text{
     width: 400px;
     font-size: 16px;
     text-align: center;
@@ -25,7 +25,7 @@ export const ErrorStyle = styled.div `
     line-height: 25px;
 }
 
-.e_btn{
+.error_btn{
       width: 414px;
     height: 40px;
     background-color: rgba(9, 88, 217, 1);

@@ -20,7 +20,7 @@ export const CheckingStyle = styled.div `
     font-weight: 400;
   }
 
-  .checking_p{
+  .checking_text{
     width: 414px;
     font-size: 16px;
     text-align: center;
@@ -28,7 +28,7 @@ export const CheckingStyle = styled.div `
     margin-bottom: 30px;
   }
 
-  .checking_h1{
+  .checking_title{
     font-size: 24px;
     font-weight: 500;
     margin-bottom: 5px;
