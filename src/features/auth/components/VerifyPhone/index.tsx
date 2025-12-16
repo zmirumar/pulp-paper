@@ -2,8 +2,9 @@ import { Form, Button } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { VerifyStyles } from "./style";
 import { useRef, useState } from "react";
-
+import { Link } from "react-router-dom";
 const VerifyPhone = () => {
+
   const [code, setCode] = useState(["", "", "", ""]);
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -34,19 +35,19 @@ const VerifyPhone = () => {
   return (
     <VerifyStyles>
       <div className="verify">
-        <div className="verify_center">
+        <div className="verify__center">
           <h2>Подтвердить номер телефона</h2>
 
-          <p className="verify-paragraph">
+          <p className="verify__paragraph">
             введите код, отправленный на ваш номер телефона
           </p>
 
           <Form onFinish={onFinish}>
-            <div className="verify_boxes">
+            <div className="verify__boxes">
               {code.map((val, i) => (
                 <input
                   key={i}
-                  className="verify_box"
+                  className="verify__box"
                   maxLength={1}
                   value={val}
                   ref={(el: HTMLInputElement | null) => {
@@ -63,18 +64,15 @@ const VerifyPhone = () => {
               Отправить новый код в 00:23
             </p>
 
-            <div className="verify_next">
-              <Button
-                type="link"
-                icon={<LeftOutlined />}
-                style={{ paddingLeft: 0 }}
-              >
+            <div className="verify__next">
+              <Link to="/auth">
+                <LeftOutlined />
                 Вернуться назад
-              </Button>
+              </Link>
 
               <Button
                 type="primary"
-                className="confirm"
+                className="verify__confirm"
                 htmlType="submit"
                 disabled={!isFilled}
               >
