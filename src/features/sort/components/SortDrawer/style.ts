@@ -30,12 +30,10 @@ export const SortDrawerStyled = styled.div`
   .ant-modal-content{
     width: 400px !important;
   }
-  /*modal*/
 .ant-modal-root .ant-modal-mask {
   background-color: rgba(0, 0, 0, 0.75) !important; 
   backdrop-filter: blur(2px);
 }
-/*modal*/
 .ant-modal-root .ant-modal-mask {
   background-color: rgba(0, 0, 0, 0.75) !important; 
   backdrop-filter: blur(2px);
@@ -43,6 +41,7 @@ export const SortDrawerStyled = styled.div`
   .ant-input {
     padding: 11px;
   } 
+
 
   .circle_outlined{
     color: #52c41a;

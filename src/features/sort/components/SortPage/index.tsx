@@ -1,10 +1,19 @@
-import { TableDataSort } from "@/mockdata/sort/TableDataSort"
-import { SortStyled } from "./style"
-import { useState } from "react"
-import SortDrawer from "../SortDrawer"
-import { Table, Input, notification,  Modal } from "antd";
-import type { ColumnsType } from 'antd/es/table';
-import { CheckCircleFilled, DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { TableDataSort } from "@/mockdata/sort/TableDataSort";
+import "@/styles/drawer.css"
+import { SortStyled } from "./style";
+import { useState } from "react";
+import SortDrawer from "../SortDrawer";
+import { Table, Input, notification, Modal, Form, Button } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { Drawer } from "@/components/ui/Drawer/Drawer";
+
+import {
+  CheckCircleFilled,
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 
 interface SortData {
   id: number;
@@ -14,181 +23,131 @@ interface SortData {
 }
 
 function SortPage() {
-  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
-  const [drawerMode, setDrawerMode] = useState<'create' | 'edit'>('create');
-  const [editData, setEditData] = useState<SortData | null>(null);
-  
-  const [searchText, setSearchText] = useState<string>("");
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
-  
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [editingSort, setEditingSort] = useState<SortData | null>(null);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const getSortPriority = (sortName: string): number => {
-    const lowerSort = sortName.toLowerCase();
-    if (lowerSort.includes('высший')) return 0;
-    if (lowerSort.includes('средний')) return 1;
-    const numMatch = sortName.match(/\d+/);
-    return numMatch ? 2 + parseInt(numMatch[0]) : 999;
-  };
-
-  const getFilteredData = () => {
-    if (!searchText.trim()) return TableDataSort;
-    
-    const searchLower = searchText.toLowerCase().trim();
-    return TableDataSort.filter((item) => {
-      const sortMatch = item.sort?.toLowerCase().includes(searchLower);
-      const sectionsMatch = item.sections?.toLowerCase().includes(searchLower);
-      return sortMatch || sectionsMatch;
-    });
-  };
-
-  const filteredData = getFilteredData();
+  const [searchForm] = Form.useForm();
 
   const handleOpenCreateDrawer = () => {
-    setDrawerMode('create');
-    setEditData(null);
+    setEditingSort(null); 
     setOpenDrawer(true);
   };
 
   const handleOpenEditDrawer = (record: SortData) => {
-    setDrawerMode('edit');
-    setEditData(record);
+    setEditingSort(record); 
     setOpenDrawer(true);
   };
 
-  const handleOpenDeleteModal = (id: number) => {
-    setDeleteId(id);
-    setOpenModal(true);
-  };
-
-  const handleCloseDrawer = () => {
-    setOpenDrawer(false);
-  };
-
   const handleDelete = () => {
-    if (!deleteId) return;
-          notification.success({
-        message: 'Сорт удален',
-        description: 'Сорт удален из списка',
-        icon: <CheckCircleFilled  className='circle_oulined' />,
-        className: 'succes_message'
-      });
-    
-    setOpenModal(false);
+    notification.success({
+      message: "Сорт удален",
+      description: "Сорт удалён из списка",
+      icon: <CheckCircleFilled className="circle_oulined"/>,
+      className: "succes_message",
+      placement: "topRight",
+    });
+
+    setShowDeleteModal(false);
     setDeleteId(null);
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setDeleteId(null);
-  };
+  const filteredData = TableDataSort.filter((item) => {
+    const search = searchForm.getFieldValue("search")?.toLowerCase() || "";
+    return (
+      item.sort.toLowerCase().includes(search) ||
+      item.sections.toLowerCase().includes(search)
+    );
+  });
 
-  const handleTableChange = (page: number, size: number) => {
-    setCurrentPage(page);
-    setPageSize(size);
-  };
-
-  const handlePageSizeChange = (_current: number, size: number) => {
-    setCurrentPage(1);
-    setPageSize(size);
-  };
-
-  const SortColumns: ColumnsType<SortData> = [
+  const columns: ColumnsType<SortData> = [
     {
       title: "Наименование",
       dataIndex: "name",
       key: "name",
-      ellipsis: true,
     },
     {
       title: "Названия сортов",
       dataIndex: "sort",
       key: "sort",
-      sorter: (a, b) => getSortPriority(a.sort) - getSortPriority(b.sort),
-      ellipsis: true,
     },
     {
       title: "Разделы",
       dataIndex: "sections",
       key: "sections",
-      ellipsis: true,
     },
     {
       key: "action",
-      align: 'center',
+      align: "center",
       render: (_, record) => (
-        <div className="sort_columns_render">
-          <EditOutlined 
-            className="sort_render_items" 
+        <>
+          <EditOutlined
+          className="sort_render_items" 
             onClick={() => handleOpenEditDrawer(record)}
-            title="Редактировать"
+            style={{ marginRight: 16 }}
           />
-          <DeleteOutlined 
-            onClick={() => handleOpenDeleteModal(record.id)} 
-            className="sort_render_items"
-            title="Удалить"
+          <DeleteOutlined
+          className="sort_render_items" 
+            onClick={() => {
+              setDeleteId(record.id);
+              setShowDeleteModal(true);
+            }}
           />
-        </div>
+        </>
       ),
     },
   ];
 
   return (
-    <SortStyled>
+      <div>
+            <SortStyled>
       <h1>Сорт качество</h1>
 
       <div className="filter_add">
-        <Input
-          placeholder="Поиск"
-          suffix={<SearchOutlined  className="sort_render_items"  />}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          allowClear
-         
-        />
-        <button className="add_button" onClick={handleOpenCreateDrawer}>
+        <Form form={searchForm}>
+          <Form.Item name="search" noStyle>
+            <Input
+              placeholder="Поиск"
+              suffix={<SearchOutlined />}
+              allowClear
+            />
+          </Form.Item>
+        </Form>
+
+        <Button className="add_button" onClick={handleOpenCreateDrawer}>
           <PlusOutlined /> Добавить новый
-        </button>
+        </Button>
       </div>
 
       <SortDrawer
-        showDrawer={openDrawer}
-        handleCancelDrawer={handleCloseDrawer}
-        editData={editData}
-        mode={drawerMode}
+        open={openDrawer}
+        editingSort={editingSort}
+        onClose={() => setOpenDrawer(false)}
       />
 
-      <Table<SortData>
-        columns={SortColumns}
-        dataSource={filteredData}
+      <Table
         rowKey="id"
-        loading={false}
-        pagination={{
-          current: currentPage,
-          pageSize: pageSize,
-          total: filteredData.length,
-          showSizeChanger: true,  
-          pageSizeOptions: ['5', '10', '20', '50', '100'],
-          onChange: handleTableChange,
-          onShowSizeChange: handlePageSizeChange,
-        }}
+        columns={columns}
+        dataSource={filteredData}
       />
 
+</SortStyled>
       <Modal
-        open={openModal}
-        onCancel={handleCloseModal}
-        onOk={handleDelete}
+        open={showDeleteModal}
+        title="Подтверждение удаления"
         okText="Удалить"
         cancelText="Отменить"
-        title="Подтверждение удаления"
+        onOk={handleDelete}
+        centered
+        width={400}
+        onCancel={() => setShowDeleteModal(false)}
+        
       >
-        Вы уверены, что хотите удалить этот элемент? Это действие нельзя отменить.
+        Вы уверены, что хотите удалить этот элемент?
       </Modal>
-
-      
-    </SortStyled>
+      </div>
   );
 }
 

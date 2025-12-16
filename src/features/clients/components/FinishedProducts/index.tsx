@@ -10,7 +10,7 @@ export interface FinishedProductData {
   id: number;
   name: string;
   country: string;
-  city: string;
+  city: string; 
   sections: string;
 }
 

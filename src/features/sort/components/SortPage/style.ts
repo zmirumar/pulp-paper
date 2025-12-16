@@ -49,5 +49,18 @@ h1{
     transition: 0.2s;
     cursor: pointer;
   }
+  .add_button:hover{
+    background:  var(--color-primary) !important;
+    color: white!important;
+    padding: 10px 16px!important;
+    border-radius: 6px!important;
+    border: none!important;
+    font-size: 15px!important;
+    display: flex!important;
+    align-items: center!important;
+    gap: 6px!important;
+    transition: 0.2s!important;
+    cursor: pointer!important;
+  }
 
 `

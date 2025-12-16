@@ -1,148 +1,151 @@
-import { useState, useEffect } from 'react'
-import {  SortDrawerStyled } from './style'
-import { Input, Modal, notification } from 'antd'
-import { CheckCircleFilled } from '@ant-design/icons'
-import { Drawer } from '@/components/ui/Drawer/Drawer'
+import { useState, useEffect, useCallback } from "react";
+import { SortDrawerStyled } from "./style";
+import { Form, Input, Modal, notification, Select } from "antd";
+import { CheckCircleFilled } from "@ant-design/icons";
+import { Drawer } from "@/components/ui/Drawer/Drawer";
 
 interface SortData {
-  id: number; 
+  id: number;
   name: string;
   sort: string;
   sections: string;
 }
 
-interface AddButtonProps {
-  showDrawer: boolean;
-  handleCancelDrawer: () => void;
-  editData?: SortData | null;
-  mode?: 'create' | 'edit'; 
+interface SortDrawerProps {
+  open: boolean;
+  editingSort: SortData | null;
+  onClose: () => void;
 }
 
-const SortDrawer: React.FC<AddButtonProps> = ({ 
-  showDrawer, 
-  handleCancelDrawer, 
-  editData = null,
-  mode = 'create'
+const SortDrawer: React.FC<SortDrawerProps> = ({
+  open,
+  editingSort,
+  onClose,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [name, setName] = useState<string>("")
-  const [category, setCategory] = useState<string>("")
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [form] = Form.useForm();
+  const [isValid, setIsValid] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
-  const isValid = name.trim() !== "" && category.trim() !== ""
-  const hasUnsavedChanges = name.trim() !== "" || category.trim() !== ""
+  const isEdit = Boolean(editingSort);
 
-  const resetForm = () => {
-    setName("")
-    setCategory("")
-  }
+  const hasUnsavedChanges = () => {
+    const values = form.getFieldsValue();
+    return form.isFieldsTouched() && (values.sort || values.sections);
+  };
 
-  useEffect(() => {
-    if (mode === 'edit' && editData && showDrawer) {
-      setName(editData.sort || "")
-      setCategory(editData.sections || "")
-    } else if (mode === 'create' && showDrawer) {
-      resetForm()
-    }
-  }, [editData, mode, showDrawer])
+  const checkFormValidity = useCallback(() => {
+    const values = form.getFieldsValue();
+    setIsValid(!!(values.sort?.trim() && values.sections));
+  }, [form]);
 
   useEffect(() => {
-    if (!showDrawer) {
-      const timer = setTimeout(resetForm, 300)
-      return () => clearTimeout(timer)
+    if (!open) return;
+
+    if (editingSort) {
+      form.setFieldsValue({
+        sort: editingSort.sort,
+        sections: editingSort.sections,
+      });
+      setTimeout(checkFormValidity, 0);
+    } else {
+      form.resetFields();
+      setIsValid(false);
     }
-  }, [showDrawer])
+  }, [open, editingSort, form, checkFormValidity]);
 
   const handleCancel = () => {
-    if (hasUnsavedChanges) {
-      setIsModalOpen(true)
+    if (hasUnsavedChanges()) {
+      setShowCancelModal(true);
     } else {
-      handleCancelDrawer()
+      onClose();
     }
-  }
-
-  const handleCancelModal = () => {
-    setIsModalOpen(false)
-  }
+  };
 
   const handleConfirmDiscard = () => {
-    setIsModalOpen(false)
-    resetForm()
-    handleCancelDrawer()
-  }
+    setShowCancelModal(false);
+    form.resetFields();
+    setIsValid(false);
+    onClose();
+  };
 
-  const handleSubmit = () => {
-    if (!isValid || isSubmitting) return
+  const handleSubmit = async () => {
+    await form.validateFields();
 
-    setIsSubmitting(true)
+    notification.success({
+      message: isEdit ? "Изменения сохранены" : "Сорт добавлен",
+      description: isEdit
+        ? "Изменения успешно применены"
+        : "Новый сорт успешно добавлен",
+      placement: "topRight",
+      icon: <CheckCircleFilled className="circle_oulined"/>,
+      className: "succes_message",
+    });
 
-    setTimeout(() => {
-      notification.success({
-        message: mode === 'edit' ? 'Изменения сохранены' : 'Товар добавлен',
-        description: `${mode === 'edit' ? 'Ваши изменения были успешно применены' : 'Новый товар успешно добавлен в список'}`,
-        placement: 'topRight',
-        icon: <CheckCircleFilled  className='circle_oulined' />,
-        duration: 3,
-        className: 'succes_message'
-      })
-
-      setIsSubmitting(false)
-      resetForm()
-      handleCancelDrawer()
-    }, 500)
-  }
+    form.resetFields();
+    setIsValid(false);
+    onClose();
+  };
 
   return (
     <>
       <Drawer
-        open={showDrawer}
-        title={mode === 'edit' ? "Редактировать" : "Добавить новый"}
+        open={open}
+        title={isEdit ? "Редактировать" : "Добавить новый"}
         onClose={handleCancel}
-        showFooter={true}
+        showFooter
         cancelText="Отменить"
-        confirmText={mode === 'edit' ? "Сохранить" : "Добавить"}
+        confirmText={isEdit ? "Сохранить" : "Добавить"}
         onCancel={handleCancel}
         onConfirm={handleSubmit}
-        confirmDisabled={!isValid || isSubmitting}
-        closeButtonPosition="end" 
+        confirmDisabled={!isValid}
+        closeButtonPosition="end"
       >
         <SortDrawerStyled>
-          <div className="wrapper">
-            <h2>Сорт</h2>
-            <div className="inputs">
-              <Input
-                placeholder='Названия сортов'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={isSubmitting}
+          <Form
+            form={form}
+            layout="vertical"
+            onValuesChange={checkFormValidity}
+          >
+            <Form.Item
+              name="sort"
+              rules={[
+                { required: true, message: "Введите название сорта" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+              ]}
+            >
+              <Input placeholder="Название сорта" />
+            </Form.Item>
+
+            <Form.Item
+              name="sections"
+              rules={[{ required: true, message: "Выберите раздел" }]}
+            >
+              <Select
+                placeholder="Раздел"
+                options={[
+                  { value: "Готовый продукция", label: "Готовый продукция" },
+                  { value: "Склад сырья", label: "Склад сырья" },
+                ]}
               />
-              <Input
-                placeholder='Разделы'
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                disabled={isSubmitting}
-              />
-            </div>
-          </div>
+            </Form.Item>
+          </Form>
         </SortDrawerStyled>
       </Drawer>
 
-      {isModalOpen && (
-        <Modal
-          open={isModalOpen}
-          centered
-          title='Несохранённые изменения'
-          onOk={handleConfirmDiscard}
-          onCancel={handleCancelModal}
-          okText="Продолжить"
-          cancelText="Отменить"
-          width={400}
-        >
-          Все несохранённые изменения будут потеряны. Продолжить?
-        </Modal>
-      )}
+      <Modal
+        open={showCancelModal}
+        centered
+        title="Несохранённые изменения"
+        okText="Продолжить"
+        cancelText="Отменить"
+        onOk={handleConfirmDiscard}
+        width={400}
+        onCancel={() => setShowCancelModal(false)}
+      >
+        Все несохранённые изменения будут потеряны. Продолжить?
+      </Modal>
     </>
-  )
-}
+  );
+};
 
-export default SortDrawer
+export default SortDrawer;
