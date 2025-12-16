@@ -4,8 +4,6 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { LoginStyled } from "./style";
 import { Link } from "react-router-dom";
 
-
-
 const LoginPage: React.FC = () => {
   const [form] = Form.useForm();  
 

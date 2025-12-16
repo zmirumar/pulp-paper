@@ -1,4 +1,5 @@
-import { ForgotPassword } from '@/features/auth'
+import ForgotPassword from "@/features/auth/components/ForgotPassword"
+
 
 const ForgotPasswordPage = () =>  {
   return ( 
