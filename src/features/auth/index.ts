@@ -1,5 +1,3 @@
-import VerifyPhone from "./components/VeryfyPhone/VeryfyPhone";
+import LoginPage from "./components/Login";
 
- export {VerifyPhone}
-// export {ForgotPassword}
-// export {LoginPage}
+export {LoginPage}

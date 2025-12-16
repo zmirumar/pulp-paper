@@ -14,7 +14,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <LoginStyled>
+    <LoginStyled> 
       <div className="login">
         <h2>Вход</h2>
 
