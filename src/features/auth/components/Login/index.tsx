@@ -4,8 +4,6 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { LoginStyled } from "./style";
 import { Link } from "react-router-dom";
 
-
-
 const LoginPage: React.FC = () => {
   const [form] = Form.useForm();  
 
@@ -14,7 +12,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <LoginStyled>
+    <LoginStyled> 
       <div className="login">
         <h2>Вход</h2>
 
@@ -55,7 +53,7 @@ const LoginPage: React.FC = () => {
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
-            <Link to="/auth/password">Forgot password?</Link>
+            <Link to="/auth/forgot-password">Forgot password?</Link>
           </div>
 
           <Form.Item shouldUpdate>

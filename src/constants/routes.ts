@@ -9,6 +9,8 @@ export const routes = {
   EVENTS: "/events",
   SORT: "/refs/grade-quality",
   AUTH: "/auth",
+  VERIFYPHONE: "/auth/verify-phone",
+  PASSWORD: "/auth/forgot-password",
   MATERIALSPAGE: "/refs/material-types",
   MATERIALSPAGEID: "/refs/material-types/:id",
   MATERIALSDETAILCREATE: "/refs/material-types/:id/create",

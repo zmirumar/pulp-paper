@@ -3,6 +3,8 @@ import { routes } from "../constants/routes";
 import Users from "@/pages/users";
 import Sort from "@/pages/sort";
 import Auth from "@/pages/auth";
+import ForgotPasswordPage from "@/pages/auth/forgot-password";
+import VerifyPhonePage from "@/pages/auth/verify-phone";
 
 import MaterialDetailsPage from "@/pages/materials/[id]";
 import Materials from "@/pages/materials";
@@ -10,10 +12,18 @@ import MaterialsDetailCreate from "@/features/materials/components/MaterialsDeta
 import MaterialsDetailEdit from "@/features/materials/components/MaterialsDetailEdit";
 
 export const publicRoutes = [
-  {
-    path: routes.AUTH,
-    element: Auth,
-  },
+    {
+        path: routes.AUTH,
+        element: Auth ,
+    },
+    {
+        path: routes.VERIFYPHONE,
+        element: VerifyPhonePage,
+    },
+    {
+        path: routes.PASSWORD,
+        element: ForgotPasswordPage,
+    },
 ];
 
 export const privateRoutes = [
