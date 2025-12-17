@@ -32,7 +32,7 @@ export const MaterialsDetailEditStyled = styled.div`
   .edit__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px 24px;
+    gap: 0px 15px;
     margin-bottom: 44px;
   }
 
@@ -46,6 +46,11 @@ export const MaterialsDetailEditStyled = styled.div`
   .edit__field .ant-select {
     width: 100%;
     height: 40px;
+  }
+
+  .edit__input input {
+    width: 360px;
+    background-color: #d9d9d9;
   }
 
   .ant-input:focus::placeholder {
@@ -73,7 +78,7 @@ export const MaterialsDetailEditStyled = styled.div`
     margin-top: 32px;
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 20px;
 
     .edit__button {
       height: 35px;

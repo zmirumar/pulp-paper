@@ -1,8 +1,4 @@
-export interface MaterialsTable {
-  id: number;
-  name: string;
-  section: string;
-}
+import type { MaterialsTable } from "@/interface";
 
 export const MaterialsTableData: MaterialsTable[] = [
   {

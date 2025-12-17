@@ -1,63 +1,62 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
+import { Button, Tabs, Modal, Form, Input, Checkbox, notification } from "antd";
 import {
-  Button,
-  Tabs,
-  Input,
-  Checkbox,
-  Table,
-  notification,
-  Modal,
-} from "antd";
-import {
-  PlusOutlined,
-  SearchOutlined,
   EditOutlined,
   DeleteOutlined,
   CheckCircleFilled,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { MaterialsStyled, MaterialsDrawerStyled } from "./style";
+import { MaterialsStyled } from "./style";
+import { Drawer } from "@/components/ui";
+import { MaterialsTabs } from "@/features/materials/components/MaterialsTabs";
 import { MaterialsTableData } from "@/mockdata/MaterialsData/materials";
-
-interface MaterialItem {
-  id: number;
-  name: string;
-  section: string;
-}
+import type { MaterialItem } from "@/interface";
 
 const MaterialsPage = () => {
   const navigate = useNavigate();
+  const [form] = Form.useForm();
   const [activeTab, setActiveTab] = useState("1");
-  const [searchValue, setSearchValue] = useState("");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [unsavedModalOpen, setUnsavedModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<MaterialItem | null>(null);
-  const [name, setName] = useState("");
-  const [isRaw, setIsRaw] = useState(false);
-  const [isList, setIsList] = useState(false);
-
-  const resetForm = () => {
-    setName("");
-    setIsRaw(false);
-    setIsList(false);
-    setEditingItem(null);
-  };
+  const [isConfirmDisabled, setIsConfirmDisabled] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
 
   const openCreateDrawer = () => {
-    resetForm();
+    setEditingItem(null);
+    form.resetFields();
     setDrawerOpen(true);
+    setIsDirty(false);
+    setIsConfirmDisabled(true);
   };
 
   const openEditDrawer = (item: MaterialItem) => {
     setEditingItem(item);
-    setName(item.name);
-
+    form.setFieldsValue({ name: item.name, isRaw: true, isList: false });
     setDrawerOpen(true);
+    setIsDirty(false);
+    setIsConfirmDisabled(false);
+  };
+
+  const onFormValuesChange = () => {
+    const values = form.getFieldsValue();
+    const originalValues = editingItem
+      ? { name: editingItem.name, isRaw: true, isList: false }
+      : { name: "", isRaw: false, isList: false };
+
+    const dirty =
+      values.name !== originalValues.name ||
+      values.isRaw !== originalValues.isRaw ||
+      values.isList !== originalValues.isList;
+
+    setIsDirty(dirty);
+
+    setIsConfirmDisabled(!values.name || (!values.isRaw && !values.isList));
   };
 
   const handleCloseDrawer = () => {
-    if (!name && !isRaw && !isList) {
+    if (!isDirty) {
       setDrawerOpen(false);
       return;
     }
@@ -65,7 +64,7 @@ const MaterialsPage = () => {
   };
 
   const confirmCloseDrawer = () => {
-    resetForm();
+    form.resetFields();
     setDrawerOpen(false);
     setUnsavedModalOpen(false);
   };
@@ -79,32 +78,20 @@ const MaterialsPage = () => {
       icon: <CheckCircleFilled className="circle_oulined" />,
       className: "succes_message",
     });
-
-    resetForm();
+    form.resetFields();
     setDrawerOpen(false);
   };
 
-  const handleDetele = () => {
+  const handleDelete = () => {
     notification.success({
-      message: "Товар удален",
-      description: "Товар удален из списка",
+      message: "Товар сохранён",
+      description: `Товар удален из списка`,
+      placement: "topRight",
       icon: <CheckCircleFilled className="circle_oulined" />,
+      duration: 3,
       className: "succes_message",
     });
   };
-
-  const openDeleteModal = () => {
-    setDeleteModalOpen(true);
-  };
-
-  const filteredData = useMemo(() => {
-    const searchText = searchValue.toLowerCase();
-    return MaterialsTableData.filter(
-      (item) =>
-        item.name.toLowerCase().includes(searchText) ||
-        item.section.toLowerCase().includes(searchText)
-    );
-  }, [searchValue]);
 
   const columns = [
     {
@@ -136,12 +123,36 @@ const MaterialsPage = () => {
           />
           <Button
             type="text"
-            icon={<DeleteOutlined color="#d9d9d9" />}
+            icon={<DeleteOutlined />}
             onClick={(e) => {
               e.stopPropagation();
-              openDeleteModal();
+              setDeleteModalOpen(true);
             }}
           />
+        </div>
+      ),
+    },
+  ];
+
+  const tabsItems = [
+    {
+      key: "1",
+      label: "Склад",
+      children: (
+        <MaterialsTabs
+          columns={columns}
+          navigate={navigate}
+          openCreateDrawer={openCreateDrawer}
+          data={MaterialsTableData}
+        />
+      ),
+    },
+    {
+      key: "2",
+      label: "Готовая продукция",
+      children: (
+        <div className="not-found">
+          <h2>Not Found</h2>
         </div>
       ),
     },
@@ -150,74 +161,26 @@ const MaterialsPage = () => {
   return (
     <MaterialsStyled>
       <h1>Тип материалов</h1>
-
-      <Tabs
-        activeKey={activeTab}
-        onChange={setActiveTab}
-        items={[
-          { key: "1", label: "Склад" },
-          { key: "2", label: "Готовая продукция" },
-        ]}
-      />
-
-      {activeTab === "1" && (
-        <>
-          <div className="materials__site">
-            <Input
-              placeholder="Поиск"
-              value={searchValue}
-              className="materials__input"
-              onChange={(e) => setSearchValue(e.target.value)}
-              suffix={<SearchOutlined style={{ color: "#00000073" }} />}
-              allowClear
-            />
-
-            <Button
-              className="materials__button"
-              icon={<PlusOutlined />}
-              onClick={openCreateDrawer}
-            >
-              Добавить новый материал
-            </Button>
-          </div>
-
-          <Table<MaterialItem>
-            columns={columns}
-            dataSource={filteredData}
-            rowKey="id"
-            pagination={false}
-            onRow={(record) => ({
-              onClick: () => navigate(`/refs/material-types/${record.id}`),
-            })}
-          />
-        </>
-      )}
-
-      {activeTab === "2" && (
-        <div className="not-found">
-          <h2>Not Found</h2>
-        </div>
-      )}
+      <Tabs activeKey={activeTab} onChange={setActiveTab} items={tabsItems} />
 
       <Modal
         title="Подтверждение удаления"
         open={deleteModalOpen}
-        onCancel={() => setDeleteModalOpen(false)}
         centered
+        onCancel={() => setDeleteModalOpen(false)}
         onOk={() => {
           setDeleteModalOpen(false);
-          handleDetele();
+          handleDelete();
         }}
         okText="Продолжить"
         cancelText="Отменить"
-        className="modal__small"
       >
         <p>
           После удаления восстановить этот элемент будет невозможно. Продолжить?
         </p>
       </Modal>
 
-      <MaterialsDrawerStyled
+      <Drawer
         title={editingItem ? "Изменить" : "Добавить новый"}
         open={drawerOpen}
         onClose={handleCloseDrawer}
@@ -226,33 +189,20 @@ const MaterialsPage = () => {
         cancelText="Отменить"
         onCancel={handleCloseDrawer}
         onConfirm={handleSave}
-        confirmDisabled={!(name.trim() && (isRaw || isList))}
+        confirmDisabled={isConfirmDisabled}
       >
-        <div className="drawer">
-          <Input
-            placeholder="Наименование"
-            value={name}
-            className="drawer__input"
-            onChange={(e) => setName(e.target.value)}
-          />
-
-          <p className="drawer__text">Разделы</p>
-
-          <Checkbox
-            checked={isRaw}
-            onChange={(e) => setIsRaw(e.target.checked)}
-          >
-            Сырья склад
-          </Checkbox>
-
-          <Checkbox
-            checked={isList}
-            onChange={(e) => setIsList(e.target.checked)}
-          >
-            Показать в списках
-          </Checkbox>
-        </div>
-      </MaterialsDrawerStyled>
+        <Form form={form} layout="vertical" onValuesChange={onFormValuesChange}>
+          <Form.Item name="name">
+            <Input placeholder="Наименование" />
+          </Form.Item>
+          <Form.Item name="isRaw" valuePropName="checked">
+            <Checkbox>Сырья склад</Checkbox>
+          </Form.Item>
+          <Form.Item name="isList" valuePropName="checked">
+            <Checkbox>Показать в списках</Checkbox>
+          </Form.Item>
+        </Form>
+      </Drawer>
 
       <Modal
         title="Несохранённые изменения"
@@ -263,9 +213,7 @@ const MaterialsPage = () => {
         okText="Продолжить"
         cancelText="Отменить"
       >
-        <p className="modal__text">
-          Все несохранённые изменения будут потеряны. Продолжить?
-        </p>
+        <p>Все несохранённые изменения будут потеряны. Продолжить?</p>
       </Modal>
     </MaterialsStyled>
   );

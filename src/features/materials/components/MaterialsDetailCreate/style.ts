@@ -29,10 +29,15 @@ export const MaterialsDetailCreateStyled = styled.div`
     border-radius: 12px;
   }
 
+  .create__input input {
+    width: 360px;
+    background-color: #d9d9d9;
+  }
+
   .create__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px 24px;
+    gap: 0px 24px;
     margin-bottom: 44px;
   }
 

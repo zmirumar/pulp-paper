@@ -10,38 +10,38 @@ export const MaterialsDetailStyled = styled.div`
       font-weight: 600;
       font-size: 24px;
     }
+  }
 
-    .materialsDetail__wrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
+  .materialsDetail__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
 
-      .detail__input {
-        width: 364px;
-        padding: 7px 10px;
-        border: 1px solid #d9d9d9 !important;
-        border-radius: 10px;
-      }
+    .ant-input:focus::placeholder {
+      color: transparent !important;
+    }
 
-      .ant-input:focus::placeholder {
-        color: transparent !important;
-      }
+    .detail__input {
+      width: 364px;
+      padding: 7px;
+      border: 1px solid #d9d9d9 !important;
+      border-radius: 10px;
+    }
 
-      .materialsDetail__button {
-        width: 162px;
-        height: 32px;
+    .materialsDetail__button {
+      width: 162px;
+      height: 32px;
+      color: #fff;
+      background-color: #1890ff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #40a9ff;
         color: #fff;
-        background-color: #1890ff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #40a9ff;
-          color: #fff;
-        }
       }
     }
   }

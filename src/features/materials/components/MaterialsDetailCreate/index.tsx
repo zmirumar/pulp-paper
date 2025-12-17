@@ -1,60 +1,54 @@
 import { useState } from "react";
-import { Input, Select, Checkbox, Button, notification, Modal } from "antd";
-import { CheckCircleFilled } from "@ant-design/icons";
+import {
+  Input,
+  Select,
+  Checkbox,
+  Button,
+  notification,
+  Modal,
+  Form,
+} from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { MaterialsDetailCreateStyled } from "./style";
+import { CheckCircleFilled } from "@ant-design/icons";
 import "@/styles/drawer.css";
 
 const MaterialsDetailCreate = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [form] = Form.useForm();
   const [openModal, setOpenModal] = useState(false);
+  const [, forceUpdate] = useState({});
+  const [isTopChecked, setIsTopChecked] = useState(false);
+  const [isMaxChecked, setIsMaxChecked] = useState(false);
+  const [maxPassValue, setMaxPassValue] = useState("");
 
-  const [form, setForm] = useState({
-    name: "",
-    code: "",
-    unit: "",
-    type: "",
-    order: "",
-    tara: "",
-    productCode: "",
-    sklad: "",
-    param1: "",
-    param2: "",
-    param3: "",
-    param4: "",
-    showInList: false,
-    maxPass: "",
-    maxPassCheck: false,
-  });
-
-  const update = (field: string, value: any) => {
-    setForm((f) => ({ ...f, [field]: value }));
+  const isFormFilled = () => {
+    const values = form.getFieldsValue();
+    return (
+      Boolean(values.name) &&
+      Boolean(values.code) &&
+      Boolean(values.unit) &&
+      Boolean(values.type) &&
+      Boolean(values.order) &&
+      Boolean(values.tara) &&
+      Boolean(values.productCode) &&
+      Boolean(values.sklad) &&
+      Boolean(values.param1) &&
+      Boolean(values.param2) &&
+      Boolean(values.param3) &&
+      Boolean(values.param4)
+    );
   };
 
-  const inputsFilled =
-    form.name &&
-    form.code &&
-    form.unit &&
-    form.type &&
-    form.order &&
-    form.tara &&
-    form.productCode &&
-    form.sklad &&
-    form.param1 &&
-    form.param2 &&
-    form.param3 &&
-    form.param4;
+  const isSubmitEnabled = isTopChecked && isMaxChecked && maxPassValue;
 
-  const valid =
-    inputsFilled && form.showInList && form.maxPass && form.maxPassCheck;
-
-  const handleEdit = () => {
+  const handleSubmit = () => {
     notification.success({
       message: "Товар добавлен",
-      description: `Новый товар успешно добавлен в список`,
+      description: "Новый товар успешно добавлен в список",
       placement: "topRight",
-      icon: <CheckCircleFilled className="circle_oulined" />,
+      icon: <CheckCircleFilled style={{ color: "#52c41a" }} />,
       duration: 3,
       className: "succes_message",
     });
@@ -63,185 +57,192 @@ const MaterialsDetailCreate = () => {
 
   return (
     <MaterialsDetailCreateStyled>
-      <div>
+      <div className="detail__create">
         <h1 className="create__title">Добавить новый</h1>
-
         <p className="create__breadcrumb">
           Разделы / Тип материалов / <span>Добавить новый</span>
         </p>
 
         <div className="create__card">
-          <div className="create__grid">
-            <div className="create__field">
-              <label>Наименование</label>
+          <Form
+            form={form}
+            onValuesChange={() => forceUpdate({})}
+            onFinish={handleSubmit}
+          >
+            <div className="create__grid">
+              <Form.Item
+                name="name"
+                label="Наименование"
+                labelCol={{ span: 24 }}
+              >
+                <Input placeholder="Введите" />
+              </Form.Item>
+
+              <Form.Item name="code" label="Код" labelCol={{ span: 24 }}>
+                <Input placeholder="Введите" />
+              </Form.Item>
+
+              <Form.Item name="unit" label="Ед. изм" labelCol={{ span: 24 }}>
+                <Select
+                  options={[
+                    { value: "Кг", label: "Кг" },
+                    { value: "Мл.гр", label: "Мл.гр" },
+                    { value: "Шт", label: "Шт" },
+                  ]}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="type"
+                label="Тип материалов"
+                labelCol={{ span: 24 }}
+              >
+                <Select
+                  options={[
+                    { value: "Салфетка B-1", label: "Салфетка B-1" },
+                    { value: "Химикаты", label: "Химикаты" },
+                  ]}
+                />
+              </Form.Item>
+
+              <Form.Item name="order" label="Порядок" labelCol={{ span: 24 }}>
+                <Input placeholder="Введите" />
+              </Form.Item>
+
+              <Form.Item name="tara" label="Тара" labelCol={{ span: 24 }}>
+                <Select
+                  options={[
+                    { value: "118", label: "118" },
+                    { value: "120", label: "120" },
+                  ]}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="productCode"
+                label="Код товара"
+                labelCol={{ span: 24 }}
+              >
+                <Input placeholder="Введите" />
+              </Form.Item>
+
+              <Form.Item name="sklad" label="Склад" labelCol={{ span: 24 }}>
+                <Select
+                  options={[
+                    { value: "Склад", label: "Склад" },
+                    { value: "Склад сырья", label: "Склад сырья" },
+                  ]}
+                />
+              </Form.Item>
+            </div>
+
+            <hr />
+
+            <Form.Item shouldUpdate>
+              {() => (
+                <Checkbox
+                  checked={isTopChecked}
+                  onChange={(e) => setIsTopChecked(e.target.checked)}
+                  disabled={!isFormFilled()}
+                >
+                  Показать в списке
+                </Checkbox>
+              )}
+            </Form.Item>
+
+            <div className="create__grid">
+              <Form.Item
+                name="param1"
+                label="Параметр 1"
+                labelCol={{ span: 24 }}
+              >
+                <Select
+                  options={[
+                    { value: "14гр/м2", label: "14гр/м2" },
+                    { value: "15гр/м2", label: "15гр/м2" },
+                  ]}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="param2"
+                label="Параметр 2"
+                labelCol={{ span: 24 }}
+              >
+                <Select
+                  options={[
+                    { value: "820мм", label: "820мм" },
+                    { value: "700мм", label: "700мм" },
+                  ]}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="param3"
+                label="Параметр 3"
+                labelCol={{ span: 24 }}
+              >
+                <Select
+                  options={[
+                    { value: "1", label: "1" },
+                    { value: "2", label: "2" },
+                  ]}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="param4"
+                label="Параметр 4"
+                labelCol={{ span: 24 }}
+              >
+                <Input placeholder="Введите" />
+              </Form.Item>
+            </div>
+
+            <Form.Item name="maxPass" valuePropName="checked">
+              <Checkbox
+                checked={isMaxChecked}
+                onChange={(e) => setIsMaxChecked(e.target.checked)}
+                disabled={!isTopChecked}
+              >
+                Максимальный проход
+              </Checkbox>
+            </Form.Item>
+
+            <Form.Item className="create__input" name="maxPassValue">
               <Input
-                placeholder="Введите"
-                value={form.name}
-                onChange={(e) => update("name", e.target.value)}
+                value={maxPassValue}
+                onChange={(e) => setMaxPassValue(e.target.value)}
+                disabled={!isTopChecked}
+                placeholder="0"
               />
-            </div>
-            <div className="create__field">
-              <label>Код</label>
-              <Input
-                placeholder="Введите"
-                value={form.code}
-                onChange={(e) => update("code", e.target.value)}
-              />
-            </div>
-            <div className="create__field">
-              <label>Ед. изм</label>
-              <Select
-                placeholder="Выберите"
-                value={form.unit || undefined}
-                options={[
-                  { label: "Кг", value: "Кг" },
-                  { label: "Мл.гр", value: "Мл.гр" },
-                  { label: "Шт", value: "Шт" },
-                ]}
-                onChange={(v) => update("unit", v)}
-              />
-            </div>
-            <div className="create__field">
-              <label>Тип материалов</label>
-              <Select
-                placeholder="Выберите"
-                value={form.type || undefined}
-                options={[
-                  { label: "Салфетка B-1", value: "Салфетка B-1" },
-                  { label: "Химикаты", value: "Химикаты" },
-                ]}
-                onChange={(v) => update("type", v)}
-              />
-            </div>
-            <div className="create__field">
-              <label>Порядок</label>
-              <Input
-                placeholder="Введите"
-                value={form.order}
-                onChange={(e) => update("order", e.target.value)}
-              />
-            </div>
-            <div className="create__field">
-              <label>Тара</label>
-              <Select
-                placeholder="Выберите"
-                value={form.tara || undefined}
-                options={[
-                  { label: "118", value: "118" },
-                  { label: "120", value: "120" },
-                ]}
-                onChange={(v) => update("tara", v)}
-              />
-            </div>
-            <div className="create__field">
-              <label>Код товара</label>
-              <Input
-                placeholder="Введите"
-                value={form.productCode}
-                onChange={(e) => update("productCode", e.target.value)}
-              />
-            </div>
-            <div className="create__field">
-              <label>Склад</label>
-              <Select
-                placeholder="Выберите"
-                value={form.sklad || undefined}
-                options={[
-                  { label: "Склад", value: "Склад" },
-                  { label: "Склад сырья", value: "Склад сырья" },
-                ]}
-                onChange={(v) => update("sklad", v)}
-              />
-            </div>
-          </div>
+            </Form.Item>
 
-          <hr />
+            <Form.Item>
+              <div className="create__footer">
+                <Button
+                  className="create__button"
+                  onClick={() => {
+                    if (form.isFieldsTouched()) {
+                      setOpenModal(true);
+                    } else {
+                      navigate("/refs/material-types/1");
+                    }
+                  }}
+                >
+                  Отменить
+                </Button>
 
-          <div className="create__checkbox">
-            <Checkbox
-              disabled={!inputsFilled}
-              checked={form.showInList}
-              onChange={(e) => update("showInList", e.target.checked)}
-            >
-              Показать в списке
-            </Checkbox>
-          </div>
-
-          <div className="create__grid">
-            <div className="create__field">
-              <label>Параметр 1</label>
-              <Select
-                placeholder="Выберите"
-                value={form.param1 || undefined}
-                options={[
-                  { label: "14гр/м2", value: "14гр/м2" },
-                  { label: "15гр/м2", value: "15гр/м2" },
-                ]}
-                onChange={(v) => update("param1", v)}
-              />
-            </div>
-            <div className="create__field">
-              <label>Параметр 2</label>
-              <Select
-                placeholder="Выберите"
-                value={form.param2 || undefined}
-                options={[
-                  { label: "820мм", value: "820мм" },
-                  { label: "700мм", value: "700мм" },
-                ]}
-                onChange={(v) => update("param2", v)}
-              />
-            </div>
-            <div className="create__field">
-              <label>Параметр 3</label>
-              <Select
-                placeholder="Выберите"
-                value={form.param3 || undefined}
-                options={[
-                  { label: "1", value: "1" },
-                  { label: "2", value: "2" },
-                ]}
-                onChange={(v) => update("param3", v)}
-              />
-            </div>
-            <div className="create__field">
-              <label>Параметр 4</label>
-              <Input
-                placeholder="Введите"
-                value={form.param4}
-                onChange={(e) => update("param4", e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="create__max">
-            <Checkbox
-              disabled={form.maxPass === ""}
-              checked={form.maxPassCheck}
-              onChange={(e) => update("maxPassCheck", e.target.checked)}
-            >
-              Максимальный проход
-            </Checkbox>
-            <Input
-              placeholder="0"
-              value={form.maxPass}
-              disabled={!form.showInList}
-              onChange={(e) => update("maxPass", e.target.value)}
-            />
-          </div>
-
-          <div className="create__footer">
-            <Button
-              className="cancel__button"
-              onClick={() => setOpenModal(true)}
-            >
-              Отменить
-            </Button>
-
-            <Button type="primary" disabled={!valid} onClick={handleEdit}>
-              Добавить
-            </Button>
-          </div>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  disabled={!isSubmitEnabled}
+                >
+                  Добавить
+                </Button>
+              </div>
+            </Form.Item>
+          </Form>
         </div>
 
         <Modal
@@ -255,9 +256,8 @@ const MaterialsDetailCreate = () => {
           }}
           okText="Продолжить"
           cancelText="Отменить"
-          className="modal__small"
         >
-          <p className="modal__text" style={{ width: "80%" }}>
+          <p style={{ width: "80%" }}>
             Все несохранённые изменения будут потеряны. Продолжить?
           </p>
         </Modal>

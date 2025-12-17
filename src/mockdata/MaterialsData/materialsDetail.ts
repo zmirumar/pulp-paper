@@ -1,14 +1,4 @@
-export interface MaterialsItem {
-  id: number;
-  priyceList: boolean;
-  order: number;
-  name: string;
-  code: string;
-  unit: string;
-  type: string;  
-  materialKind: string;
-  section?: string;
-}
+import type { MaterialsItem } from "@/interface";
 
 export const MaterialsDetailData: MaterialsItem[] = [
   {

@@ -70,7 +70,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
                 },
                 {
                     key: "/refs/clients",
-                    label: "Клиенты",
+                    label: "Клиенты",   
                     path: "/refs/clients",
                     disabled: false
                 },
