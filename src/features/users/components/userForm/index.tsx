@@ -1,22 +1,16 @@
-import { Button, Form, Input, Checkbox, Modal } from "antd";
+import { Button, Form, Checkbox } from "antd";
 import { useEffect, useState } from "react";
 import { UserFormStyled, UserFormStyledBtns } from "./style";
 import { roleOptions, permOptions } from "@/mockdata/users";
-import type { IUser } from "../UserPage";
-import { Drawer } from "@/components/ui";
-
-interface UserFormProps {
-  open: boolean;
-  editingUser: IUser | null;
-  onClose: () => void;
-  onSubmit: (data: IUser) => void;
-}
+import type { IUser, UserFormProps } from "@/interface/users";
+import { Drawer, Input } from "@/components/ui";
 
 const UserForm: React.FC<UserFormProps> = ({
   open,
   editingUser,
   onClose,
   onSubmit,
+  setConfirmModal,
 }) => {
   const [form] = Form.useForm();
   const [allRoles, setAllRoles] = useState(false);
@@ -24,10 +18,7 @@ const UserForm: React.FC<UserFormProps> = ({
   const [, forceUpdate] = useState({});
 
   useEffect(() => {
-    if (!open) {
-      resetForm();
-      return;
-    }
+    if (!open) return resetForm();
 
     if (editingUser) {
       loadUserData(editingUser);
@@ -81,34 +72,28 @@ const UserForm: React.FC<UserFormProps> = ({
     onSubmit(clean);
   };
 
-  const confirmCancel = () => {
-    if (form.isFieldsTouched()) {
-      Modal.confirm({
-        icon: null,
-        centered: true,
-        title: "Несохранённые изменения",
-        content: "Все несохранённые изменения будут потеряны. Продолжить?",
-        okText: "Продолжить",
-        cancelText: "Отменить",
-        onOk: onClose,
-      });
+  const handleDrawerClose = () => {
+    if (isFormTouched) {
+      setConfirmModal({ type: "unsaved" });
     } else {
       onClose();
     }
   };
 
-  const checkFormValidity = () => {
+  const isCheckFormValid = () => {
     const values = form.getFieldsValue();
     return (
       Boolean(values.fullName) &&
       Boolean(values.login) &&
       Boolean(values.phoneNumber) &&
+      (values.permissionIds?.length > 0) &&
+      (values.roleIds?.length > 0) &&
       (editingUser || Boolean(values.password))
     );
   };
 
-  const isFormTouched = form.isFieldsTouched();
-  const isFormValid = checkFormValidity();
+  const isFormTouched = form.isFieldsTouched(false);
+  const isFormValid = isCheckFormValid();
 
   const roleCheckboxOptions = roleOptions.map((o) => ({
     label: o.name,
@@ -125,7 +110,7 @@ const UserForm: React.FC<UserFormProps> = ({
       <Button
         disabled={!isFormTouched}
         className="button cancel"
-        onClick={confirmCancel}
+        onClick={handleDrawerClose}
       >
         Отмена
       </Button>
@@ -147,7 +132,7 @@ const UserForm: React.FC<UserFormProps> = ({
         editingUser ? "Изменить пользователь" : "Добавить новый пользователь"
       }
       open={open}
-      onClose={confirmCancel}
+      onClose={handleDrawerClose}
       footer={drawerFooter}
     >
       <UserFormStyled>
@@ -157,29 +142,26 @@ const UserForm: React.FC<UserFormProps> = ({
           onFinish={handleFinish}
           onValuesChange={() => forceUpdate({})}
         >
-          <Form.Item name="fullName" rules={[{ required: true, message: "" }]}>
-            <Input placeholder="Имя" />
-          </Form.Item>
-
-          <Form.Item name="login" rules={[{ required: true, message: "" }]}>
-            <Input placeholder="Логин" />
-          </Form.Item>
-
-          {!editingUser && (
-            <Form.Item
-              name="password"
-              rules={[{ required: true, message: "" }]}
-            >
-              <Input.Password placeholder="Пароль" />
-            </Form.Item>
-          )}
-
-          <Form.Item
+          <Input
+            name="fullName"
+            rules={[{ required: true, message: "" }]}
+            placeholder="Имя пользователя"
+          />
+          <Input
+            name="login"
+            rules={[{ required: true, message: "" }]}
+            placeholder="Логин"
+          />
+          {!editingUser && <Input
+            name="password"
+            rules={[{ required: true, message: "" }]}
+            placeholder="Пароль"
+          />}
+          <Input
             name="phoneNumber"
             rules={[{ required: true, message: "" }]}
-          >
-            <Input placeholder="Телефон" />
-          </Form.Item>
+            placeholder="Номер"
+          />
 
           <Form.Item label="Отдел" className="checkbox-wrapper">
             <Checkbox
