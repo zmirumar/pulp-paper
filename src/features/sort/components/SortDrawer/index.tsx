@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
-import { SortDrawerStyled } from "./style";
+import { useState } from "react";
 import { Form, Input, Modal, notification, Select } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { Drawer } from "@/components/ui/Drawer/Drawer";
+import { SortDrawerStyled } from "./style";
 
 interface SortData {
   id: number;
@@ -23,67 +23,47 @@ const SortDrawer: React.FC<SortDrawerProps> = ({
   onClose,
 }) => {
   const [form] = Form.useForm();
-  const [isValid, setIsValid] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   const isEdit = Boolean(editingSort);
 
-  const hasUnsavedChanges = () => {
-    const values = form.getFieldsValue();
-    return form.isFieldsTouched() && (values.sort || values.sections);
-  };
+  Form.useWatch([], form);
+  const isFormTouched = form.isFieldsTouched();
 
-  const checkFormValidity = useCallback(() => {
-    const values = form.getFieldsValue();
-    setIsValid(!!(values.sort?.trim() && values.sections));
-  }, [form]);
-
-  useEffect(() => {
-    if (!open) return;
-
-    if (editingSort) {
-      form.setFieldsValue({
-        sort: editingSort.sort,
-        sections: editingSort.sections,
-      });
-      setTimeout(checkFormValidity, 0);
-    } else {
-      form.resetFields();
-      setIsValid(false);
-    }
-  }, [open, editingSort, form, checkFormValidity]);
-
-  const handleCancel = () => {
-    if (hasUnsavedChanges()) {
+  const handleAttemptClose = () => {
+    if (form.isFieldsTouched()) {
       setShowCancelModal(true);
     } else {
-      onClose();
+      handleClose();
     }
+  };
+
+  const handleClose = () => {
+    form.resetFields();
+    onClose();
   };
 
   const handleConfirmDiscard = () => {
     setShowCancelModal(false);
-    form.resetFields();
-    setIsValid(false);
-    onClose();
+    handleClose();
   };
 
-  const handleSubmit = async () => {
-    await form.validateFields();
+  const handleConfirm = () => {
+    form
+      .validateFields()
+      .then(() => {
+        notification.success({
+          message: isEdit ? "Изменения сохранены" : "Сорт добавлен",
+          description: isEdit
+            ? "Изменения успешно применены"
+            : "Новый сорт успешно добавлен",
+          placement: "topRight",
+          icon: <CheckCircleFilled className="circle_oulined" />,
+          className: "succes_message",
+        });
+        handleClose();
+      })
 
-    notification.success({
-      message: isEdit ? "Изменения сохранены" : "Сорт добавлен",
-      description: isEdit
-        ? "Изменения успешно применены"
-        : "Новый сорт успешно добавлен",
-      placement: "topRight",
-      icon: <CheckCircleFilled className="circle_oulined"/>,
-      className: "succes_message",
-    });
-
-    form.resetFields();
-    setIsValid(false);
-    onClose();
   };
 
   return (
@@ -91,20 +71,20 @@ const SortDrawer: React.FC<SortDrawerProps> = ({
       <Drawer
         open={open}
         title={isEdit ? "Редактировать" : "Добавить новый"}
-        onClose={handleCancel}
+        onClose={handleAttemptClose}
         showFooter
         cancelText="Отменить"
         confirmText={isEdit ? "Сохранить" : "Добавить"}
-        onCancel={handleCancel}
-        onConfirm={handleSubmit}
-        confirmDisabled={!isValid}
+        onCancel={handleAttemptClose}
+        onConfirm={handleConfirm}
+        confirmDisabled={!isFormTouched}
         closeButtonPosition="end"
       >
         <SortDrawerStyled>
           <Form
             form={form}
             layout="vertical"
-            onValuesChange={checkFormValidity}
+            key={open ? (editingSort?.id || 'create') : 'closed'} 
           >
             <Form.Item
               name="sort"
@@ -135,12 +115,13 @@ const SortDrawer: React.FC<SortDrawerProps> = ({
       <Modal
         open={showCancelModal}
         centered
+        width={400}
         title="Несохранённые изменения"
         okText="Продолжить"
         cancelText="Отменить"
         onOk={handleConfirmDiscard}
-        width={400}
         onCancel={() => setShowCancelModal(false)}
+        zIndex={2000}
       >
         Все несохранённые изменения будут потеряны. Продолжить?
       </Modal>

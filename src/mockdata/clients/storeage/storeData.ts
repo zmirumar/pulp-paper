@@ -1,4 +1,4 @@
-import type { ClientData } from "@/features/clients/components/ClientsPage";
+import type { ClientData } from "@/features/clients/components/Clients/ClientsPage";
 
 
 

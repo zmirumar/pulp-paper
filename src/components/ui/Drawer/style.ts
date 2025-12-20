@@ -1,30 +1,25 @@
 import styled from "styled-components";
 
 export const DrawerStyled = styled.div`
-  .buttons {
+  .buttons_wrapper {
     display: flex;
     justify-content: space-between;
     gap: 12px;
+    padding: 10px;
 
-    .button {
-      flex: 1;
-      padding: 13px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 500;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
 
-      &.cancel {
+
+      &.cancel_button {
         background: #0000000a;
         color: #333;
         border: 1px solid #d9d9d9;
+        padding: 20px;
 
         &:hover:not(:disabled) {
           background: #fff;
           border-color: #999;
-          color: var(--color-primary)
+          color: var(--color-primary);
+          padding: 20px;
         }
 
         &:disabled {
@@ -35,7 +30,7 @@ export const DrawerStyled = styled.div`
         }
       }
 
-      &.add {
+      &.confirm_button {
         background: var(--color-primary);
         color: white;
 
@@ -50,6 +45,6 @@ export const DrawerStyled = styled.div`
         }
       }
     }
-  }
+  
   
 `;

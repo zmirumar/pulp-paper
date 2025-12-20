@@ -1,3 +1,3 @@
-import ClientsPage from "./components/ClientsPage";
+import ClientsPage from "./components/Clients/ClientsPage";
 
 export {ClientsPage}

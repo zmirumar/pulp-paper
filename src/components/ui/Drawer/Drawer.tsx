@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { DrawerStyled } from './style';
-import { Drawer as AntdDrawer } from 'antd';
+import { Drawer as AntdDrawer, Button,  } from 'antd';
 import '@/styles/drawer.css';
 
 export interface DrawerProps {
@@ -28,8 +28,8 @@ export const Drawer = ({
   footer,
   className = '',
   showFooter = false,
-  cancelText = '',
-  confirmText = '',
+  cancelText = 'Отменить',
+  confirmText = 'Подтвердить',
   onCancel,
   onConfirm,
   confirmDisabled = false,
@@ -40,26 +40,23 @@ export const Drawer = ({
     } else {
       document.body.style.overflow = 'unset';
     }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [open]);
 
   const defaultFooter = showFooter ? (
     <DrawerStyled>
-      <div className="buttons">
-        <button 
-          className="button cancel" 
-          onClick={onCancel} 
-          disabled={confirmDisabled}
-        >
-          {cancelText}
-        </button>
-        <button
-          className="button add"
-          onClick={onConfirm}
-          disabled={confirmDisabled}
-        >
-          {confirmText}
-        </button>
-      </div>
+<div className="buttons_wrapper">
+  
+          <Button size='large' className='cancel_button'  onClick={onCancel} disabled={confirmDisabled}>
+            {cancelText}
+          </Button>
+          <Button size='large' className='confirm_button' type="primary" onClick={onConfirm} disabled={confirmDisabled}>
+            {confirmText}
+          </Button>
+</div>
     </DrawerStyled>
   ) : null;
 
@@ -68,6 +65,7 @@ export const Drawer = ({
       title={title}
       open={open}
       onClose={onClose}
+      destroyOnClose
       className={`custom-drawer close-${closeButtonPosition} ${className}`}
       footer={footer !== undefined ? footer : defaultFooter}
     >

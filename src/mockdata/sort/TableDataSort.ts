@@ -35,6 +35,12 @@ export const TableDataSort = [
             name: "Сорт",
             sort: 'Выший',
             sections: 'Готовый продукция'
+         },
+                 {
+             id: 7,
+            name: "Сорт",
+            sort: 'Выший',
+            sections: 'Готовый продукция'
          }
     
 ]
