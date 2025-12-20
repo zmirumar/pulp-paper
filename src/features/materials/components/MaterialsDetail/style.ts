@@ -12,6 +12,17 @@ export const MaterialsDetailStyled = styled.div`
     }
   }
 
+  .detail__text {
+    font-size: 14px;
+    color: #8c8c8c;
+    margin-bottom: 24px;
+    margin-top: 10px;
+
+    span {
+      color: #000;
+    }
+  }
+
   .materialsDetail__wrapper {
     display: flex;
     justify-content: space-between;

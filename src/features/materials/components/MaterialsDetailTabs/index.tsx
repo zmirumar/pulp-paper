@@ -7,7 +7,6 @@ import { MaterialsDetailStyled } from "../MaterialsDetail/style";
 
 interface MaterialsDetailTabsProps {
   data: MaterialsListItem[];
-
   navigate: any;
   columns: ColumnsType<MaterialsListItem>;
 }
@@ -19,6 +18,9 @@ export const MaterialsDetailTabs: React.FC<MaterialsDetailTabsProps> = ({
 }) => {
   return (
     <MaterialsDetailStyled>
+      <p className="detail__text">
+        Разделы / Тип материалов / Материалы Деталь / <span>Склад</span>
+      </p>
       <div className="materialsDetail__wrapper">
         <Input
           type="text"

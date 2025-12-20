@@ -4,14 +4,14 @@ import type { MaterialItem } from "@/interface";
 
 interface MaterialsTabsProps {
   columns: any[];
-  navigate: (path: string) => void;
+
   openCreateDrawer: () => void;
   data: MaterialItem[];
 }
 
 export function MaterialsTabs({
   columns,
-  navigate,
+
   openCreateDrawer,
   data,
 }: MaterialsTabsProps) {
@@ -39,9 +39,6 @@ export function MaterialsTabs({
         dataSource={data}
         rowKey="id"
         pagination={false}
-        onRow={(record) => ({
-          onClick: () => navigate(`/refs/material-types/${record.id}`),
-        })}
       />
     </>
   );

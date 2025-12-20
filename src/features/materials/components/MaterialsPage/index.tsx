@@ -33,7 +33,7 @@ const MaterialsPage = () => {
 
   const openEditDrawer = (item: MaterialItem) => {
     setEditingItem(item);
-    form.setFieldsValue({ name: item.name, isRaw: true, isList: false });
+    form.setFieldsValue({ name: item.name, isRaw: true, IsList: false });
     setDrawerOpen(true);
     setIsDirty(false);
     setIsConfirmDisabled(false);
@@ -99,6 +99,17 @@ const MaterialsPage = () => {
       dataIndex: "name",
       sorter: (a: MaterialItem, b: MaterialItem) =>
         a.name.localeCompare(b.name),
+      render: (text: string, record: MaterialItem) => (
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/refs/material-types/${record.id}`);
+          }}
+        >
+          {text}
+        </span>
+      ),
     },
     {
       title: "Разделы",
@@ -141,7 +152,6 @@ const MaterialsPage = () => {
       children: (
         <MaterialsTabs
           columns={columns}
-          navigate={navigate}
           openCreateDrawer={openCreateDrawer}
           data={MaterialsTableData}
         />
@@ -151,7 +161,7 @@ const MaterialsPage = () => {
       key: "2",
       label: "Готовая продукция",
       children: (
-        <div className="not-found">
+        <div className="not-found"> 
           <h2>Not Found</h2>
         </div>
       ),
