@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
-import {  SortDrawerStyled } from './style'
-import { Input, Modal, notification } from 'antd'
-import { CheckCircleFilled } from '@ant-design/icons'
-import { Drawer } from '@/components/ui/Drawer/Drawer'
+import { useState, useEffect } from "react";
+import { SortDrawerStyled } from "./style";
+import { Input, Modal, notification } from "antd";
+import { CheckCircleFilled } from "@ant-design/icons";
+import { Drawer } from "@/components/ui/Drawer/Drawer";
 
 interface SortData {
-  id: number; 
+  id: number;
   name: string;
   sort: string;
   sections: string;
@@ -15,14 +15,14 @@ interface AddButtonProps {
   showDrawer: boolean;
   handleCancelDrawer: () => void;
   editData?: SortData | null;
-  mode?: 'create' | 'edit'; 
+  mode?: "create" | "edit";
 }
 
-const SortDrawer: React.FC<AddButtonProps> = ({ 
-  showDrawer, 
-  handleCancelDrawer, 
+const SortDrawer: React.FC<AddButtonProps> = ({
+  showDrawer,
+  handleCancelDrawer,
   editData = null,
-  mode = 'create'
+  mode = "create",
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [name, setName] = useState<string>("")
@@ -55,37 +55,37 @@ const SortDrawer: React.FC<AddButtonProps> = ({
     } else if (mode === 'create' && showDrawer) {
       resetForm()
     }
-  }, [editData, mode, showDrawer])
+  }, [editData, mode, showDrawer]);
 
   useEffect(() => {
     if (!showDrawer) {
-      const timer = setTimeout(resetForm, 300)
-      return () => clearTimeout(timer)
+      const timer = setTimeout(resetForm, 300);
+      return () => clearTimeout(timer);
     }
-  }, [showDrawer])
+  }, [showDrawer]);
 
   const handleCancel = () => {
     if (hasChanges) {
       setIsModalOpen(true)
     } else {
-      handleCancelDrawer()
+      handleCancelDrawer(); 
     }
-  }
+  };
 
   const handleCancelModal = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   const handleConfirmDiscard = () => {
-    setIsModalOpen(false)
-    resetForm()
-    handleCancelDrawer()
-  }
+    setIsModalOpen(false);
+    resetForm();
+    handleCancelDrawer();
+  };
 
   const handleSubmit = () => {
-    if (!isValid || isSubmitting) return
+    if (!isValid || isSubmitting) return;
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     setTimeout(() => {
       notification.success({
@@ -94,41 +94,41 @@ const SortDrawer: React.FC<AddButtonProps> = ({
         placement: 'topRight',
         icon: <CheckCircleFilled  className='circle_oulined' />,
         duration: 3,
-        className: 'succes_message'
-      })
+        className: "succes_message",
+      });
 
-      setIsSubmitting(false)
-      resetForm()
-      handleCancelDrawer()
-    }, 500)
-  }
+      setIsSubmitting(false);
+      resetForm();
+      handleCancelDrawer();
+    }, 500);
+  };
 
   return (
     <>
       <Drawer
         open={showDrawer}
-        title={mode === 'edit' ? "Редактировать" : "Добавить новый"}
+        title={mode === "edit" ? "Редактировать" : "Добавить новый"}
         onClose={handleCancel}
         showFooter={true}
         cancelText="Отменить"
-        confirmText={mode === 'edit' ? "Сохранить" : "Добавить"}
+        confirmText={mode === "edit" ? "Сохранить" : "Добавить"}
         onCancel={handleCancel}
         onConfirm={handleSubmit}
         confirmDisabled={!isValid || isSubmitting}
-        closeButtonPosition="end" 
+        closeButtonPosition="end"
       >
         <SortDrawerStyled>
           <div className="wrapper">
             <h2>Сорт</h2>
             <div className="inputs">
               <Input
-                placeholder='Названия сортов'
+                placeholder="Названия сортов"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 disabled={isSubmitting}
               />
               <Input
-                placeholder='Разделы'
+                placeholder="Разделы"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 disabled={isSubmitting}
@@ -153,7 +153,7 @@ const SortDrawer: React.FC<AddButtonProps> = ({
         </Modal>
       )}
     </>
-  )
-}
+  );
+};
 
-export default SortDrawer
+export default SortDrawer;

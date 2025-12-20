@@ -5,7 +5,7 @@ export const SortDrawerStyled = styled.div`
     font-weight: lighter;
     margin-bottom: 10px;
   }
-  
+
   .ant-drawer-title {
     font-size: 25px;
   }
@@ -13,7 +13,7 @@ export const SortDrawerStyled = styled.div`
   .wrapper {
     display: flex;
     flex-direction: column;
-    height: calc(4vh - 110px); 
+    height: calc(4vh - 110px);
     justify-content: space-between;
   }
 
@@ -21,33 +21,31 @@ export const SortDrawerStyled = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
-
   }
-  .ant-modal-content{
+  .ant-modal-content {
     width: 400px !important;
   }
   /*modal*/
-.ant-modal-root .ant-modal-mask {
-  background-color: rgba(0, 0, 0, 0.75) !important; 
-  backdrop-filter: blur(2px);
-}
-/*modal*/
-.ant-modal-root .ant-modal-mask {
-  background-color: rgba(0, 0, 0, 0.75) !important; 
-  backdrop-filter: blur(2px);
-}
+  .ant-modal-root .ant-modal-mask {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(2px);
+  }
+  /*modal*/
+  .ant-modal-root .ant-modal-mask {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(2px);
+  }
   .ant-input {
     padding: 11px;
-  } 
+  }
 
-  .circle_outlined{
+  .circle_outlined {
     color: #52c41a;
   }
-  .succes_message{
+  .succes_message {
     background-color: white !important;
   }
   .circle_outlined {
-  color: #52c41a !important;
-}
-  
-  `;
+    color: #52c41a !important;
+  }
+`;
