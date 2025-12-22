@@ -7,6 +7,7 @@ export const routes = {
     EVENTS: "/events",
     SORT: "/refs/grade-quality",
     AUTH: "/auth",
+    CLINENTS: "/refs/clients",
     VERIFYPHONE: "/auth/verify-phone",
     PASSWORD: "/auth/forgot-password"
 };

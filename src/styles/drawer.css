@@ -7,10 +7,6 @@
 .ant-drawer-body {
   padding: 24px;
 }
-.ant-drawer-title{
-  font-size: 16px !important;
-  font-weight: 400 !important;
-}
 
 .ant-drawer-footer {
   padding: 16px 24px;
@@ -35,6 +31,7 @@
   margin: 0 12px;
 }
 
+
 /*message*/
 .succes_message {
   background-color: white !important;
@@ -43,4 +40,5 @@
 .circle_oulined {
   color: #52c41a !important;
 }
+
 
