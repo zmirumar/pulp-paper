@@ -27,7 +27,6 @@ function SortPage() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const [searchForm] = Form.useForm();
-  const searchValue = Form.useWatch("search", searchForm);
 
   const handleOpenCreateDrawer = () => {
     setEditingSort(null); 
@@ -51,15 +50,6 @@ function SortPage() {
     setShowDeleteModal(false);
     setDeleteId(null);
   };
-
-  const filteredData = TableDataSort.filter((item) => {
-    const search = searchValue?.toLowerCase() || "";
-    return (
-      item.name.toLowerCase().includes(search) ||
-      item.sort.toLowerCase().includes(search) ||
-      item.sections.toLowerCase().includes(search)
-    );
-  });
 
   const columns: ColumnsType<SortData> = [
     {
@@ -130,9 +120,9 @@ function SortPage() {
         <Table
           rowKey="id"
           columns={columns}
-          dataSource={filteredData}
+          dataSource={TableDataSort}
           pagination={{
-            total: filteredData.length,
+            total: TableDataSort.length,
             showSizeChanger: true,  
             pageSizeOptions: ['5', '10', '20', '50', '100'],
           }}

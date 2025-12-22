@@ -19,7 +19,7 @@ const ClientsDrawer: React.FC<ClientsDrawerProps> = ({
   onClose,
 }) => {
   const [form] = Form.useForm();
-  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState<boolean>(false);
 
   const isEdit = editingClient !== null;
 

@@ -1,4 +1,4 @@
-import type { FinishedProductData } from "@/features/clients/components/FinishedProducts";
+import type { FinishedProductData } from "@/features/clients/components/FinishedProduct/FinishedProducts";
 
 export const FinishedProductsTableData: FinishedProductData[] = [
   {

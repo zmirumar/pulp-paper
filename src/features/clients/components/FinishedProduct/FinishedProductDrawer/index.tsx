@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Form, Input, Modal, notification, Checkbox } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { Drawer } from "@/components/ui/Drawer/Drawer";
-import { ClientDrawerStyled } from "../../ClientsPage/ClientsDrawer/style";
+import { ClientDrawerStyled } from "@/features/clients/components/ClientsPage/ClientsDrawer/style";
 import type { FinishedProductData } from "../FinishedProducts";
+
 
 interface FinishedProductsDrawerProps {
   open: boolean;
@@ -19,36 +20,13 @@ const FinishedProductsDrawer: React.FC<FinishedProductsDrawerProps> = ({
   onClose,
 }) => {
   const [form] = Form.useForm();
-  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState<boolean>(false);
 
   const isEdit = editingProduct !== null;
 
   const sections = Form.useWatch("sections", form) || [];
   const allChecked = sections.length === ALL_SECTIONS.length;
 
-  useEffect(() => {
-    if (open && editingProduct) {
-      const sectionsArray = typeof editingProduct.sections === 'string' 
-        ? editingProduct.sections.split(',').map(s => s.trim())
-        : editingProduct.sections || [];
-
-      form.setFieldsValue({
-        name: editingProduct.name,
-        country: editingProduct.country,
-        city: editingProduct.city,
-        account: editingProduct.account || '',
-        inn: editingProduct.inn || '',
-        okonh: editingProduct.okonh || '',
-        employeeName: editingProduct.employeeName || '',
-        phones: editingProduct.phones || '',
-        addresses: editingProduct.addresses || '',
-        sections: sectionsArray,
-        isResident: editingProduct.isResident || false,
-      });
-    } else if (open) {
-      form.resetFields();
-    }
-  }, [open, editingProduct, form]);
 
   const handleClose = () => {
     form.resetFields();
@@ -69,8 +47,6 @@ const FinishedProductsDrawer: React.FC<FinishedProductsDrawerProps> = ({
   };
 
   const handleConfirm = async () => {
-    try {
-      await form.validateFields();
       
       notification.success({
         message: isEdit ? "Изменения сохранены" : "Продукт добавлен",
@@ -83,14 +59,7 @@ const FinishedProductsDrawer: React.FC<FinishedProductsDrawerProps> = ({
       });
       
       handleClose();
-    } catch  {
-      notification.error({
-        message: "Ошибка валидации",
-        description: "Пожалуйста, заполните все обязательные поля",
-        placement: "topRight",
-      });
-    }
-  };
+    } 
 
   return (
     <>

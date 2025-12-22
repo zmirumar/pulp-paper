@@ -10,7 +10,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { FinishedProductsTableData } from "@/mockdata/clients/FinishedProducsts/Products";
-import FinishedProductsDrawer from "../FinishedProductDrawer";
+import FinishedProductsDrawer from "@/features/clients/components/FinishedProduct/FinishedProductDrawer";
 import "@/styles/drawer.css"
 
 export interface FinishedProductData {
@@ -32,9 +32,10 @@ function FinishedProducts() {
   const [drawerProduct, setDrawerProduct] = useState<FinishedProductData | null | undefined>(undefined);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  
+  console.log(deleteId)
 
   const [searchForm] = Form.useForm();
-  const searchValue = Form.useWatch("search", searchForm);
 
   const openCreateDrawer = () => {
     setDrawerProduct(null);
@@ -60,19 +61,6 @@ function FinishedProducts() {
     setDeleteId(null);
   };
 
-  const filteredData = FinishedProductsTableData.filter((item) => {
-    const search = searchValue?.toLowerCase() || "";
-    const sectionsStr = Array.isArray(item.sections) 
-      ? item.sections.join(' ') 
-      : item.sections || '';
-    
-    return (
-      item.name.toLowerCase().includes(search) ||
-      item.country.toLowerCase().includes(search) ||
-      item.city.toLowerCase().includes(search) ||
-      sectionsStr.toLowerCase().includes(search)
-    );
-  });
 
   const columns: ColumnsType<FinishedProductData> = [
     {
@@ -164,9 +152,9 @@ function FinishedProducts() {
       <Table
         rowKey="id"
         columns={columns}
-        dataSource={filteredData}
+        dataSource={FinishedProductsTableData}
         pagination={{
-          total: filteredData.length,
+          total: FinishedProductsTableData.length,
           showSizeChanger: true,
           pageSizeOptions: ["5", "10", "20", "50", "100"],
         }}

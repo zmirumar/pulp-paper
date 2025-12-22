@@ -32,7 +32,6 @@ function ClientsPage() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const [searchForm] = Form.useForm();
-  const searchValue = Form.useWatch("search", searchForm);
 
   const openCreateDrawer = () => {
     setDrawerClient(null);
@@ -57,15 +56,6 @@ function ClientsPage() {
     setShowDeleteModal(false);
     setDeleteId(null);
   };
-  const filteredData = ClientsTableData.filter((item) => {
-    const search = searchValue?.toLowerCase() || "";
-    return (
-      item.name.toLowerCase().includes(search) ||
-      item.country.toLowerCase().includes(search) ||
-      item.city.toLowerCase().includes(search) ||
-      item.sections.toLowerCase().includes(search)
-    );
-  });
 
   const columns: ColumnsType<ClientData> = [
     {
@@ -143,7 +133,7 @@ function ClientsPage() {
                 <Table
                   rowKey="id"
                   columns={columns}
-                  dataSource={filteredData}
+                  dataSource={ClientsTableData}
                   pagination={{ pageSize: 10 }}
                 />
 
