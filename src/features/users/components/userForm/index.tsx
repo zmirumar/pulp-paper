@@ -1,6 +1,6 @@
-import { Button, Form, Checkbox } from "antd";
-import { useEffect, useState } from "react";
-import { UserFormStyled, UserFormStyledBtns } from "./style";
+import { Button, Form, Input, Checkbox, Modal } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import { UserFormStyled } from "./style";
 import { roleOptions, permOptions } from "@/mockdata/users";
 import type { IUser, UserFormProps } from "@/interface/users";
 import { Drawer, Input } from "@/components/ui";
@@ -15,7 +15,6 @@ const UserForm: React.FC<UserFormProps> = ({
   const [form] = Form.useForm();
   const [allRoles, setAllRoles] = useState(false);
   const [allPerms, setAllPerms] = useState(false);
-  const [, forceUpdate] = useState({});
 
   useEffect(() => {
     if (!open) return resetForm();
@@ -72,92 +71,51 @@ const UserForm: React.FC<UserFormProps> = ({
     onSubmit(clean);
   };
 
-  const handleDrawerClose = () => {
-    if (isFormTouched) {
-      setConfirmModal({ type: "unsaved" });
+  const confirmCancel = () => {
+    if (form.isFieldsTouched()) {
+      Modal.confirm({
+        icon: null,
+        centered: true,
+        title: "Несохранённые изменения",
+        content: "Все несохранённые изменения будут потеряны.",
+        okText: "Продолжить",
+        cancelText: "Отменить",
+        onOk: onClose,
+      });
     } else {
       onClose();
     }
   };
 
-  const isCheckFormValid = () => {
-    const values = form.getFieldsValue();
-    return (
-      Boolean(values.fullName) &&
-      Boolean(values.login) &&
-      Boolean(values.phoneNumber) &&
-      (values.permissionIds?.length > 0) &&
-      (values.roleIds?.length > 0) &&
-      (editingUser || Boolean(values.password))
-    );
-  };
-
-  const isFormTouched = form.isFieldsTouched(false);
-  const isFormValid = isCheckFormValid();
-
-  const roleCheckboxOptions = roleOptions.map((o) => ({
-    label: o.name,
-    value: o.id,
-  }));
-
-  const permCheckboxOptions = permOptions.map((o) => ({
-    label: o.name,
-    value: o.id,
-  }));
-
-  const drawerFooter = (
-    <UserFormStyledBtns>
-      <Button
-        disabled={!isFormTouched}
-        className="button cancel"
-        onClick={handleDrawerClose}
-      >
-        Отмена
-      </Button>
-      <Button
-        className="button confirm"
-        type="primary"
-        disabled={!isFormValid}
-        onClick={() => form.submit()}
-      >
-        {editingUser ? "Сохранить" : "Добавить"}
-      </Button>
-    </UserFormStyledBtns>
-  );
-
   return (
     <Drawer
-      showFooter={true}
+      className="form-wrapper"
       title={
         editingUser ? "Изменить пользователь" : "Добавить новый пользователь"
       }
       open={open}
-      onClose={handleDrawerClose}
-      footer={drawerFooter}
+      onClose={confirmCancel}
     >
       <UserFormStyled>
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleFinish}
-          onValuesChange={() => forceUpdate({})}
-        >
-          <Input
-            name="fullName"
-            rules={[{ required: true, message: "" }]}
-            placeholder="Имя пользователя"
-          />
-          <Input
-            name="login"
-            rules={[{ required: true, message: "" }]}
-            placeholder="Логин"
-          />
-          {!editingUser && <Input
-            name="password"
-            rules={[{ required: true, message: "" }]}
-            placeholder="Пароль"
-          />}
-          <Input
+        <Form form={form} layout="vertical" onFinish={handleFinish}>
+          <Form.Item name="fullName" rules={[{ required: true, message: "" }]}>
+            <Input placeholder="Имя" />
+          </Form.Item>
+
+          <Form.Item name="login" rules={[{ required: true, message: "" }]}>
+            <Input placeholder="Логин" />
+          </Form.Item>
+
+          {!editingUser && (
+            <Form.Item
+              name="password"
+              rules={[{ required: true, message: "" }]}
+            >
+              <Input.Password placeholder="Пароль" />
+            </Form.Item>
+          )}
+
+          <Form.Item
             name="phoneNumber"
             rules={[{ required: true, message: "" }]}
             placeholder="Номер"
@@ -171,7 +129,12 @@ const UserForm: React.FC<UserFormProps> = ({
               Все
             </Checkbox>
             <Form.Item name="roleIds">
-              <Checkbox.Group options={roleCheckboxOptions} />
+              <Checkbox.Group
+                options={roleOptions.map((o) => ({
+                  label: o.name,
+                  value: o.id,
+                }))}
+              />
             </Form.Item>
           </Form.Item>
 
@@ -183,8 +146,22 @@ const UserForm: React.FC<UserFormProps> = ({
               Все
             </Checkbox>
             <Form.Item name="permissionIds">
-              <Checkbox.Group options={permCheckboxOptions} />
+              <Checkbox.Group
+                options={permOptions.map((o) => ({
+                  label: o.name,
+                  value: o.id,
+                }))}
+              />
             </Form.Item>
+          </Form.Item>
+
+          <Form.Item>
+            <div className="form-btns">
+              <Button onClick={confirmCancel}>Отмена</Button>
+              <Button type="primary" htmlType="submit">
+                {editingUser ? "Сохранить" : "Добавить"}
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </UserFormStyled>
