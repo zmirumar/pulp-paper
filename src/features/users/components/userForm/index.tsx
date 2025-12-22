@@ -2,31 +2,22 @@ import { Button, Form, Input, Checkbox, Modal } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { UserFormStyled } from "./style";
 import { roleOptions, permOptions } from "@/mockdata/users";
-import type { IUser } from "../UserPage";
-import { Drawer } from "@/components/ui";
-
-interface UserFormProps {
-  open: boolean;
-  editingUser: IUser | null;
-  onClose: () => void;
-  onSubmit: (data: IUser) => void;
-}
+import type { IUser, UserFormProps } from "@/interface/users";
+import { Drawer, Input } from "@/components/ui";
 
 const UserForm: React.FC<UserFormProps> = ({
   open,
   editingUser,
   onClose,
   onSubmit,
+  setConfirmModal,
 }) => {
   const [form] = Form.useForm();
   const [allRoles, setAllRoles] = useState(false);
   const [allPerms, setAllPerms] = useState(false);
 
   useEffect(() => {
-    if (!open) {
-      resetForm();
-      return;
-    }
+    if (!open) return resetForm();
 
     if (editingUser) {
       loadUserData(editingUser);
@@ -127,9 +118,8 @@ const UserForm: React.FC<UserFormProps> = ({
           <Form.Item
             name="phoneNumber"
             rules={[{ required: true, message: "" }]}
-          >
-            <Input placeholder="Телефон" />
-          </Form.Item>
+            placeholder="Номер"
+          />
 
           <Form.Item label="Отдел" className="checkbox-wrapper">
             <Checkbox
