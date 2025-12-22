@@ -6,37 +6,47 @@ import Auth from "@/pages/auth";
 import Clients from "@/features/clients/components/ClientsPage/ClientsPage";
 import ForgotPasswordPage from "@/pages/auth/forgot-password";
 import VerifyPhonePage from "@/pages/auth/verify-phone";
+import Parameters from "@/pages/parameters/index";
+import ParametersDetail from "@/pages/parameters/[id]";
 
 export const publicRoutes = [
-    {
-        path: routes.AUTH,
-        element: Auth ,
-    },
-    {
-        path: routes.VERIFYPHONE,
-        element: VerifyPhonePage,
-    },
-    {
-        path: routes.PASSWORD,
-        element: ForgotPasswordPage,
-    },
+  {
+    path: routes.AUTH,
+    element: Auth,
+  },
+  {
+    path: routes.VERIFYPHONE,
+    element: VerifyPhonePage,
+  },
+  {
+    path: routes.PASSWORD,
+    element: ForgotPasswordPage,
+  },
 ];
 
 export const privateRoutes = [
-    {
-        path: routes.HOME,
-        element: Home,
-    },
-    {
-        path: routes.USERS,
-        element: Users,
-    },
-        {
-        path: routes.SORT,
-        element: Sort,
-    },
-    {
-      path: routes.CLINENTS,
-      element: Clients,
-    },
+  {
+    path: routes.HOME,
+    element: Home,
+  },
+  {
+    path: routes.USERS,
+    element: Users,
+  },
+  {
+    path: routes.SORT,
+    element: Sort,
+  },
+  {
+    path: routes.CLINENTS,
+    element: Clients,
+  },
+  {
+    path: routes.PARAMETERS,
+    element: Parameters,
+  },
+  {
+    path: routes.PARAMETERS_DETAIL,
+    element: ParametersDetail,
+  },
 ];

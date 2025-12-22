@@ -11,7 +11,7 @@ import {
     SettingsIcon
 } from "@/assets/Icons/index";
 import { useNavigate, useLocation } from "react-router-dom";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 
 interface SidebarProps {
     collapsed: boolean;
@@ -21,14 +21,12 @@ interface SidebarProps {
 type MenuItemType = Required<MenuProps>["items"][number] & {
     path?: string;
     children?: MenuItemType[];
-    disabled?: boolean;
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [openKeys, setOpenKeys] = useState<string[]>([]);
-    const [selectedKey, setSelectedKey] = useState<string>("");
+    const path = location.pathname;
 
     const items: MenuItemType[] = useMemo(() => [
         {
@@ -36,7 +34,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
             icon: <img className="menu-icon" src={DirectoryIcon} alt="Пользователи" />,
             label: "Пользователи",
             path: "/users",
-            disabled: false
         },
         {
             key: "/refs",
@@ -44,48 +41,13 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
             label: "Справочники",
             path: "/refs",
             children: [
-                {
-                    key: "/refs/sections",
-                    label: "Раздели",
-                    path: "/refs/sections",
-                    disabled: false
-                },
-                {
-                    key: "/refs/material-types",
-                    label: "Тип материалов",
-                    path: "/refs/material-types",
-                    disabled: false
-                },
-                {
-                    key: "/refs/grade-quality",
-                    label: "Сорт качество",
-                    path: "/refs/grade-quality",
-                    disabled: false
-                },
-                {
-                    key: "/refs/responsible-employees",
-                    label: "Ответственные сотрудники",
-                    path: "/refs/responsible-employees",
-                    disabled: false
-                },
-                {
-                    key: "/refs/clients",
-                    label: "Клиенты",
-                    path: "/refs/clients",
-                    disabled: false
-                },
-                {
-                    key: "/refs/packaging",
-                    label: "Тара",
-                    path: "/refs/packaging",
-                    disabled: false
-                },
-                {
-                    key: "/refs/parameters",
-                    label: "Параметр",
-                    path: "/refs/parameters",
-                    disabled: false
-                },
+                { key: "/refs/sections", label: "Раздели", path: "/refs/sections" },
+                { key: "/refs/material-types", label: "Тип материалов", path: "/refs/material-types" },
+                { key: "/refs/grade-quality", label: "Сорт качество", path: "/refs/grade-quality" },
+                { key: "/refs/responsible-employees", label: "Ответственные сотрудники", path: "/refs/responsible-employees" },
+                { key: "/refs/clients", label: "Клиенты", path: "/refs/clients" },
+                { key: "/refs/packaging", label: "Тара", path: "/refs/packaging" },
+                { key: "/refs/parameters", label: "Параметр", path: "/refs/parameters" },
             ]
         },
         {
@@ -94,18 +56,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
             label: "Склад",
             path: "/stock",
             children: [
-                {
-                    key: "/stock/raw-materials",
-                    label: "Сырьё материалы",
-                    path: "/stock/raw-materials",
-                    disabled: false
-                },
-                {
-                    key: "/stock/balance",
-                    label: "Баланс",
-                    path: "/stock/balance",
-                    disabled: false
-                }
+                { key: "/stock/raw-materials", label: "Сырьё материалы", path: "/stock/raw-materials" },
+                { key: "/stock/balance", label: "Баланс", path: "/stock/balance" }
             ]
         },
         {
@@ -113,51 +65,36 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
             icon: <img className="menu-icon" src={FinishedProductsIcon} alt="Готовая продукция" />,
             label: "Готовая продукция",
             path: "/finished-products",
-            disabled: false
         },
         {
             key: "/active-sessions",
             icon: <img className="menu-icon" src={ActiveSessionsIcon} alt="Активные сеансы" />,
             label: "Активные сеансы",
             path: "/active-sessions",
-            disabled: false
         },
     ], []);
 
-    useEffect(() => {
-        const path = location.pathname;
-        const findSelected = (items: MenuItemType[]): string | null => {
-            for (const item of items) {
-                if ('path' in item && item.path === path) return item.key as string;
-                if ('children' in item && item.children) {
-                    const child = findSelected(item.children);
-                    if (child) return child;
+    const { selectedKey, parentKey } = useMemo(() => {
+        let selected = "";
+        let parent = "";
+
+        const traverse = (menuItems: MenuItemType[], pKey?: string) => {
+            for (const item of menuItems) {
+                const itemPath = item.path as string;
+                if (itemPath && (path === itemPath || path.startsWith(`${itemPath}/`))) {
+                    selected = item.key as string;
+                    if (pKey) parent = pKey;
                 }
+                if (item.children) traverse(item.children, item.key as string);
             }
-            return null;
         };
 
-        const selected = findSelected(items);
-        if (selected) {
-            queueMicrotask(() => setSelectedKey(selected));
-        }
-        const findOpenKeys = (items: MenuItemType[]): string[] => {
-            const keys: string[] = [];
-            items.forEach(i => {
-                if (i.children?.some(c => c && 'path' in c && typeof c.path === "string" && path.startsWith(c.path))) {
-                    keys.push(i.key as string);
-                }
-            });
-            return keys;
-        };
+        traverse(items);
+        return { selectedKey: selected, parentKey: parent };
+    }, [path, items]);
+    const [openKeys, setOpenKeys] = useState<string[]>(parentKey ? [parentKey] : []);
 
-        const openParents = findOpenKeys(items);
-        queueMicrotask(() => setOpenKeys(openParents));
-
-    }, [location.pathname, items]);
-
-    const handleClick = ({ key }: { key: string }) => {
-        setSelectedKey(key);
+    const handleClick: MenuProps['onClick'] = ({ key }) => {
         setCollapsed?.(false);
         navigate(key);
     };
@@ -166,8 +103,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
         const latestOpenKey = keys.find(key => !openKeys.includes(key));
         setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     };
-
-    const rootItems = items.filter(i => i.key !== "/settings");
 
     return (
         <SideBarStyled collapsed={collapsed}>
@@ -180,19 +115,22 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
                 <div className="sidebar__wrapper">
                     <Menu
                         mode="inline"
-                        items={rootItems}
+                        items={items}
                         inlineCollapsed={collapsed}
                         onClick={handleClick}
-                        openKeys={openKeys}
+                        openKeys={collapsed ? [] : openKeys}
                         onOpenChange={handleOpenChange}
                         selectedKeys={[selectedKey]}
                     />
                 </div>
 
                 <div className="sidebar__setting">
-                    <button onClick={() => navigate('/settings')} className="setting__button">
+                    <button
+                        onClick={() => navigate('/settings')}
+                        className={`setting__button ${path.startsWith('/settings') ? 'active' : ''}`}
+                    >
                         <img className="setting__icon" src={SettingsIcon} alt="" />
-                        Настройки
+                        {!collapsed && "Настройки"}
                     </button >
                 </div>
             </div>
