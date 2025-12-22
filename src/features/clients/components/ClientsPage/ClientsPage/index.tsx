@@ -22,13 +22,13 @@ export interface ClientData {
 }
 
 function ClientsPage() {
-  const [activeTab, setActiveTab] = useState("1");
+  const [activeTab, setActiveTab] = useState<string>("1");
 
   const [drawerClient, setDrawerClient] = useState<ClientData | null | undefined>(
     undefined
   );
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const [searchForm] = Form.useForm();
@@ -48,15 +48,15 @@ function ClientsPage() {
 
   const handleDelete = () => {
     notification.success({
-      message: "Клиент удален",
-      icon: <CheckCircleFilled />,
+      message: "Продукт удален",
+      description: "Продукт удалён из списка",
+      icon: <CheckCircleFilled className="circle_oulined" />,
+      className: "succes_message",
       placement: "topRight",
     });
-
     setShowDeleteModal(false);
     setDeleteId(null);
   };
-
   const filteredData = ClientsTableData.filter((item) => {
     const search = searchValue?.toLowerCase() || "";
     return (
@@ -92,12 +92,13 @@ function ClientsPage() {
       align: "center",
       render: (_, record) => (
         <div className="sort_columns_render">
-          <EditOutlined onClick={() => openEditDrawer(record)} />
+          <EditOutlined onClick={() => openEditDrawer(record)} className="sort_render_items"  />
           <DeleteOutlined
             onClick={() => {
               setDeleteId(record.id);
               setShowDeleteModal(true);
             }}
+            className="sort_render_items" 
           />
         </div>
       ),
@@ -152,6 +153,7 @@ function ClientsPage() {
                   okText="Удалить"
                   cancelText="Отменить"
                   centered
+                  width={400}
                   onOk={handleDelete}
                   onCancel={() => setShowDeleteModal(false)}
                 >

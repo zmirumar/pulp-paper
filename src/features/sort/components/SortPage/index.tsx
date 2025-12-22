@@ -21,9 +21,9 @@ interface SortData {
 }
 
 function SortPage() {
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
   const [editingSort, setEditingSort] = useState<SortData | null>(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const [searchForm] = Form.useForm();

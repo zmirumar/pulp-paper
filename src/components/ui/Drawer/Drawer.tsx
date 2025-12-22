@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { DrawerStyled } from './style';
-import { Drawer as AntdDrawer, Button,  } from 'antd';
+import { Drawer as AntdDrawer, Button } from 'antd';
 import '@/styles/drawer.css';
 
 export interface DrawerProps {
@@ -48,15 +48,23 @@ export const Drawer = ({
 
   const defaultFooter = showFooter ? (
     <DrawerStyled>
-<div className="buttons_wrapper">
-  
-          <Button size='large' className='cancel_button'  onClick={onCancel} disabled={confirmDisabled}>
-            {cancelText}
-          </Button>
-          <Button size='large' className='confirm_button' type="primary" onClick={onConfirm} disabled={confirmDisabled}>
-            {confirmText}
-          </Button>
-</div>
+      <div className="buttons_wrapper">
+        <Button 
+          className='cancel_button' 
+          onClick={onCancel}
+          disabled={confirmDisabled}
+        >
+          {cancelText}
+        </Button>
+        <Button 
+          className='confirm_button' 
+          type="primary" 
+          onClick={onConfirm} 
+          disabled={confirmDisabled}
+        >
+          {confirmText}
+        </Button>
+      </div>
     </DrawerStyled>
   ) : null;
 

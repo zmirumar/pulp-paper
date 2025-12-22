@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Input, Modal, notification, Select } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { Drawer } from "@/components/ui/Drawer/Drawer";
@@ -23,9 +23,20 @@ const SortDrawer: React.FC<SortDrawerProps> = ({
   onClose,
 }) => {
   const [form] = Form.useForm();
-  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState<boolean>(false);
 
   const isEdit = Boolean(editingSort);
+
+  useEffect(() => {
+    if (open && editingSort) {
+      form.setFieldsValue({
+        sort: editingSort.sort,
+        sections: editingSort.sections,
+      });
+    } else if (open) {
+      form.resetFields();
+    }
+  }, [open, editingSort, form]);
 
   Form.useWatch([], form);
   const isFormTouched = form.isFieldsTouched();
@@ -51,7 +62,6 @@ const SortDrawer: React.FC<SortDrawerProps> = ({
   const handleConfirm = () => {
     form
       .validateFields()
-      .then(() => {
         notification.success({
           message: isEdit ? "Изменения сохранены" : "Сорт добавлен",
           description: isEdit
@@ -62,7 +72,6 @@ const SortDrawer: React.FC<SortDrawerProps> = ({
           className: "succes_message",
         });
         handleClose();
-      })
 
   };
 
@@ -84,10 +93,11 @@ const SortDrawer: React.FC<SortDrawerProps> = ({
           <Form
             form={form}
             layout="vertical"
-            key={open ? (editingSort?.id || 'create') : 'closed'} 
+            initialValues={editingSort || {}}
           >
             <Form.Item
               name="sort"
+              label="Название сорта"
               rules={[
                 { required: true, message: "Введите название сорта" },
                 { whitespace: true, message: "Поле не может быть пустым" },
@@ -98,6 +108,7 @@ const SortDrawer: React.FC<SortDrawerProps> = ({
 
             <Form.Item
               name="sections"
+              label="Раздел"
               rules={[{ required: true, message: "Выберите раздел" }]}
             >
               <Select

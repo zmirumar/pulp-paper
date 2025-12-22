@@ -9,11 +9,11 @@ export const DrawerStyled = styled.div`
 
 
 
-      &.cancel_button {
+      .cancel_button {
         background: #0000000a;
         color: #333;
         border: 1px solid #d9d9d9;
-        padding: 20px;
+        padding: 20px 40px !important;
 
         &:hover:not(:disabled) {
           background: #fff;
@@ -30,9 +30,9 @@ export const DrawerStyled = styled.div`
         }
       }
 
-      &.confirm_button {
-        background: var(--color-primary);
+      .confirm_button {
         color: white;
+                padding: 20px 40px !important;
 
         &:hover:not(:disabled) {
           opacity: 0.85;

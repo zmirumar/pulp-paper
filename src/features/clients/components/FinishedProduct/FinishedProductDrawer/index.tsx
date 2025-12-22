@@ -3,21 +3,7 @@ import { Form, Input, Modal, notification, Checkbox } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { Drawer } from "@/components/ui/Drawer/Drawer";
 import { ClientDrawerStyled } from "../../ClientsPage/ClientsDrawer/style";
-
-export interface FinishedProductData {
-  id: number;
-  name: string;
-  country: string;
-  city: string;
-  account: string;
-  inn: string;
-  okonh: string;
-  employeeName: string;
-  phones: string;
-  addresses: string;
-  sections: string[];
-  isResident: boolean;
-}
+import type { FinishedProductData } from "../FinishedProducts";
 
 interface FinishedProductsDrawerProps {
   open: boolean;
@@ -41,33 +27,68 @@ const FinishedProductsDrawer: React.FC<FinishedProductsDrawerProps> = ({
   const allChecked = sections.length === ALL_SECTIONS.length;
 
   useEffect(() => {
-    if (!open) {
-      form.resetFields();
-      return;
-    }
+    if (open && editingProduct) {
+      const sectionsArray = typeof editingProduct.sections === 'string' 
+        ? editingProduct.sections.split(',').map(s => s.trim())
+        : editingProduct.sections || [];
 
-    if (editingProduct) {
-      form.setFieldsValue(editingProduct);
-    } else {
+      form.setFieldsValue({
+        name: editingProduct.name,
+        country: editingProduct.country,
+        city: editingProduct.city,
+        account: editingProduct.account || '',
+        inn: editingProduct.inn || '',
+        okonh: editingProduct.okonh || '',
+        employeeName: editingProduct.employeeName || '',
+        phones: editingProduct.phones || '',
+        addresses: editingProduct.addresses || '',
+        sections: sectionsArray,
+        isResident: editingProduct.isResident || false,
+      });
+    } else if (open) {
       form.resetFields();
     }
   }, [open, editingProduct, form]);
 
-  const handleSubmit = async () => {
-    await form.validateFields();
-    notification.success({
-      message: isEdit ? "Изменения сохранены" : "Продукт добавлен",
-      icon: <CheckCircleFilled />,
-      placement: "topRight",
-    });
+  const handleClose = () => {
+    form.resetFields();
     onClose();
   };
 
-  const handleCancel = () => {
+  const handleAttemptClose = () => {
     if (form.isFieldsTouched()) {
       setShowCancelModal(true);
     } else {
-      onClose();
+      handleClose();
+    }
+  };
+
+  const handleConfirmDiscard = () => {
+    setShowCancelModal(false);
+    handleClose();
+  };
+
+  const handleConfirm = async () => {
+    try {
+      await form.validateFields();
+      
+      notification.success({
+        message: isEdit ? "Изменения сохранены" : "Продукт добавлен",
+        description: isEdit 
+          ? "Изменения успешно применены" 
+          : "Новый продукт успешно добавлен",
+        icon: <CheckCircleFilled className="circle_oulined" />,
+        className: "succes_message",
+        placement: "topRight",
+      });
+      
+      handleClose();
+    } catch  {
+      notification.error({
+        message: "Ошибка валидации",
+        description: "Пожалуйста, заполните все обязательные поля",
+        placement: "topRight",
+      });
     }
   };
 
@@ -76,11 +97,14 @@ const FinishedProductsDrawer: React.FC<FinishedProductsDrawerProps> = ({
       <Drawer
         open={open}
         title={isEdit ? "Редактировать" : "Добавить новый"}
+        onClose={handleAttemptClose}
         showFooter
         cancelText="Отменить"
         confirmText={isEdit ? "Сохранить" : "Добавить"}
-        onCancel={handleCancel}
-        onConfirm={handleSubmit}
+        onCancel={handleAttemptClose}
+        onConfirm={handleConfirm}
+        confirmDisabled={!form.isFieldsTouched()}
+        closeButtonPosition="end"
       >
         <ClientDrawerStyled>
           <Form
@@ -88,20 +112,52 @@ const FinishedProductsDrawer: React.FC<FinishedProductsDrawerProps> = ({
             layout="vertical"
             initialValues={{ sections: [], isResident: false }}
           >
-            <Form.Item name="name" rules={[{ required: true }]}>
+            <Form.Item 
+              name="name" 
+              label="Наименование"
+              rules={[
+                { required: true, message: "Введите наименование" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+                { min: 2, message: "Минимум 2 символа" }
+              ]}
+            >
               <Input placeholder="Наименование" />
             </Form.Item>
 
-            <Form.Item name="country" rules={[{ required: true }]}>
+            <Form.Item 
+              name="country" 
+              label="Страна"
+              rules={[
+                { required: true, message: "Введите страну" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+                { min: 2, message: "Минимум 2 символа" }
+              ]}
+            >
               <Input placeholder="Страна" />
             </Form.Item>
 
-            <Form.Item name="city" rules={[{ required: true }]}>
+            <Form.Item 
+              name="city" 
+              label="Город"
+              rules={[
+                { required: true, message: "Введите город" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+                { min: 2, message: "Минимум 2 символа" }
+              ]}
+            >
               <Input placeholder="Город" />
             </Form.Item>
 
-            <Form.Item name="account" rules={[{ required: true }]}>
-              <Input placeholder="Расчетный счет" />
+            <Form.Item 
+              name="account" 
+              label="Расчетный счет"
+              rules={[
+                { required: true, message: "Введите расчетный счет" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+                { pattern: /^[0-9]+$/, message: "Только цифры" },
+              ]}
+            >
+              <Input placeholder="Расчетный счет" maxLength={20} />
             </Form.Item>
 
             <Form.Item label="Раздел">
@@ -119,12 +175,18 @@ const FinishedProductsDrawer: React.FC<FinishedProductsDrawerProps> = ({
 
               <Form.Item
                 name="sections"
-                rules={[{ required: true, type: "array", min: 1 }]}
+                rules={[
+                  { 
+                    required: true, 
+                    type: "array", 
+                    min: 1,
+                    message: "Выберите хотя бы один раздел"
+                  }
+                ]}
+                style={{ marginBottom: 0 }}
               >
-                <Checkbox.Group>
-                  <Checkbox value="finishedProducts">
-                    Готовая продукция
-                  </Checkbox>
+                <Checkbox.Group style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '8px' }}>
+                  <Checkbox value="finishedProducts">Готовая продукция</Checkbox>
                   <Checkbox value="warehouses">Склады</Checkbox>
                 </Checkbox.Group>
               </Form.Item>
@@ -134,23 +196,65 @@ const FinishedProductsDrawer: React.FC<FinishedProductsDrawerProps> = ({
               <Checkbox>Резидент</Checkbox>
             </Form.Item>
 
-            <Form.Item name="inn" rules={[{ required: true }]}>
-              <Input placeholder="ИНН" />
+            <Form.Item 
+              name="inn" 
+              label="ИНН"
+              rules={[
+                { required: true, message: "Введите ИНН" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+                { pattern: /^[0-9]+$/, message: "Только цифры" },
+                { len: 9, message: "ИНН должен содержать 9 цифр" }
+              ]}
+            >
+              <Input placeholder="ИНН" maxLength={9} />
             </Form.Item>
 
-            <Form.Item name="okonh" rules={[{ required: true }]}>
-              <Input placeholder="ОКОНХ" />
+            <Form.Item 
+              name="okonh" 
+              label="ОКОНХ"
+              rules={[
+                { required: true, message: "Введите ОКОНХ" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+                { pattern: /^[0-9]+$/, message: "Только цифры" },
+                { len: 5, message: "ОКОНХ должен содержать 5 цифр" }
+              ]}
+            >
+              <Input placeholder="ОКОНХ" maxLength={5} />
             </Form.Item>
 
-            <Form.Item name="employeeName" rules={[{ required: true }]}>
+            <Form.Item 
+              name="employeeName" 
+              label="Имя сотрудника"
+              rules={[
+                { required: true, message: "Введите имя сотрудника" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+                { min: 2, message: "Минимум 2 символа" }
+              ]}
+            >
               <Input placeholder="Имя сотрудника" />
             </Form.Item>
 
-            <Form.Item name="phones" rules={[{ required: true }]}>
-              <Input placeholder="Телефоны" />
+            <Form.Item 
+              name="phones" 
+              label="Телефоны"
+              rules={[
+                { required: true, message: "Введите телефон" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+                { pattern: /^[\d\s+()-]+$/, message: "Неверный формат телефона" }
+              ]}
+            >
+              <Input placeholder="+998 90 123 45 67" />
             </Form.Item>
 
-            <Form.Item name="addresses" rules={[{ required: true }]}>
+            <Form.Item 
+              name="addresses" 
+              label="Адреса"
+              rules={[
+                { required: true, message: "Введите адрес" },
+                { whitespace: true, message: "Поле не может быть пустым" },
+                { min: 5, message: "Минимум 5 символов" }
+              ]}
+            >
               <Input placeholder="Адреса" />
             </Form.Item>
           </Form>
@@ -160,9 +264,13 @@ const FinishedProductsDrawer: React.FC<FinishedProductsDrawerProps> = ({
       <Modal
         open={showCancelModal}
         centered
+        width={400}
         title="Несохранённые изменения"
-        onOk={onClose}
+        okText="Продолжить"
+        cancelText="Отменить"
+        onOk={handleConfirmDiscard}
         onCancel={() => setShowCancelModal(false)}
+        zIndex={2000}
       >
         Все несохранённые изменения будут потеряны. Продолжить?
       </Modal>

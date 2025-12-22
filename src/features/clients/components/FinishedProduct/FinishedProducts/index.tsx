@@ -11,29 +11,49 @@ import {
 } from "@ant-design/icons";
 import { FinishedProductsTableData } from "@/mockdata/clients/FinishedProducsts/Products";
 import FinishedProductsDrawer from "../FinishedProductDrawer";
+import "@/styles/drawer.css"
 
 export interface FinishedProductData {
   id: number;
   name: string;
   country: string;
   city: string;
-  sections: string;
+  account?: string;
+  inn?: string;
+  okonh?: string;
+  employeeName?: string;
+  phones?: string;
+  addresses?: string;
+  sections: string | string[];
+  isResident?: boolean;
 }
 
 function FinishedProducts() {
-  const [drawerProduct, setDrawerProduct] =
-    useState<FinishedProductData | null | undefined>(undefined);
-
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [drawerProduct, setDrawerProduct] = useState<FinishedProductData | null | undefined>(undefined);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const [searchForm] = Form.useForm();
   const searchValue = Form.useWatch("search", searchForm);
 
+  const openCreateDrawer = () => {
+    setDrawerProduct(null);
+  };
+
+  const openEditDrawer = (record: FinishedProductData) => {
+    setDrawerProduct(record);
+  };
+
+  const closeDrawer = () => {
+    setDrawerProduct(undefined);
+  };
+
   const handleDelete = () => {
     notification.success({
       message: "Продукт удален",
-      icon: <CheckCircleFilled />,
+      description: "Продукт удалён из списка",
+      icon: <CheckCircleFilled className="circle_oulined" />,
+      className: "succes_message",
       placement: "topRight",
     });
     setShowDeleteModal(false);
@@ -42,11 +62,15 @@ function FinishedProducts() {
 
   const filteredData = FinishedProductsTableData.filter((item) => {
     const search = searchValue?.toLowerCase() || "";
+    const sectionsStr = Array.isArray(item.sections) 
+      ? item.sections.join(' ') 
+      : item.sections || '';
+    
     return (
       item.name.toLowerCase().includes(search) ||
       item.country.toLowerCase().includes(search) ||
       item.city.toLowerCase().includes(search) ||
-      item.sections.toLowerCase().includes(search)
+      sectionsStr.toLowerCase().includes(search)
     );
   });
 
@@ -54,33 +78,56 @@ function FinishedProducts() {
     {
       title: "Наименование",
       dataIndex: "name",
+      key: "name",
       sorter: (a, b) => a.name.localeCompare(b.name),
+      sortDirections: ["ascend", "descend"],
     },
     {
       title: "Страна",
       dataIndex: "country",
+      key: "country",
       sorter: (a, b) => a.country.localeCompare(b.country),
+      sortDirections: ["ascend", "descend"],
     },
     {
       title: "Город",
       dataIndex: "city",
+      key: "city",
       sorter: (a, b) => a.city.localeCompare(b.city),
+      sortDirections: ["ascend", "descend"],
     },
     {
       title: "Разделы",
       dataIndex: "sections",
-      sorter: (a, b) => a.sections.localeCompare(b.sections),
+      key: "sections",
+      render: (sections) => {
+        if (Array.isArray(sections)) {
+          return sections.join(', ');
+        }
+        return sections;
+      },
+      sorter: (a, b) => {
+        const aStr = Array.isArray(a.sections) ? a.sections.join(' ') : a.sections;
+        const bStr = Array.isArray(b.sections) ? b.sections.join(' ') : b.sections;
+        return aStr.localeCompare(bStr);
+      },
+      sortDirections: ["ascend", "descend"],
     },
     {
+      key: "action",
       align: "center",
       render: (_, record) => (
         <div className="sort_columns_render">
-          <EditOutlined onClick={() => setDrawerProduct(record)} />
+          <EditOutlined 
+            onClick={() => openEditDrawer(record)} 
+            className="sort_render_items" 
+          />
           <DeleteOutlined
             onClick={() => {
               setDeleteId(record.id);
               setShowDeleteModal(true);
             }}
+            className="sort_render_items"
           />
         </div>
       ),
@@ -102,7 +149,7 @@ function FinishedProducts() {
 
         <div className="header_buttons">
           <Button>Заполнение спискам</Button>
-          <Button type="primary" onClick={() => setDrawerProduct(null)}>
+          <Button type="primary" onClick={openCreateDrawer}>
             <PlusOutlined /> Добавить новый
           </Button>
         </div>
@@ -111,7 +158,7 @@ function FinishedProducts() {
       <FinishedProductsDrawer
         open={drawerProduct !== undefined}
         editingProduct={drawerProduct ?? null}
-        onClose={() => setDrawerProduct(undefined)}
+        onClose={closeDrawer}
       />
 
       <Table
@@ -131,6 +178,7 @@ function FinishedProducts() {
         okText="Удалить"
         cancelText="Отменить"
         centered
+        width={400}
         onOk={handleDelete}
         onCancel={() => setShowDeleteModal(false)}
       >
