@@ -13,8 +13,8 @@ const UserForm: React.FC<UserFormProps> = ({
   setConfirmModal,
 }) => {
   const [form] = Form.useForm();
-  const [allRoles, setAllRoles] = useState(false);
-  const [allPerms, setAllPerms] = useState(false);
+  const [allRoles, setAllRoles] = useState<boolean>(false);
+  const [allPerms, setAllPerms] = useState<boolean>(false);
   const [, forceUpdate] = useState({});
 
   useEffect(() => {
