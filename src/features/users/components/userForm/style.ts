@@ -24,13 +24,3 @@ export const UserFormStyled = styled.div`
     }
   }
 `;
-
-export const UserFormStyledBtns = styled.div`
-  display: flex;
-  justify-content: end;
-  gap: 12px;
-  button {
-    width: 49%;
-    padding: 0;
-  }
-`;

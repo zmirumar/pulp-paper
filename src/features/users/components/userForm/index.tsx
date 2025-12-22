@@ -1,6 +1,6 @@
 import { Button, Form, Input, Checkbox, Modal } from "antd";
-import { useEffect, useState } from "react";
-import { UserFormStyled, UserFormStyledBtns } from "./style";
+import { useEffect, useMemo, useState } from "react";
+import { UserFormStyled } from "./style";
 import { roleOptions, permOptions } from "@/mockdata/users";
 import type { IUser } from "../UserPage";
 import { Drawer } from "@/components/ui";
@@ -21,7 +21,6 @@ const UserForm: React.FC<UserFormProps> = ({
   const [form] = Form.useForm();
   const [allRoles, setAllRoles] = useState(false);
   const [allPerms, setAllPerms] = useState(false);
-  const [, forceUpdate] = useState({});
 
   useEffect(() => {
     if (!open) {
@@ -87,7 +86,7 @@ const UserForm: React.FC<UserFormProps> = ({
         icon: null,
         centered: true,
         title: "Несохранённые изменения",
-        content: "Все несохранённые изменения будут потеряны. Продолжить?",
+        content: "Все несохранённые изменения будут потеряны.",
         okText: "Продолжить",
         cancelText: "Отменить",
         onOk: onClose,
@@ -97,66 +96,17 @@ const UserForm: React.FC<UserFormProps> = ({
     }
   };
 
-  const checkFormValidity = () => {
-    const values = form.getFieldsValue();
-    return (
-      Boolean(values.fullName) &&
-      Boolean(values.login) &&
-      Boolean(values.phoneNumber) &&
-      (editingUser || Boolean(values.password))
-    );
-  };
-
-  const isFormTouched = form.isFieldsTouched();
-  const isFormValid = checkFormValidity();
-
-  const roleCheckboxOptions = roleOptions.map((o) => ({
-    label: o.name,
-    value: o.id,
-  }));
-
-  const permCheckboxOptions = permOptions.map((o) => ({
-    label: o.name,
-    value: o.id,
-  }));
-
-  const drawerFooter = (
-    <UserFormStyledBtns>
-      <Button
-        disabled={!isFormTouched}
-        className="button cancel"
-        onClick={confirmCancel}
-      >
-        Отмена
-      </Button>
-      <Button
-        className="button confirm"
-        type="primary"
-        disabled={!isFormValid}
-        onClick={() => form.submit()}
-      >
-        {editingUser ? "Сохранить" : "Добавить"}
-      </Button>
-    </UserFormStyledBtns>
-  );
-
   return (
     <Drawer
-      showFooter={true}
+      className="form-wrapper"
       title={
         editingUser ? "Изменить пользователь" : "Добавить новый пользователь"
       }
       open={open}
       onClose={confirmCancel}
-      footer={drawerFooter}
     >
       <UserFormStyled>
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleFinish}
-          onValuesChange={() => forceUpdate({})}
-        >
+        <Form form={form} layout="vertical" onFinish={handleFinish}>
           <Form.Item name="fullName" rules={[{ required: true, message: "" }]}>
             <Input placeholder="Имя" />
           </Form.Item>
@@ -189,7 +139,12 @@ const UserForm: React.FC<UserFormProps> = ({
               Все
             </Checkbox>
             <Form.Item name="roleIds">
-              <Checkbox.Group options={roleCheckboxOptions} />
+              <Checkbox.Group
+                options={roleOptions.map((o) => ({
+                  label: o.name,
+                  value: o.id,
+                }))}
+              />
             </Form.Item>
           </Form.Item>
 
@@ -201,8 +156,22 @@ const UserForm: React.FC<UserFormProps> = ({
               Все
             </Checkbox>
             <Form.Item name="permissionIds">
-              <Checkbox.Group options={permCheckboxOptions} />
+              <Checkbox.Group
+                options={permOptions.map((o) => ({
+                  label: o.name,
+                  value: o.id,
+                }))}
+              />
             </Form.Item>
+          </Form.Item>
+
+          <Form.Item>
+            <div className="form-btns">
+              <Button onClick={confirmCancel}>Отмена</Button>
+              <Button type="primary" htmlType="submit">
+                {editingUser ? "Сохранить" : "Добавить"}
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </UserFormStyled>
