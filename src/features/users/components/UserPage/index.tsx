@@ -1,11 +1,12 @@
 import { Button, Input, Modal, notification, Table } from "antd";
 import UserForm from "../userForm";
 import type { ColumnsType } from "antd/es/table";
-import { PlusIcon, SearchOutLined, EditIcon, DeleteIcon } from "@/assets/Icons";
-import type { IUser, IUserFeatures, ModalTypes} from "@/interface/users";
+import { SearchOutLined, EditIcon, DeleteIcon } from "@/assets/Icons";
+import type { IUser, IUserFeatures, ModalTypes } from "@/interface/users";
 import { useState } from "react";
 import { UserPageStyled } from "./style";
 import { usersData } from "@/mockdata/users";
+import { PlusOutlined } from "@ant-design/icons";
 
 const UsersPage = () => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -17,7 +18,7 @@ const UsersPage = () => {
     setDrawerOpen(true);
   };
 
-  const handleDeleteUser = (id: number) => {
+  const handleDeleteUser = () => {
     setConfirmModal(null);
     notification.success({
       message: "Пользватель удален",
@@ -25,7 +26,6 @@ const UsersPage = () => {
       placement: "topRight",
       className: "succes_message",
     });
-    console.log(id)
   };
 
   const createUser = () => {
@@ -130,7 +130,8 @@ const UsersPage = () => {
             size="large"
             onClick={createUser}
           >
-            <img src={PlusIcon} alt="plus_icon" /> Добавит новый
+            <PlusOutlined />
+            Добавит новый
           </Button>
         </div>
         <Modal
@@ -141,7 +142,7 @@ const UsersPage = () => {
           onCancel={() => setConfirmModal(null)}
           onOk={() =>
             isDeleteModal
-              ? handleDeleteUser(confirmModal?.userId)
+              ? handleDeleteUser()
               : handleConfirmCancel()
           }
           okText={isDeleteModal ? "Удалить" : "Продолжить"}

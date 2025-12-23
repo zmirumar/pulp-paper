@@ -1,6 +1,6 @@
-import { Button, Form, Input, Checkbox, Modal } from "antd";
-import { useEffect, useMemo, useState } from "react";
-import { UserFormStyled } from "./style";
+import { Button, Form, Checkbox } from "antd";
+import { useEffect, useState } from "react";
+import { UserFormStyled, UserFormStyledBtns } from "./style";
 import { roleOptions, permOptions } from "@/mockdata/users";
 import type { IUser, UserFormProps } from "@/interface/users";
 import { Drawer, Input } from "@/components/ui";
@@ -13,8 +13,9 @@ const UserForm: React.FC<UserFormProps> = ({
   setConfirmModal,
 }) => {
   const [form] = Form.useForm();
-  const [allRoles, setAllRoles] = useState(false);
-  const [allPerms, setAllPerms] = useState(false);
+  const [allRoles, setAllRoles] = useState<boolean>(false);
+  const [allPerms, setAllPerms] = useState<boolean>(false);
+  const [, forceUpdate] = useState({});
 
   useEffect(() => {
     if (!open) return resetForm();
@@ -71,21 +72,58 @@ const UserForm: React.FC<UserFormProps> = ({
     onSubmit(clean);
   };
 
-  const confirmCancel = () => {
-    if (form.isFieldsTouched()) {
-      Modal.confirm({
-        icon: null,
-        centered: true,
-        title: "Несохранённые изменения",
-        content: "Все несохранённые изменения будут потеряны.",
-        okText: "Продолжить",
-        cancelText: "Отменить",
-        onOk: onClose,
-      });
+  const handleDrawerClose = () => {
+    if (isFormTouched) {
+      setConfirmModal({ type: "unsaved" });
     } else {
       onClose();
     }
   };
+
+  const isCheckFormValid = () => {
+    const values = form.getFieldsValue();
+    return (
+      Boolean(values.fullName) &&
+      Boolean(values.login) &&
+      Boolean(values.phoneNumber) &&
+      (values.permissionIds?.length > 0) &&
+      (values.roleIds?.length > 0) &&
+      (editingUser || Boolean(values.password))
+    );
+  };
+
+  const isFormTouched = form.isFieldsTouched(false);
+  const isFormValid = isCheckFormValid();
+
+  const roleCheckboxOptions = roleOptions.map((o) => ({
+    label: o.name,
+    value: o.id,
+  }));
+
+  const permCheckboxOptions = permOptions.map((o) => ({
+    label: o.name,
+    value: o.id,
+  }));
+
+  const drawerFooter = (
+    <UserFormStyledBtns>
+      <Button
+        disabled={!isFormTouched}
+        className="button cancel"
+        onClick={handleDrawerClose}
+      >
+        Отмена
+      </Button>
+      <Button
+        className="button confirm"
+        type="primary"
+        disabled={!isFormValid}
+        onClick={() => form.submit()}
+      >
+        {editingUser ? "Сохранить" : "Добавить"}
+      </Button>
+    </UserFormStyledBtns>
+  );
 
   return (
     <Drawer
@@ -94,28 +132,32 @@ const UserForm: React.FC<UserFormProps> = ({
         editingUser ? "Изменить пользователь" : "Добавить новый пользователь"
       }
       open={open}
-      onClose={confirmCancel}
+      onClose={handleDrawerClose}
+      footer={drawerFooter}
     >
       <UserFormStyled>
-        <Form form={form} layout="vertical" onFinish={handleFinish}>
-          <Form.Item name="fullName" rules={[{ required: true, message: "" }]}>
-            <Input placeholder="Имя" />
-          </Form.Item>
-
-          <Form.Item name="login" rules={[{ required: true, message: "" }]}>
-            <Input placeholder="Логин" />
-          </Form.Item>
-
-          {!editingUser && (
-            <Form.Item
-              name="password"
-              rules={[{ required: true, message: "" }]}
-            >
-              <Input.Password placeholder="Пароль" />
-            </Form.Item>
-          )}
-
-          <Form.Item
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleFinish}
+          onValuesChange={() => forceUpdate({})}
+        >
+          <Input
+            name="fullName"
+            rules={[{ required: true, message: "" }]}
+            placeholder="Имя пользователя"
+          />
+          <Input
+            name="login"
+            rules={[{ required: true, message: "" }]}
+            placeholder="Логин"
+          />
+          {!editingUser && <Input
+            name="password"
+            rules={[{ required: true, message: "" }]}
+            placeholder="Пароль"
+          />}
+          <Input
             name="phoneNumber"
             rules={[{ required: true, message: "" }]}
             placeholder="Номер"
