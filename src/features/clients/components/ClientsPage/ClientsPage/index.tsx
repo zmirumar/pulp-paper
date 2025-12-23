@@ -30,6 +30,7 @@ function ClientsPage() {
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  console.log(deleteId)
 
   const [searchForm] = Form.useForm();
 
@@ -99,66 +100,66 @@ function ClientsPage() {
     <ClientsStyled>
       <h2>Клиенты</h2>
 
-      <Tabs
-        activeKey={activeTab}
-        onChange={setActiveTab}
-        items={[
-          {
-            key: "1",
-            label: "Склад",
-            children: (
-              <>
-                <div className="filter_add">
-                  <Form form={searchForm}>
-                    <Form.Item name="search" noStyle>
-                      <Input
-                        placeholder="Поиск"
-                        suffix={<SearchOutlined />}
-                        allowClear
-                      />
-                    </Form.Item>
-                  </Form>
+        <Tabs
+          activeKey={activeTab}
+          onChange={setActiveTab}
+          items={[
+            {
+              key: "1",
+              label: "Склад",
+              children: (
+                <>
+                  <div className="filter_add">
+                    <Form form={searchForm}>
+                      <Form.Item name="search" noStyle>
+                        <Input
+                          placeholder="Поиск"
+                          suffix={<SearchOutlined />}
+                          allowClear
+                        />
+                      </Form.Item>
+                    </Form>
 
-                  <Button type="primary" onClick={openCreateDrawer}>
-                    <PlusOutlined /> Добавить новый
-                  </Button>
-                </div>
+                    <Button type="primary" onClick={openCreateDrawer}>
+                      <PlusOutlined /> Добавить новый
+                    </Button>
+                  </div>
 
-                <ClientsDrawer
-                  open={drawerClient !== undefined}
-                  editingClient={drawerClient ?? null}
-                  onClose={closeDrawer}
-                />
+                  <ClientsDrawer
+                    open={drawerClient !== undefined}
+                    editingClient={drawerClient ?? null}
+                    onClose={closeDrawer}
+                  />
 
-                <Table
-                  rowKey="id"
-                  columns={columns}
-                  dataSource={ClientsTableData}
-                  pagination={{ pageSize: 10 }}
-                />
+                  <Table
+                    rowKey="id"
+                    columns={columns}
+                    dataSource={ClientsTableData}
+                    pagination={{ pageSize: 10 }}
+                  />
 
-                <Modal
-                  open={showDeleteModal}
-                  title="Подтверждение удаления"
-                  okText="Удалить"
-                  cancelText="Отменить"
-                  centered
-                  width={400}
-                  onOk={handleDelete}
-                  onCancel={() => setShowDeleteModal(false)}
-                >
-                  Вы уверены, что хотите удалить этот элемент?
-                </Modal>
-              </>
-            ),
-          },
-          {
-            key: "2",
-            label: "Готовая продукция",
-            children: <FinishedProducts />,
-          },
-        ]}
-      />
+                  <Modal
+                    open={showDeleteModal}
+                    title="Подтверждение удаления"
+                    okText="Удалить"
+                    cancelText="Отменить"
+                    centered
+                    width={400}
+                    onOk={handleDelete}
+                    onCancel={() => setShowDeleteModal(false)}
+                  >
+                    Вы уверены, что хотите удалить этот элемент?
+                  </Modal>
+                </>
+              ),
+            },
+            {
+              key: "2",
+              label: "Готовая продукция",
+              children: <FinishedProducts />,
+            },
+          ]}
+        />
     </ClientsStyled>
   );
 }

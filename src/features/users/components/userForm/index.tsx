@@ -1,5 +1,5 @@
-import { Button, Form, Input, Checkbox, Modal } from "antd";
-import { useEffect, useMemo, useState } from "react";
+import { Button, Form,  Checkbox, Modal } from "antd";
+import { useEffect,  useState } from "react";
 import { UserFormStyled } from "./style";
 import { roleOptions, permOptions } from "@/mockdata/users";
 import type { IUser, UserFormProps } from "@/interface/users";

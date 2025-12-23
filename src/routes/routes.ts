@@ -6,6 +6,7 @@ import Auth from "@/pages/auth";
 import Clients from "@/features/clients/components/ClientsPage/ClientsPage";
 import ForgotPasswordPage from "@/pages/auth/forgot-password";
 import VerifyPhonePage from "@/pages/auth/verify-phone";
+import Container from "@/pages/container";
 
 export const publicRoutes = [
     {
@@ -39,4 +40,8 @@ export const privateRoutes = [
       path: routes.CLINENTS,
       element: Clients,
     },
+    {
+        path: routes.CONTAINER,
+        element: Container 
+    }
 ];
