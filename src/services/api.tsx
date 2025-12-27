@@ -9,3 +9,8 @@ export const axiosInstance = Axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const API = {
+  login: (data: any) =>
+    axiosInstance.post("/auth/sign-in", data).then((res) => res.data),
+};
