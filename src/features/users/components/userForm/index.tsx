@@ -127,7 +127,7 @@ const UserForm: React.FC<UserFormProps> = ({
 
   return (
     <Drawer
-      showFooter={true}
+      className="form-wrapper"
       title={
         editingUser ? "Изменить пользователь" : "Добавить новый пользователь"
       }
@@ -171,7 +171,12 @@ const UserForm: React.FC<UserFormProps> = ({
               Все
             </Checkbox>
             <Form.Item name="roleIds">
-              <Checkbox.Group options={roleCheckboxOptions} />
+              <Checkbox.Group
+                options={roleOptions.map((o) => ({
+                  label: o.name,
+                  value: o.id,
+                }))}
+              />
             </Form.Item>
           </Form.Item>
 
@@ -183,8 +188,22 @@ const UserForm: React.FC<UserFormProps> = ({
               Все
             </Checkbox>
             <Form.Item name="permissionIds">
-              <Checkbox.Group options={permCheckboxOptions} />
+              <Checkbox.Group
+                options={permOptions.map((o) => ({
+                  label: o.name,
+                  value: o.id,
+                }))}
+              />
             </Form.Item>
+          </Form.Item>
+
+          <Form.Item>
+            <div className="form-btns">
+              <Button onClick={confirmCancel}>Отмена</Button>
+              <Button type="primary" htmlType="submit">
+                {editingUser ? "Сохранить" : "Добавить"}
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </UserFormStyled>
